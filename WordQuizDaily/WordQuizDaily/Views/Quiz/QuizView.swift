@@ -11,7 +11,7 @@ struct QuizView: View {
     
     @ObservedObject var quizViewModel = QuizViewModel()
     @State var isAnswerCorrect = false
-
+    
     var body: some View {
         
         VStack{
@@ -35,7 +35,7 @@ struct QuizView: View {
             .padding()
             
             Spacer()
-
+            
             //MARK: - 문제의 뜻
             VStack(alignment: .leading){
                 ScrollView {
@@ -59,7 +59,7 @@ struct QuizView: View {
                 ChoiceView(quizViewModel: quizViewModel)
             }
             
-                        
+            
         }//VStack
         .padding()
     }

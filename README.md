@@ -1,4 +1,9 @@
 
+### 스크린샷
+
+![Preview](https://github.com/jjwon2149/WordQuizDaily/assets/45623603/44b44c63-eb25-4f93-863f-88995f574048)
+
+
 ### Commit Convention
 - feat : 새로운 기능 추가
 - fix : 버그 수정
