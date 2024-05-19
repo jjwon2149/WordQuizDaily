@@ -8,7 +8,6 @@
 import Foundation
 import Kingfisher
 
-@MainActor
 class QuizViewModel: ObservableObject, NaverNetworkDelegate {
     
     let hardKoreanWords = HardKoreanWords()
@@ -36,6 +35,7 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
     }
     
     //퀴즈 셋업
+    @MainActor
     func setupNewQuiz() async {
         isLoading = true
         correctWord = hardKoreanWords.hardWords.randomElement() ?? ""
@@ -73,7 +73,7 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
                 if word == self.correctWord {
                     Task {
                         await self.fetchCorrectWordDefinition()
-                        await self.fetchImageForWord(self.correctWord)
+                        self.fetchImageForWord(self.correctWord)
                     }
                 }
             } else {
