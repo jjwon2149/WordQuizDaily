@@ -42,7 +42,7 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
         choiceWord = await generateChoices()
         
         do {
-            let wordData = try await wordNetwork.asyncSearchWord(correctWord)
+            let wordData = try await wordNetwork.searchWord(correctWord)
             await handleWordData(word: correctWord, wordData: wordData)
         } catch {
             handleNetworkError(error)

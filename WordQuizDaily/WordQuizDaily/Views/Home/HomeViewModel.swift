@@ -21,7 +21,8 @@ class HomeViewModel: ObservableObject {
     
     @Published var toDayWord: String = ""
     @Published var toDayWordDefinition: String = ""
-    var wordDataDictionary = [String: WordData]()
+    @Published var wordDataDictionary = [String: WordData]()
+    @Published var errorMessage: String?
 
     private let updateInterval: TimeInterval = 24 * 60 * 60 // 24시간
         
@@ -36,15 +37,23 @@ class HomeViewModel: ObservableObject {
             toDayWord = storedWord
             toDayWordDefinition = storedDefinition
         } else {
-            fetchTodayWord()
+            Task {
+                await fetchTodayWord()
+            }
         }
     }
     
-    func fetchTodayWord() {
+    func fetchTodayWord() async {
         toDayWord = hardKoreanWords.hardWords.randomElement() ?? ""
-        wordNetwork.searchWord(toDayWord) { wordData in
-            self.handleWordData(word: self.toDayWord, wordData: wordData)
+        do {
+            let wordData = try await wordNetwork.searchWord(toDayWord)
+            await handleWordData(word: self.toDayWord, wordData: wordData)
+        } catch {
+            handleNetworkError(error)
         }
+//        wordNetwork.searchWord(toDayWord) { wordData in
+//            self.handleWordData(word: self.toDayWord, wordData: wordData)
+//        }
     }
     
     
@@ -82,5 +91,11 @@ class HomeViewModel: ObservableObject {
             
         }
         
+    }
+    //MARK: - Error Handling
+    func handleNetworkError(_ error: Error) {
+        DispatchQueue.main.async {
+            self.errorMessage = error.localizedDescription
+        }
     }
 }
