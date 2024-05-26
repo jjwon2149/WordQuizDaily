@@ -23,7 +23,13 @@ struct QuizView: View {
                         .frame(width: 200, height: 200)
                 } else {
                     if let imageData = quizViewModel.imageData {
-                        if let firstImage = imageData.items.first {
+                        if imageData.items.count > 2 {
+                            let thirdImage = imageData.items[2]
+                            KFImage(URL(string: thirdImage.link))
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 200, height: 200)
+                        } else if let firstImage = imageData.items.first {
                             KFImage(URL(string: firstImage.link))
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
