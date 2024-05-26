@@ -20,7 +20,7 @@
 		4A14C9512B6109E5004EE0AF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A14C9502B6109E5004EE0AF /* Preview Assets.xcassets */; };
 		4A14C95D2B610ABC004EE0AF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A14C95C2B610ABC004EE0AF /* HomeView.swift */; };
 		4A14C95F2B610AD5004EE0AF /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A14C95E2B610AD5004EE0AF /* QuizView.swift */; };
-		4A14C9612B610AE0004EE0AF /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A14C9602B610AE0004EE0AF /* NotificationView.swift */; };
+		4A14C9612B610AE0004EE0AF /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A14C9602B610AE0004EE0AF /* SettingView.swift */; };
 		4A14C9642B610F9C004EE0AF /* WordNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A14C9632B610F9C004EE0AF /* WordNetwork.swift */; };
 		4A14C9662B610FC0004EE0AF /* WordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A14C9652B610FC0004EE0AF /* WordData.swift */; };
 		4A14C96B2B6171B5004EE0AF /* HardKoreanWords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A14C96A2B6171B5004EE0AF /* HardKoreanWords.swift */; };
@@ -73,7 +73,7 @@
 		4A14C9522B6109E5004EE0AF /* WordQuizDaily.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WordQuizDaily.entitlements; sourceTree = "<group>"; };
 		4A14C95C2B610ABC004EE0AF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4A14C95E2B610AD5004EE0AF /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
-		4A14C9602B610AE0004EE0AF /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		4A14C9602B610AE0004EE0AF /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		4A14C9632B610F9C004EE0AF /* WordNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordNetwork.swift; sourceTree = "<group>"; };
 		4A14C9652B610FC0004EE0AF /* WordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordData.swift; sourceTree = "<group>"; };
 		4A14C96A2B6171B5004EE0AF /* HardKoreanWords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardKoreanWords.swift; sourceTree = "<group>"; };
@@ -169,7 +169,7 @@
 			children = (
 				4A14C95A2B610A99004EE0AF /* Quiz */,
 				4A14C9592B610A92004EE0AF /* Home */,
-				4A14C95B2B610AA2004EE0AF /* Notification */,
+				4A14C95B2B610AA2004EE0AF /* Setting */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -192,12 +192,12 @@
 			path = Quiz;
 			sourceTree = "<group>";
 		};
-		4A14C95B2B610AA2004EE0AF /* Notification */ = {
+		4A14C95B2B610AA2004EE0AF /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				4A14C9602B610AE0004EE0AF /* NotificationView.swift */,
+				4A14C9602B610AE0004EE0AF /* SettingView.swift */,
 			);
-			path = Notification;
+			path = Setting;
 			sourceTree = "<group>";
 		};
 		4A14C9622B610F84004EE0AF /* Models */ = {
@@ -421,7 +421,7 @@
 				4A3E08482B822F2000848B7B /* NaverImageData.swift in Sources */,
 				4A6323652B66BA1F004CA2DD /* NaverNetwork.swift in Sources */,
 				4A14C94A2B6109E2004EE0AF /* WordQuizDailyApp.swift in Sources */,
-				4A14C9612B610AE0004EE0AF /* NotificationView.swift in Sources */,
+				4A14C9612B610AE0004EE0AF /* SettingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

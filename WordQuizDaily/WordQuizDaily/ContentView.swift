@@ -28,7 +28,7 @@ struct ContentView: View {
                     Label("Home", systemImage: "house.circle.fill")
                 }
             
-            NotificationView()
+            SettingView()
                 .tag(3)
                 .tabItem {
                     Label("Notification", systemImage: "bell.circle.fill")
