@@ -26,7 +26,6 @@
 		4A14C96B2B6171B5004EE0AF /* HardKoreanWords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A14C96A2B6171B5004EE0AF /* HardKoreanWords.swift */; };
 		4A3E08482B822F2000848B7B /* NaverImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3E08472B822F2000848B7B /* NaverImageData.swift */; };
 		4A3E084E2B82389800848B7B /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3E084D2B82389800848B7B /* HTTPMethod.swift */; };
-		4A3E08542B864B3100848B7B /* ChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3E08532B864B3100848B7B /* ChoiceView.swift */; };
 		4A3E08562B90893000848B7B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3E08552B90893000848B7B /* HomeViewModel.swift */; };
 		4A6323632B64DA6D004CA2DD /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6323622B64DA6D004CA2DD /* QuizViewModel.swift */; };
 		4A6323652B66BA1F004CA2DD /* NaverNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6323642B66BA1F004CA2DD /* NaverNetwork.swift */; };
@@ -81,7 +80,6 @@
 		4A3E08472B822F2000848B7B /* NaverImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverImageData.swift; sourceTree = "<group>"; };
 		4A3E084D2B82389800848B7B /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		4A3E084F2B8267D800848B7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		4A3E08532B864B3100848B7B /* ChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceView.swift; sourceTree = "<group>"; };
 		4A3E08552B90893000848B7B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		4A6323622B64DA6D004CA2DD /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
 		4A6323642B66BA1F004CA2DD /* NaverNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverNetwork.swift; sourceTree = "<group>"; };
@@ -190,7 +188,6 @@
 			children = (
 				4A14C95E2B610AD5004EE0AF /* QuizView.swift */,
 				4A6323622B64DA6D004CA2DD /* QuizViewModel.swift */,
-				4A3E08532B864B3100848B7B /* ChoiceView.swift */,
 			);
 			path = Quiz;
 			sourceTree = "<group>";
@@ -419,7 +416,6 @@
 				4A14C95F2B610AD5004EE0AF /* QuizView.swift in Sources */,
 				4A14C9642B610F9C004EE0AF /* WordNetwork.swift in Sources */,
 				4A6323632B64DA6D004CA2DD /* QuizViewModel.swift in Sources */,
-				4A3E08542B864B3100848B7B /* ChoiceView.swift in Sources */,
 				4A14C96B2B6171B5004EE0AF /* HardKoreanWords.swift in Sources */,
 				4A14C94C2B6109E2004EE0AF /* ContentView.swift in Sources */,
 				4A3E08482B822F2000848B7B /* NaverImageData.swift in Sources */,
