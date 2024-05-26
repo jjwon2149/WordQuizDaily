@@ -15,7 +15,8 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selection) {
 
-            QuizView(quizViewModel: quizViewModel)
+            QuizView()
+                .environmentObject(quizViewModel)
                 .tag(1)
                 .tabItem {
                     Label("Quiz", systemImage: "questionmark.circle")

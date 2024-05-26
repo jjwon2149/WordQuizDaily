@@ -9,8 +9,7 @@ import SwiftUI
 import Kingfisher
 struct QuizView: View {
     
-    @ObservedObject var quizViewModel = QuizViewModel()
-    @State var isAnswerCorrect = false
+    @EnvironmentObject var quizViewModel: QuizViewModel
     
     var body: some View {
         VStack{
@@ -92,11 +91,15 @@ struct ChoiceView: View {
             ForEach(quizViewModel.choiceWord.indices, id: \.self) { index in
                 let word = quizViewModel.choiceWord[index]
                 Button(action: {
-                    isAnswerCorrect = quizViewModel.checkAnswer(selectedWord: word)
-                    if isAnswerCorrect {
-                        quizViewModel.fetchData()
+                    if quizViewModel.isLoading {
+                        
+                    } else {
+                        isAnswerCorrect = quizViewModel.checkAnswer(selectedWord: word)
+                        if isAnswerCorrect {
+                            quizViewModel.fetchData()
+                        }
+                        print("선택된 단어: \(word), 정답?: \(isAnswerCorrect)")
                     }
-                    print("선택된 단어: \(word), 정답?: \(isAnswerCorrect)")
                 }) {
                     Text("  \(index + 1).  \(word) ")
                         .padding()
@@ -107,6 +110,7 @@ struct ChoiceView: View {
                         .shadow(color: .gray, radius: 2, x: 0, y: 2)
                     
                 }
+                .disabled(quizViewModel.isLoading) // 로딩 중일 때 버튼 비활성화
                 .padding(5)
             }
         }
