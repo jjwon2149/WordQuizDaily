@@ -9,8 +9,6 @@ import Foundation
 
 // MARK: - Welcome
 struct NaverImageData: Codable {
-    let lastBuildDate: String
-    let total, start, display: Int
     let items: [NaverItem]
 }
 
