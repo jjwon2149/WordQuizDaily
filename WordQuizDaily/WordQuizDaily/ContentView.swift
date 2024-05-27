@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @StateObject var quizViewModel = QuizViewModel()
+    @StateObject var notificationManager = NotificationManager()
     @State private var selection = 2
     
     var body: some View {
@@ -29,6 +30,7 @@ struct ContentView: View {
                 }
             
             SettingView()
+                .environmentObject(notificationManager)
                 .tag(3)
                 .tabItem {
                     Label("Notification", systemImage: "bell.circle.fill")
