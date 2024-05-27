@@ -47,7 +47,7 @@ class HomeViewModel: ObservableObject {
         toDayWord = hardKoreanWords.hardWords.randomElement() ?? ""
         do {
             let wordData = try await wordNetwork.searchWord(toDayWord)
-            await handleWordData(word: self.toDayWord, wordData: wordData)
+            handleWordData(word: self.toDayWord, wordData: wordData)
         } catch {
             handleNetworkError(error)
         }

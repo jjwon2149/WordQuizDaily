@@ -17,7 +17,7 @@ class WordNetwork: ObservableObject {
         guard let url = URL(string: urlString) else { return nil }
 
         do {
-            let (data, response) = try await URLSession.shared.data(from: url)
+            let (data, _) = try await URLSession.shared.data(from: url)
             let decodedData = try JSONDecoder().decode(WordData.self, from: data)
             DispatchQueue.main.async {
                 self.wordData = decodedData
