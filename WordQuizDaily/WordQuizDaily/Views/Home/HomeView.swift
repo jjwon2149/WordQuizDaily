@@ -13,42 +13,42 @@ struct HomeView: View {
     @State private var isLoaded = false
     
     var body: some View {
-        VStack(spacing: 20){
+        VStack{
+            Text("오늘의 단어")
+                .font(.title2)
+                .padding(.leading, 40)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundColor(.black)
             
             Spacer()
             
-            Text("📸 오늘의 단어 📸")
-                .font(.title)
-                .padding()
-            
-            Spacer()
-            
-            Text("오늘의 단어!")
-                .padding()
-                .frame(width: UIScreen.main.bounds.width - 20, height: 50)
-                .foregroundColor(.white)
-                .background(Color.black)
-                .cornerRadius(8)
-                .shadow(color: .gray, radius: 2, x: 0, y: 2)
-            
-
-            Text(homeViewModel.toDayWord)
-                .padding()
-                .frame(width: UIScreen.main.bounds.width - 20, height: 50)
-                .foregroundColor(.white)
-                .background(Color.black)
-                .cornerRadius(8)
-                .shadow(color: .gray, radius: 2, x: 0, y: 2)
-            
-            // 데이터가 업데이트되면
-            if !homeViewModel.toDayWordDefinition.isEmpty {
-                Text(homeViewModel.toDayWordDefinition)
-                    .padding()
-                    .frame(width: UIScreen.main.bounds.width - 20, height: 100)
-                    .foregroundColor(.white)
-                    .background(Color.black)
-                    .cornerRadius(8)
-                    .shadow(color: .gray, radius: 2, x: 0, y: 2)
+            VStack {
+                
+                Spacer()
+                    .frame(height: 50)
+                
+                VStack {
+                    Text(homeViewModel.toDayWord)
+                        .padding()
+                        .frame(width: UIScreen.main.bounds.width * 0.8, height: 50)
+                        .foregroundColor(.black)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                        .shadow(color: .gray, radius: 2, x: 0, y: 2)
+                }
+                
+                VStack {
+                    // 데이터가 업데이트되면
+                    if !homeViewModel.toDayWordDefinition.isEmpty {
+                        Text(homeViewModel.toDayWordDefinition)
+                            .padding()
+                            .frame(width: UIScreen.main.bounds.width * 0.8, height: 50)
+                            .foregroundColor(.black)
+                            .background(Color.white)
+                            .cornerRadius(8)
+                            .shadow(color: .gray, radius: 2, x: 0, y: 2)
+                    }
+                }
             }
             
             Spacer()
@@ -63,4 +63,5 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environmentObject(HomeViewModel())
 }

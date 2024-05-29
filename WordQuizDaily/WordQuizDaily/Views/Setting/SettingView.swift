@@ -18,7 +18,7 @@ struct SettingView: View {
                     //알림 설정 ex) 푸시알림, 효과음
                     Section(header: Text("알림 설정").font(.caption)) {
                         //NotiView
-                        NotiView(notificationManager: notificationManager)
+                        NotiView()
                             .padding()
                     }
                     //개인정보 보호 설정...?
@@ -35,26 +35,24 @@ struct SettingView: View {
                     }
                 }
             }
-            .padding(.leading, 20)
         } //NavigationStack
     }
 }
 //MARK: - NotiView
 struct NotiView: View {
     
-    @ObservedObject var notificationManager: NotificationManager
+    @EnvironmentObject var notificationManager: NotificationManager
 
     var body: some View {
         VStack(alignment: .leading){
             
-            HStack {
+            HStack(spacing: 10) {
                 Text("푸시 알림")
                 if notificationManager.isToggleOn {
                     DatePicker("", selection: $notificationManager.notificationTime, displayedComponents: .hourAndMinute)
                         .datePickerStyle(.graphical)
                 }
                 Toggle("", isOn: $notificationManager.isToggleOn)
-                    .padding()
             } //HStack
             .alert(isPresented: $notificationManager.isAlertOccurred) {
                 Alert(
@@ -68,4 +66,5 @@ struct NotiView: View {
 }
 #Preview {
     SettingView()
+        .environmentObject(NotificationManager())
 }
