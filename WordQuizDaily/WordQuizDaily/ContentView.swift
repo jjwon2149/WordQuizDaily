@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @StateObject var quizViewModel = QuizViewModel()
+    @StateObject var homeViewModel = HomeViewModel()
     @StateObject var notificationManager = NotificationManager()
     @State private var selection = 2
     
@@ -24,6 +25,7 @@ struct ContentView: View {
                 }
             
             HomeView()
+                .environmentObject(homeViewModel)
                 .tag(2)
                 .tabItem {
                     Label("Home", systemImage: "house.circle.fill")
