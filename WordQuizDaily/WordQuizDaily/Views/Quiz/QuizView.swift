@@ -13,24 +13,24 @@ struct QuizView: View {
     @EnvironmentObject var quizViewModel: QuizViewModel
     
     var body: some View {
-        VStack {
-            Text("단어 퀴즈")
-                .font(.title2)
-                .padding(.leading, 40)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .foregroundColor(.black)
-            Spacer()
+        NavigationStack {
             VStack {
-                //문제 설명 뷰
-                answerExplainView()
-                
-                //문제 이미지 뷰
-                answerImageView()
-                
-                //문항
-                ChoiceView()
+
+                Spacer()
+                VStack {
+                    //문제 설명 뷰
+                    answerExplainView()
+                    
+                    //문제 이미지 뷰
+                    answerImageView()
+                    
+                    //문항
+                    ChoiceView()
+                }
+                Spacer()
             }
-            Spacer()
+            .navigationTitle("단어 퀴즈")
+
         }
     }
 }
@@ -40,6 +40,7 @@ struct answerImageView: View {
     @EnvironmentObject var quizViewModel: QuizViewModel
     
     var body: some View {
+        
         VStack {
             if quizViewModel.isLoading {
                 ProgressView("Loading...")
@@ -60,6 +61,7 @@ struct answerImageView: View {
                     }
                 }
             }
+            
         }
     }
 }

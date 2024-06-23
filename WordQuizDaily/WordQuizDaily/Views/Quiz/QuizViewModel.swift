@@ -10,8 +10,7 @@ import Kingfisher
 
 class QuizViewModel: ObservableObject, NaverNetworkDelegate {
     
-    let hardKoreanWords = HardKoreanWords()
-    let wordNetwork = WordNetwork()
+    
     
     @Published var choiceWord = [String]()
     @Published var correctWord: String = ""
@@ -22,6 +21,8 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
     @Published var errorMessage: String? //에러메세지
     
     var naverNetwork = NaverNetwork.shared
+    let hardKoreanWords = HardKoreanWords()
+    let wordNetwork = WordNetwork()
     
     init() {
         naverNetwork.delegate = self

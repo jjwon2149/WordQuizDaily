@@ -8,6 +8,7 @@
 import Foundation
 
 extension UserDefaults {
+    
     static var shared: UserDefaults {
         let appGroupId = "group.wordQuizWidget"
         return UserDefaults(suiteName: appGroupId)!
@@ -16,15 +17,14 @@ extension UserDefaults {
 
 class HomeViewModel: ObservableObject {
     
-    let hardKoreanWords = HardKoreanWords()
-    let wordNetwork = WordNetwork()
-    
     @Published var toDayWord: String = ""
     @Published var toDayWordDefinition: String = ""
     @Published var wordDataDictionary = [String: WordData]()
     @Published var errorMessage: String?
 
     private let updateInterval: TimeInterval = 24 * 60 * 60 // 24시간
+    let hardKoreanWords = HardKoreanWords()
+    let wordNetwork = WordNetwork()
         
     init() {
         fetchTodayWordOnceADay()
@@ -51,9 +51,6 @@ class HomeViewModel: ObservableObject {
         } catch {
             handleNetworkError(error)
         }
-//        wordNetwork.searchWord(toDayWord) { wordData in
-//            self.handleWordData(word: self.toDayWord, wordData: wordData)
-//        }
     }
     
     
