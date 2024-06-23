@@ -11,6 +11,8 @@ import UserNotifications
 class NotificationManager: ObservableObject {
     
     let notificationCenter = UNUserNotificationCenter.current()
+    let storedWord = UserDefaults.shared.string(forKey: "TodayWord")
+    let storedDefinition = UserDefaults.shared.string(forKey: "TodayWordDefinition")
     
     @Published var isAlertOccurred: Bool = false
     @Published var notificationTime: Date = Date() {
@@ -78,20 +80,22 @@ class NotificationManager: ObservableObject {
         //이 객체를 사용하여 알림의 제목과 메시지, 재생할 사운드 또는 앱의 배지에 할당할 값을 지정할 수 있습니다.
         let content = UNMutableNotificationContent()
         
-        //TODO: 오늘의 단어 데이터와 연결하기
-        content.title = "오늘의 단어: ??"
-        content.subtitle = "오늘의 단어뜻 들어갈곳"
-        content.sound = UNNotificationSound.default
-        
-        let dateComponent = Calendar.current.dateComponents([.hour, .minute], from: time)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        
-        notificationCenter.add(request) { (error) in
-            if let error = error {
-                print("Error adding notification: \(error.localizedDescription)")
+        if let todayWord = storedWord, let todayDescription = storedDefinition {
+            content.title = "오늘의 단어: \(String(describing: todayWord))"
+            content.subtitle = "뜻: \(String(describing: todayDescription))"
+            content.sound = UNNotificationSound.default
+            
+            let dateComponent = Calendar.current.dateComponents([.hour, .minute], from: time)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            
+            notificationCenter.add(request) { (error) in
+                if let error = error {
+                    print("Error adding notification: \(error.localizedDescription)")
+                }
             }
         }
+
     }
         
 }
