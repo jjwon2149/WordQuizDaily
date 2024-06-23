@@ -35,7 +35,7 @@ struct ContentView: View {
                 .environmentObject(notificationManager)
                 .tag(3)
                 .tabItem {
-                    Label("Notification", systemImage: "bell.circle.fill")
+                    Label("Setting", systemImage: "gearshape.fill")
                 }
         }
     }
