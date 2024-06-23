@@ -24,7 +24,7 @@ struct SettingView: View {
                     Section(header: Text("알림 설정").font(.caption)) {
                         //NotiView
                         NotiView()
-                            .padding()
+                        
                     }
                     //개인정보 보호 설정...?
                     Section(header: Text("기타 설정").font(.caption)) {
@@ -79,7 +79,7 @@ struct NotiView: View {
     var body: some View {
         VStack(alignment: .leading){
             
-            HStack(spacing: 10) {
+            HStack {
                 Text("푸시 알림")
                 if notificationManager.isToggleOn {
                     DatePicker("", selection: $notificationManager.notificationTime, displayedComponents: .hourAndMinute)
@@ -117,9 +117,64 @@ struct NotiView: View {
 struct TermsofServiceView: View {
     
     var body: some View {
-        VStack {
-            Text("TermsofServiceView")
+        VStack(alignment: .leading, spacing: 10) {
+            Text("서비스 약관")
+                .font(.title)
+                .padding(.bottom, 10)
+            
+            ScrollView {
+                Text("""
+                    최종 수정일: [날짜]
+                    
+                    1. 개요
+                    이 서비스 약관("약관")은 [앱 이름]("앱")의 이용에 관한 법적 조건을 명시합니다. 본 앱은 [회사 이름]("회사", "당사")에 의해 제공되며, 사용자는 앱을 다운로드하거나 사용함으로써 이 약관에 동의하는 것으로 간주됩니다.
+                    
+                    2. 사용자 계정
+                    2.1 사용자 등록: 앱의 일부 기능을 사용하려면 계정을 등록해야 합니다. 사용자는 정확하고 완전한 정보를 제공해야 하며, 정보가 변경된 경우 즉시 업데이트해야 합니다.
+                    2.2 계정 보안: 사용자는 계정 정보의 비밀을 유지해야 하며, 계정 활동에 대한 책임이 있습니다. 무단 사용이 의심되는 경우 즉시 당사에 통보해야 합니다.
+                    
+                    3. 서비스 이용
+                    3.1 허용된 사용: 사용자는 앱을 법적 목적으로만 사용해야 합니다. 불법적인 활동이나 당사의 정책을 위반하는 행위는 엄격히 금지됩니다.
+                    3.2 제한된 사용: 사용자는 앱을 해킹, 스팸 발송, 바이러스 유포 등의 방식으로 사용할 수 없습니다. 당사는 사용자의 앱 접근을 제한할 권리를 가집니다.
+                    
+                    4. 콘텐츠
+                    4.1 사용자 콘텐츠: 사용자는 앱에 업로드하거나 게시한 모든 콘텐츠에 대한 권리를 보유합니다. 그러나 사용자는 당사에 해당 콘텐츠를 앱 내에서 사용할 수 있는 비독점적, 영구적, 취소 불가능한 권리를 부여합니다.
+                    4.2 금지된 콘텐츠: 사용자는 명예 훼손, 음란물, 폭력, 증오 발언 등을 포함한 불법적인 콘텐츠를 게시할 수 없습니다.
+                    
+                    5. 개인정보 보호
+                    5.1 개인정보 수집: 당사는 앱 사용과 관련하여 사용자의 개인정보를 수집할 수 있습니다. 자세한 내용은 당사의 [개인정보 처리방침]을 참조하십시오.
+                    5.2 개인정보 사용: 수집된 개인정보는 앱의 기능 제공, 서비스 개선, 법적 요구사항 준수를 위해 사용됩니다.
+                    
+                    6. 제3자 서비스
+                    앱은 제3자 서비스나 콘텐츠를 포함할 수 있습니다. 당사는 제3자 서비스에 대해 책임지지 않으며, 사용자는 해당 제3자 서비스의 약관을 준수해야 합니다.
+                    
+                    7. 면책 조항
+                    앱은 "있는 그대로" 제공되며, 당사는 앱의 정확성, 신뢰성, 완전성에 대해 보증하지 않습니다. 사용자는 앱 사용에 따른 모든 위험을 감수해야 합니다.
+                    
+                    8. 책임 제한
+                    법이 허용하는 최대 한도 내에서, 당사는 앱 사용과 관련된 직간접적 손해에 대해 책임지지 않습니다.
+                    
+                    9. 약관의 변경
+                    당사는 언제든지 이 약관을 수정할 권리를 가집니다. 변경 사항은 앱 내에 게시되며, 사용자는 변경된 약관에 동의하는 것으로 간주됩니다.
+                    
+                    10. 종료
+                    당사는 사용자가 이 약관을 위반하는 경우 언제든지 사전 통보 없이 사용자의 앱 접근을 종료할 수 있습니다.
+                    
+                    11. 준거법 및 분쟁 해결
+                    이 약관은 [국가/지역] 법에 따라 해석되며, 약관과 관련된 모든 분쟁은 [국가/지역]의 법원에 전속 관할권이 있습니다.
+                    
+                    12. 연락처 정보
+                    약관에 관한 질문은 아래 연락처로 문의해 주십시오:
+                    
+                    [회사 이름]
+                    [주소]
+                    [이메일 주소]
+                    [전화번호]
+                    """)
+                .padding()
+            }
         }
+        .padding()
     }
 }
 
@@ -127,9 +182,21 @@ struct TermsofServiceView: View {
 struct AppVersionView: View {
     
     var body: some View {
-        VStack {
-            Text("AppVersionView")
+        VStack(alignment: .leading, spacing: 10) {
+            Text("앱 버전")
+                .font(.title)
+                .padding(.bottom, 10)
+            
+            Text("현재 버전: 1.0.0")
+                .padding(.bottom, 5)
+            
+            Text("""
+                업데이트 내역:
+                - 버전 1.0.0: 최초 릴리즈
+                """)
+            .padding()
         }
+        .padding()
     }
 }
 
@@ -137,8 +204,33 @@ struct AppVersionView: View {
 struct CustomerServiceView: View {
     
     var body: some View {
-        VStack {
-            Text("CustomerServiceView")
+        VStack(alignment: .leading, spacing: 10) {
+            Text("고객 지원")
+                .font(.title)
+                .padding(.bottom, 10)
+            
+            Text("""
+                고객 지원 문의:
+                - 이메일: support@example.com
+                - 전화: 123-456-7890
+                - 운영 시간: 평일 오전 9시 - 오후 6시
+                """)
+            .padding()
+            
+            Text("자주 묻는 질문")
+                .font(.headline)
+                .padding(.top, 10)
+            
+            Text("""
+                Q: 비밀번호를 잊어버렸어요.
+                A: 이 앱은 로그인이 없는디용
+                
+                Q: 앱이 제대로 작동하지 않아요.
+                A: 앱을 재설치하거나 최신 버전으로 업데이트해보세요. 그래도 문제가 해결되지 않으면 고객 지원에 문의하세요.
+                """)
+            .padding()
+            
+            
         }
     }
 }
@@ -147,8 +239,19 @@ struct CustomerServiceView: View {
 struct FeedBackView: View {
     
     var body: some View {
-        VStack {
-            Text("FeedBackView")
+        VStack(alignment: .leading, spacing: 10) {
+            Text("피드백")
+                .font(.title)
+                .padding(.bottom, 10)
+            
+            Text("""
+                앱 사용 중 불편한 점이나 개선사항이 있다면 언제든지 피드백을 보내주세요. 여러분의 의견은 저희에게 큰 도움이 됩니다.
+                
+                피드백 보내기:
+                - 이메일: jjwon2149@gmail.com
+                - 날카로운 지적 해주시면 바로 반영 하겠습니다 ^_^
+                """)
+            .padding()
         }
     }
 }
