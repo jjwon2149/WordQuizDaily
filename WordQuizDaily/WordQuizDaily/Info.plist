@@ -6,12 +6,12 @@
 	<string>$(NAVER_CLIENT_ID)</string>
 	<key>NAVER_CLIENT_SECRET</key>
 	<string>$(NAVER_CLIENT_SECRET)</string>
+	<key>WOORI_API_KEY</key>
+	<string>$(WOORI_API_KEY)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>WOORI_API_KEY</key>
-	<string>$(WOORI_API_KEY)</string>
 </dict>
 </plist>

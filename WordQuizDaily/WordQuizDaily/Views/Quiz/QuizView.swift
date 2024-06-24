@@ -47,7 +47,7 @@ struct answerImageView: View {
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.8, minHeight: 200, maxHeight: 200, alignment: .center)
             } else {
                 if let imageData = quizViewModel.imageData {
-                    if imageData.items.count > 2 {
+                    if imageData.items.count > 3 {
                         let thirdImage = imageData.items[2]
                         KFImage(URL(string: thirdImage.link))
                             .resizable()

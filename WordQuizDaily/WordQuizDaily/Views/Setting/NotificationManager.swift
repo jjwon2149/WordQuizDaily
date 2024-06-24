@@ -7,6 +7,7 @@
 
 import Foundation
 import UserNotifications
+import UIKit
 
 class NotificationManager: ObservableObject {
     
@@ -17,7 +18,6 @@ class NotificationManager: ObservableObject {
     @Published var isAlertOccurred: Bool = false
     @Published var notificationTime: Date = Date() {
         didSet {
-            //set notification with the time
             removeAllNotifications()
             addNotification(with: notificationTime)
         }
@@ -26,11 +26,9 @@ class NotificationManager: ObservableObject {
         didSet {
             if isToggleOn {
                 UserDefaults.standard.set(true, forKey: "hasUserAgreedNoti")
-                UserDefaults.standard.synchronize()
                 requestNotiAuthorization()
             } else {
                 UserDefaults.standard.set(false, forKey: "hasUserAgreedNoti")
-                UserDefaults.standard.synchronize()
                 removeAllNotifications()
             }
         }
@@ -62,7 +60,6 @@ class NotificationManager: ObservableObject {
             
             //Notification이 거부되어 있는경우 alert
             if settings.authorizationStatus == .denied {
-                //알림 띄운 뒤 설정 창으로 이동
                 DispatchQueue.main.async {
                     self.isAlertOccurred = true
                 }
@@ -77,7 +74,7 @@ class NotificationManager: ObservableObject {
     
     //time에 반복되는 노티피케이션 추가
     func addNotification(with time: Date) {
-        //이 객체를 사용하여 알림의 제목과 메시지, 재생할 사운드 또는 앱의 배지에 할당할 값을 지정할 수 있습니다.
+        //이 객체를 사용하여 알림의 제목과 메시지, 재생할 사운드 또는 앱의 배지에 할당할 값을 지정
         let content = UNMutableNotificationContent()
         
         if let todayWord = storedWord, let todayDescription = storedDefinition {
@@ -95,7 +92,16 @@ class NotificationManager: ObservableObject {
                 }
             }
         }
-
+    }
+    
+    //Setting으로 이동하는 메서드
+    func openSettings() {
+       if let bundle = Bundle.main.bundleIdentifier,
+          let settings = URL(string: UIApplication.openSettingsURLString + bundle) {
+            if UIApplication.shared.canOpenURL(settings) {
+               UIApplication.shared.open(settings)
+            }
+        }
     }
         
 }

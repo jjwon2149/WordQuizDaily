@@ -84,9 +84,9 @@ struct NotiView: View {
                 if notificationManager.isToggleOn {
                     DatePicker("", selection: $notificationManager.notificationTime, displayedComponents: .hourAndMinute)
                         .datePickerStyle(.graphical)
-                        .onTapGesture {
-                            showDatePicker.toggle()
-                        }
+//                        .onTapGesture {
+//                            showDatePicker.toggle()
+//                        }
                 }
                 Toggle("", isOn: $notificationManager.isToggleOn)
                     .onChange(of: notificationManager.isToggleOn) { oldValue, newValue in
@@ -98,11 +98,10 @@ struct NotiView: View {
                     }
             } //HStack
             .alert(isPresented: $notificationManager.isAlertOccurred) {
-                Alert(
-                    title: Text("Notification Alert"),
-                    message: Text("notificationManager.alertMessage"),
-                    dismissButton: .default(Text("OK"))
-                )
+                //알림 설정이 꺼져있을 경우 설정창으로 이동
+                Alert(title:Text("Notification Alert"), message: Text("알림 설정이 꺼져있습니다. 설정에서 알림을 켜주세요."), primaryButton: .cancel(Text("이동"), action: {
+                    notificationManager.openSettings()
+                }), secondaryButton: .destructive(Text("Cancel")))
             }
             .onTapGesture {
                 if notificationManager.isToggleOn {
@@ -129,21 +128,19 @@ struct TermsofServiceView: View {
                     1. 개요
                     이 서비스 약관("약관")은 [앱 이름]("앱")의 이용에 관한 법적 조건을 명시합니다. 본 앱은 [회사 이름]("회사", "당사")에 의해 제공되며, 사용자는 앱을 다운로드하거나 사용함으로써 이 약관에 동의하는 것으로 간주됩니다.
                     
-                    2. 사용자 계정
-                    2.1 사용자 등록: 앱의 일부 기능을 사용하려면 계정을 등록해야 합니다. 사용자는 정확하고 완전한 정보를 제공해야 하며, 정보가 변경된 경우 즉시 업데이트해야 합니다.
-                    2.2 계정 보안: 사용자는 계정 정보의 비밀을 유지해야 하며, 계정 활동에 대한 책임이 있습니다. 무단 사용이 의심되는 경우 즉시 당사에 통보해야 합니다.
+                    2. 서비스 이용
+                    2.1 허용된 사용: 사용자는 앱을 법적 목적으로만 사용해야 합니다. 불법적인 활동이나 당사의 정책을 위반하는 행위는 엄격히 금지됩니다.
+                    2.2 제한된 사용: 사용자는 앱을 해킹, 스팸 발송, 바이러스 유포 등의 방식으로 사용할 수 없습니다. 당사는 사용자의 앱 접근을 제한할 권리를 가집니다.
                     
-                    3. 서비스 이용
-                    3.1 허용된 사용: 사용자는 앱을 법적 목적으로만 사용해야 합니다. 불법적인 활동이나 당사의 정책을 위반하는 행위는 엄격히 금지됩니다.
-                    3.2 제한된 사용: 사용자는 앱을 해킹, 스팸 발송, 바이러스 유포 등의 방식으로 사용할 수 없습니다. 당사는 사용자의 앱 접근을 제한할 권리를 가집니다.
+                    3. API 사용
+                    3.1 외부 API: 본 앱은 네이버 이미지 검색 API와 우리말샘 단어 검색 API를 사용합니다. 사용자는 해당 API 제공자의 이용 약관을 준수해야 합니다.
                     
                     4. 콘텐츠
                     4.1 사용자 콘텐츠: 사용자는 앱에 업로드하거나 게시한 모든 콘텐츠에 대한 권리를 보유합니다. 그러나 사용자는 당사에 해당 콘텐츠를 앱 내에서 사용할 수 있는 비독점적, 영구적, 취소 불가능한 권리를 부여합니다.
                     4.2 금지된 콘텐츠: 사용자는 명예 훼손, 음란물, 폭력, 증오 발언 등을 포함한 불법적인 콘텐츠를 게시할 수 없습니다.
                     
                     5. 개인정보 보호
-                    5.1 개인정보 수집: 당사는 앱 사용과 관련하여 사용자의 개인정보를 수집할 수 있습니다. 자세한 내용은 당사의 [개인정보 처리방침]을 참조하십시오.
-                    5.2 개인정보 사용: 수집된 개인정보는 앱의 기능 제공, 서비스 개선, 법적 요구사항 준수를 위해 사용됩니다.
+                    5.1 개인정보 수집: 본 앱은 로그인이 필요하지 않습니다. 사용자의 개인정보는 수집되지 않으며, 따라서 별도의 개인정보 처리방침은 없습니다.
                     
                     6. 제3자 서비스
                     앱은 제3자 서비스나 콘텐츠를 포함할 수 있습니다. 당사는 제3자 서비스에 대해 책임지지 않으며, 사용자는 해당 제3자 서비스의 약관을 준수해야 합니다.
@@ -211,9 +208,7 @@ struct CustomerServiceView: View {
             
             Text("""
                 고객 지원 문의:
-                - 이메일: support@example.com
-                - 전화: 123-456-7890
-                - 운영 시간: 평일 오전 9시 - 오후 6시
+                - 이메일: jjwon2149@gmail.com
                 """)
             .padding()
             

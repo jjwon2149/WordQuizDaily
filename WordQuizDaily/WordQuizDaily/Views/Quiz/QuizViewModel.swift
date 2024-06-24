@@ -10,8 +10,6 @@ import Kingfisher
 
 class QuizViewModel: ObservableObject, NaverNetworkDelegate {
     
-    
-    
     @Published var choiceWord = [String]()
     @Published var correctWord: String = ""
     @Published var correctWordDefinition: String = ""
