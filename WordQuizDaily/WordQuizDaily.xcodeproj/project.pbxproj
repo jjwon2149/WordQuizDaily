@@ -78,6 +78,7 @@
 		4A14C9632B610F9C004EE0AF /* WordNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordNetwork.swift; sourceTree = "<group>"; };
 		4A14C9652B610FC0004EE0AF /* WordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordData.swift; sourceTree = "<group>"; };
 		4A14C96A2B6171B5004EE0AF /* HardKoreanWords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardKoreanWords.swift; sourceTree = "<group>"; };
+		4A2462842C29457D00966E04 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		4A3E08472B822F2000848B7B /* NaverImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverImageData.swift; sourceTree = "<group>"; };
 		4A3E084D2B82389800848B7B /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		4A3E084F2B8267D800848B7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -152,6 +153,7 @@
 				4A14C9492B6109E2004EE0AF /* WordQuizDailyApp.swift */,
 				4A14C94B2B6109E2004EE0AF /* ContentView.swift */,
 				4A14C94D2B6109E5004EE0AF /* Assets.xcassets */,
+				4A2462842C29457D00966E04 /* Config.xcconfig */,
 				4A14C9522B6109E5004EE0AF /* WordQuizDaily.entitlements */,
 				4A14C94F2B6109E5004EE0AF /* Preview Content */,
 			);
@@ -503,6 +505,7 @@
 		};
 		4A14C9532B6109E5004EE0AF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A2462842C29457D00966E04 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -567,6 +570,7 @@
 		};
 		4A14C9542B6109E5004EE0AF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A2462842C29457D00966E04 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;

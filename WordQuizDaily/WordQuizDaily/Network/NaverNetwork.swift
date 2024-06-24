@@ -19,16 +19,22 @@ class NaverNetwork: ObservableObject {
     
     @Published var imageData: NaverImageData?
     
+    let naverClientID = Bundle.main.object(forInfoDictionaryKey: "NAVER_CLIENT_ID") as? String
+    let naverClientSecret = Bundle.main.object(forInfoDictionaryKey: "NAVER_CLIENT_SECRET") as? String
     weak var delegate: NaverNetworkDelegate?
 
     
     func requestSearchImage(query: String, completion: @escaping () -> Void) {
         let baseURL = "https://openapi.naver.com/v1/search/image"
         
+        guard let clientID = naverClientID, let clientSecret = naverClientSecret else {
+            print("Missing Naver API Keys")
+            return
+        }
         
         let headers: HTTPHeaders = [
-            "X-Naver-Client-Id": ProcessInfo.processInfo.environment["naverClientID"] ?? "",
-            "X-Naver-Client-Secret": ProcessInfo.processInfo.environment["naverClientSecret"] ?? ""
+            "X-Naver-Client-Id": clientID,
+            "X-Naver-Client-Secret": clientSecret
         ]
         
         let parameters: Parameters = [
