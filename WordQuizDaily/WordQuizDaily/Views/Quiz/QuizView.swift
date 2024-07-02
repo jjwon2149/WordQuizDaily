@@ -75,6 +75,8 @@ struct answerExplainView: View {
         ScrollView {
             Text(quizViewModel.correctWordDefinition)
                 .fixedSize(horizontal: false, vertical: true) // 가로 스크롤 비활성화, 세로 스크롤 활성화
+
+                
         }
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.8, height: 100)
@@ -83,6 +85,7 @@ struct answerExplainView: View {
         .cornerRadius(8)
         .shadow(color: .gray, radius: 2, x: 0, y: 2)
         .scrollIndicators(.automatic)
+        
     }
 }
 
@@ -119,13 +122,13 @@ struct ChoiceView: View {
                             }
                         Text("\(word) ")
                             .padding()
-                            .frame(width: UIScreen.main.bounds.width * 0.65, height: 50, alignment: .leading)
+                            .frame(width: UIScreen.main.bounds.width * 0.65, height: 30, alignment: .leading)
                             .foregroundColor(.black)
                             .background(Color.white)
                             .cornerRadius(10)
                             .shadow(color: .gray, radius: 2, x: 0, y: 2)
                     }
-                    .frame(width: UIScreen.main.bounds.width * 0.8, height: 50, alignment: .leading)
+                    .frame(width: UIScreen.main.bounds.width * 0.8, height: 30, alignment: .leading)
                 }
                 .disabled(quizViewModel.isLoading) // 로딩 중일 때 버튼 비활성화
                 .padding(5)
