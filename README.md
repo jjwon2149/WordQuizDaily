@@ -11,7 +11,7 @@
 - **설정**: 오늘의 단어 푸시 알림 설정 및 기타 앱 설정을 조정할 수 있습니다.
 
 ## 설치
-앱을 설치하려면 [App Store](link_to_app_store)에서 다운로드하세요.
+앱을 설치하려면 [App Store](https://apps.apple.com/kr/app/%EC%9A%B0%EB%A6%AC%EB%A7%90-%EB%8B%A8%EC%96%B4-%ED%80%B4%EC%A6%88-korean-words-quiz/id6505052767)에서 다운로드하세요.
 
 ## 사용 방법
 1. 앱을 실행하고 퀴즈 메뉴로 이동하여 다양한 퀴즈를 풀어보세요.
