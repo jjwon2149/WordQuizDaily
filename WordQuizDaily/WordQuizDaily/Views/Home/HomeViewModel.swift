@@ -7,14 +7,6 @@
 
 import Foundation
 
-extension UserDefaults {
-    
-    static var shared: UserDefaults {
-        let appGroupId = "group.wordQuizWidget"
-        return UserDefaults(suiteName: appGroupId)!
-    }
-}
-
 class HomeViewModel: ObservableObject {
     
     @Published var toDayWord: String = ""
