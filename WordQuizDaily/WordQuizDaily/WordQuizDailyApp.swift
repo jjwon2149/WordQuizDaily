@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct WordQuizDailyApp: App {
+    // AppDelegate 연동
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(FCMService.shared)
         }
     }
 }

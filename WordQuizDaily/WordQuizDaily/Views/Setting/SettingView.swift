@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingView: View {
     
-    @EnvironmentObject var notificationManager: NotificationManager
+    @EnvironmentObject var notificationManager: FCMNotificationManager
     @State private var isShowTermsOfService = false
     @State private var isShowAppVersion = false
     @State private var isShowCustomerService = false
@@ -73,7 +73,7 @@ struct SettingView: View {
 //MARK: - NotiView
 struct NotiView: View {
     
-    @EnvironmentObject var notificationManager: NotificationManager
+    @EnvironmentObject var notificationManager: FCMNotificationManager
     @State private var showDatePicker = false
     
     var body: some View {
@@ -251,5 +251,5 @@ struct FeedBackView: View {
 
 #Preview {
     SettingView()
-        .environmentObject(NotificationManager())
+        .environmentObject(FCMNotificationManager())
 }
