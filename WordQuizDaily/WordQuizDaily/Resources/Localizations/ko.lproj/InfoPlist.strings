@@ -1,0 +1,20 @@
+/* 
+  InfoPlist.strings
+  WordQuizDaily
+
+  Korean (한국어) - 기본 언어
+  Created on 2025-07-18.
+*/
+
+// 앱 이름
+"CFBundleDisplayName" = "단어퀴즈데일리";
+
+// 사용 목적 설명
+"NSCameraUsageDescription" = "단어 관련 이미지를 촬영하거나 선택하기 위해 카메라 권한이 필요합니다.";
+"NSPhotoLibraryUsageDescription" = "단어 관련 이미지를 선택하기 위해 사진 라이브러리 권한이 필요합니다.";
+"NSMicrophoneUsageDescription" = "단어 발음 녹음 기능을 사용하기 위해 마이크 권한이 필요합니다.";
+"NSUserNotificationsUsageDescription" = "매일 단어 퀴즈 알림을 받기 위해 알림 권한이 필요합니다.";
+
+// 위치 권한 (필요한 경우)
+"NSLocationWhenInUseUsageDescription" = "지역별 단어 추천 기능을 제공하기 위해 위치 정보가 필요합니다.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "지역별 단어 추천 기능을 제공하기 위해 위치 정보가 필요합니다.";

@@ -1,0 +1,92 @@
+/* 
+  Localizable.strings
+  WordQuizDaily
+
+  Pseudo-Localization for Testing
+  Created on 2025-07-18.
+  
+  이 파일은 UI 레이아웃 테스트를 위한 의사 로컬라이제이션입니다.
+  문자열 길이 확장 및 특수 문자 처리를 테스트합니다.
+*/
+
+// MARK: - 공통 (Common) - Extended for testing
+"common.ok" = "[!!! ÖK !!!]";
+"common.cancel" = "[!!! Çàñçél !!!]";
+"common.save" = "[!!! Śàvé !!!]";
+"common.delete" = "[!!! Délétè !!!]";
+"common.edit" = "[!!! Édìt !!!]";
+"common.done" = "[!!! Dónè !!!]";
+"common.loading" = "[!!! Lóàdìñg... !!!]";
+"common.error" = "[!!! Érrór !!!]";
+"common.retry" = "[!!! Rétrÿ !!!]";
+"common.close" = "[!!! Clósé !!!]";
+
+// MARK: - 탭 바 (Tab Bar) - Extended strings
+"tab.home" = "[!!! Hómé Täb !!!]";
+"tab.quiz" = "[!!! Qûìz Täb !!!]";
+"tab.settings" = "[!!! Séttìñgs Täb !!!]";
+
+// MARK: - 홈 화면 (Home Screen) - Long strings for layout testing
+"home.title" = "[!!! Wórd Qûìz Dàìlÿ Äpplìcàtìón !!!]";
+"home.subtitle" = "[!!! Méét ñéw wórds évérÿ sìñglé dàÿ wìth óûr àmàzìñg àpplìcàtìón !!!]";
+"home.todayWord" = "[!!! Tódàÿ's Spécìàl Wórd !!!]";
+"home.startQuiz" = "[!!! Stàrt Yóûr Qûìz Nów !!!]";
+"home.studyCount" = "[!!! Wórds Stûdìéd: %d ítéms !!!]";
+"home.streakCount" = "[!!! Stûdÿ Strèàk: %d cóñsècûtìvé dàÿs !!!]";
+
+// MARK: - 퀴즈 화면 (Quiz Screen) - Various length strings
+"quiz.title" = "[!!! Wórd Qûìz Chàlléñgé !!!]";
+"quiz.question" = "[!!! Qûéstìón %d óût óf %d tótàl !!!]";
+"quiz.nextButton" = "[!!! Próçééd tó Néxt !!!]";
+"quiz.submitButton" = "[!!! Sûbmìt Äñswér !!!]";
+"quiz.finishButton" = "[!!! Fìñìsh Qûìz !!!]";
+"quiz.correct" = "[!!! Córréct Äñswér! Éxçélléñt! !!!]";
+"quiz.incorrect" = "[!!! Ìñcórréct. Trÿ àgàìñ. !!!]";
+"quiz.correctAnswer" = "[!!! Thé córréct àñswér ìs: %@ !!!]";
+"quiz.score" = "[!!! Yóûr cûrréñt scóré: %d póìñts !!!]";
+"quiz.completion" = "[!!! Qûìz Cómplétéd Sûccéssfûllÿ! !!!]";
+"quiz.totalScore" = "[!!! Tótàl Fìñàl Scóré: %d óût óf %d !!!]";
+"quiz.restartButton" = "[!!! Réstàrt Qûìz Frôm Bégìññìñg !!!]";
+"quiz.homeButton" = "[!!! Gó Bàck tó Hómé !!!]";
+
+// MARK: - 설정 화면 (Settings Screen) - Mixed length strings
+"settings.title" = "[!!! Äpplìcàtìón Séttìñgs !!!]";
+"settings.notification" = "[!!! Nótìfìcàtìón Préférénçés !!!]";
+"settings.language" = "[!!! Làñgûàgé Séléçtìón !!!]";
+"settings.theme" = "[!!! Äpplìcàtìón Théme !!!]";
+"settings.about" = "[!!! Äbóût Thìs Äpp !!!]";
+"settings.version" = "[!!! Vérśìón Ìñfórmàtìón !!!]";
+"settings.contact" = "[!!! Cóñtàct Sûppórt !!!]";
+"settings.privacy" = "[!!! Prìvàçÿ Pólìçÿ !!!]";
+"settings.terms" = "[!!! Térms óf Sérvìçé !!!]";
+
+// MARK: - 알림 설정 (Notification Settings) - Long descriptive strings
+"notification.title" = "[!!! Nótìfìcàtìón Séttìñgs Màñàgémént !!!]";
+"notification.daily" = "[!!! Dàìlÿ Nótìfìcàtìón Rémìñdérs !!!]";
+"notification.time" = "[!!! Nótìfìcàtìón Tìmé Sçhédûlé !!!]";
+"notification.sound" = "[!!! Nótìfìcàtìón Sóûñd Séléçtìón !!!]";
+"notification.permission.title" = "[!!! Nótìfìcàtìón Pérmìssìón Réqûìréd !!!]";
+"notification.permission.message" = "[!!! Pléàsé àllów nótìfìcàtìóns tó réçéìvé dàìlÿ wórd qûìz rémìñdérs àñd stàÿ éñgàgéd wìth yóûr léàrñìñg jóûrñéÿ. !!!]";
+"notification.permission.settings" = "[!!! Öpéñ Séttìñgs Äpplìcàtìón !!!]";
+
+// MARK: - 오류 메시지 (Error Messages) - Critical messages
+"error.network" = "[!!! Pléàsé chéck yóûr ñétwórk çóññéçtìón àñd trÿ àgàìñ. !!!]";
+"error.unknown" = "[!!! Äñ ûñkñówñ érrór óççûrréd. Pléàsé réstàrt thé àpplìcàtìón. !!!]";
+"error.dataLoad" = "[!!! Äñ érrór óççûrréd whìlé lóàdìñg dàtà fróm thé sérvér. !!!]";
+"error.permission" = "[!!! Spéçìàl pérmìssìón ìs réqûìréd tó àççéss thìs féàtûré. !!!]";
+
+// MARK: - 성공 메시지 (Success Messages) - Positive feedback
+"success.save" = "[!!! Dàtà hàs béèñ sàvéd sûççéssfûllÿ! !!!]";
+"success.update" = "[!!! Ìñfórmàtìón hàs béèñ ûpdàtéd sûççéssfûllÿ! !!!]";
+"success.delete" = "[!!! Ìtém hàs béèñ délétéd sûççéssfûllÿ! !!!]";
+
+// MARK: - 단어 관련 (Word Related) - Educational content
+"word.meaning" = "[!!! Wórd Méàñìñg Éxplàñàtìón !!!]";
+"word.pronunciation" = "[!!! Próñûñçìàtìón Gûìdé !!!]";
+"word.example" = "[!!! Éxàmplé Séñténçé !!!]";
+"word.difficulty" = "[!!! Dìffìçûltÿ Lévél !!!]";
+"word.category" = "[!!! Wórd Càtégórÿ !!!]";
+"word.bookmark" = "[!!! Bóókmàrk Fàvórìté !!!]";
+"word.learned" = "[!!! Léàrñìñg Cómplétéd !!!]";
+"word.learning" = "[!!! Cûrréñtlÿ Léàrñìñg !!!]";
+"word.notStarted" = "[!!! Nót Stàrtéd Yét !!!]";
