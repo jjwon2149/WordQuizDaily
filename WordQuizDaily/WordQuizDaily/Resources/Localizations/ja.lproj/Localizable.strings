@@ -1,0 +1,196 @@
+//Localizable.strings
+//WordQuizDaily
+//
+//Japanese (日本語) - 일본어
+//Created on 2025-07-18.
+//
+//Translation Notes:
+//- Use polite form (です/ます調) for user-facing text
+//- Keep button labels concise using katakana when appropriate
+//- Consider full-width/half-width character rules
+
+
+// MARK: - 共通 (Common)
+"common.ok" = "OK";
+"common.cancel" = "キャンセル";
+"common.save" = "保存";
+"common.delete" = "削除";
+"common.edit" = "編集";
+"common.done" = "完了";
+"common.loading" = "読み込み中...";
+"common.error" = "エラー";
+"common.retry" = "再試行";
+"common.close" = "閉じる";
+
+// MARK: - タブバー (Tab Bar)
+"tab.home" = "ホーム";
+"tab.quiz" = "クイズ";
+"tab.settings" = "設定";
+
+// MARK: - ホーム画面 (Home Screen)
+"home.title" = "単語クイズデイリー";
+"home.subtitle" = "毎日新しい単語と出会おう";
+"home.todayWord" = "今日の単語";
+"home.startQuiz" = "クイズを始める";
+"home.studyCount" = "学習した単語：%d個";
+"home.streakCount" = "連続学習：%d日";
+
+// MARK: - クイズ画面 (Quiz Screen)
+"quiz.title" = "単語クイズ";
+"quiz.question" = "問題 %d / %d";
+"quiz.nextButton" = "次へ";
+"quiz.submitButton" = "回答";
+"quiz.finishButton" = "終了";
+"quiz.correct" = "正解です！";
+"quiz.incorrect" = "不正解です。";
+"quiz.correctAnswer" = "正解：%@";
+"quiz.score" = "スコア：%d点";
+"quiz.completion" = "クイズ完了！";
+"quiz.totalScore" = "合計スコア：%d / %d";
+"quiz.restartButton" = "再開始";
+"quiz.homeButton" = "ホーム";
+"quiz.loadingImages" = "画像読み込み中...";
+"quiz.selectedWord" = "選択した単語";
+"quiz.isCorrect" = "正解";
+
+// MARK: - 設定画面 (Settings Screen)
+"settings.title" = "設定";
+"settings.notification" = "通知設定";
+"settings.language" = "言語";
+"settings.theme" = "テーマ";
+"settings.about" = "アプリについて";
+"settings.version" = "バージョン";
+"settings.contact" = "お問い合わせ";
+"settings.privacy" = "プライバシーポリシー";
+"settings.terms" = "利用規約";
+"settings.notificationSection" = "通知設定";
+"settings.otherSection" = "その他の設定";
+"settings.termsOfService" = "サービス利用規約";
+"settings.appVersion" = "アプリバージョン";
+"settings.customerService" = "カスタマーサポート";
+"settings.feedback" = "フィードバック";
+"settings.pushNotification" = "プッシュ通知";
+
+// MARK: - 通知設定 (Notification Settings)
+"notification.title" = "通知設定";
+"notification.daily" = "毎日の通知";
+"notification.time" = "通知時間";
+"notification.sound" = "通知音";
+"notification.permission.title" = "通知許可が必要です";
+"notification.permission.message" = "単語クイズの通知を受け取るには通知許可が必要です。";
+"notification.permission.settings" = "設定に移動";
+"notification.alert.title" = "通知アラート";
+"notification.alert.message" = "通知設定がオフになっています。設定で通知をオンにしてください。";
+"notification.alert.goToSettings" = "移動";
+
+// MARK: - 共通 (Common)
+"common.ok" = "OK";
+"common.cancel" = "キャンセル";
+"common.save" = "保存";
+"common.delete" = "削除";
+"common.edit" = "編集";
+"common.done" = "完了";
+"common.loading" = "読み込み中...";
+"common.error" = "エラー";
+"common.retry" = "再試行";
+"common.close" = "閉じる";
+
+// MARK: - タブバー (Tab Bar)
+"tab.home" = "ホーム";
+"tab.quiz" = "クイズ";
+"tab.settings" = "設定";
+
+// MARK: - ホーム画面 (Home Screen)
+"home.title" = "単語クイズデイリー";
+"home.subtitle" = "毎日新しい単語と出会おう";
+"home.todayWord" = "今日の単語";
+"home.startQuiz" = "クイズを始める";
+"home.studyCount" = "学習した単語：%d個";
+"home.streakCount" = "連続学習：%d日";
+
+// MARK: - クイズ画面 (Quiz Screen)
+"quiz.title" = "単語クイズ";
+"quiz.question" = "問題 %d / %d";
+"quiz.nextButton" = "次へ";
+"quiz.submitButton" = "回答";
+"quiz.finishButton" = "終了";
+"quiz.correct" = "正解です！";
+"quiz.incorrect" = "不正解です。";
+"quiz.correctAnswer" = "正解：%@";
+"quiz.score" = "スコア：%d点";
+"quiz.completion" = "クイズ完了！";
+"quiz.totalScore" = "合計スコア：%d / %d";
+"quiz.restartButton" = "再開始";
+"quiz.homeButton" = "ホーム";
+"quiz.loadingImages" = "画像読み込み中...";
+"quiz.selectedWord" = "選択した単語";
+"quiz.isCorrect" = "正解";
+
+// MARK: - 設定画面 (Settings Screen)
+"settings.title" = "設定";
+"settings.notification" = "通知設定";
+"settings.language" = "言語";
+"settings.theme" = "テーマ";
+"settings.about" = "アプリについて";
+"settings.version" = "バージョン";
+"settings.contact" = "お問い合わせ";
+"settings.privacy" = "プライバシーポリシー";
+"settings.terms" = "利用規約";
+
+// MARK: - 通知設定 (Notification Settings)
+"notification.title" = "通知設定";
+"notification.daily" = "毎日の通知";
+"notification.time" = "通知時間";
+"notification.sound" = "通知音";
+"notification.permission.title" = "通知許可が必要です";
+"notification.permission.message" = "単語クイズの通知を受け取るには、通知許可が必要です。";
+"notification.permission.settings" = "設定へ移動";
+
+// MARK: - エラーメッセージ (Error Messages)
+"error.network" = "ネットワーク接続を確認してください。";
+"error.unknown" = "不明なエラーが発生しました。";
+"error.dataLoad" = "データの読み込み中にエラーが発生しました。";
+"error.permission" = "権限が必要です。";
+
+// MARK: - 成功メッセージ (Success Messages)
+"success.save" = "保存されました。";
+"success.update" = "更新されました。";
+"success.delete" = "削除されました。";
+
+// MARK: - 単語関連 (Word Related)
+"word.meaning" = "意味";
+"word.pronunciation" = "発音";
+"word.example" = "例文";
+"word.difficulty" = "難易度";
+"word.category" = "カテゴリ";
+"word.bookmark" = "ブックマーク";
+"word.learned" = "学習済み";
+"word.learning" = "学習中";
+"word.notStarted" = "未学習";
+
+// MARK: - サービス利用規約 (Terms of Service)
+"terms.title" = "サービス利用規約";
+"terms.content" = "最終更新日：2024年07月01日\n\n1. 概要\nこのサービス利用規約（「規約」）は、WordQuizDaily（「アプリ」）の利用に関する法的条件を定めるものです。個人開発者である정종원により提供され、ユーザーはアプリをダウンロードまたは使用することにより、本規約に同意したものとみなされます。\n\n2. サービス利用\n2.1 許可された使用：ユーザーは法的目的でのみアプリを使用する必要があります。違法な活動や当社のポリシーに違反する行為は厳しく禁止されています。\n2.2 制限された使用：ユーザーはハッキング、スパム送信、ウイルス配布などの方法でアプリを使用することはできません。当社はユーザーのアプリアクセスを制限する権利を有します。\n\n3. API使用\n3.1 外部API：本アプリはNaver画像検索APIとUrimalsaem単語検索APIを使用します。ユーザーは該当API提供者の利用規約を遵守する必要があります。\n\n4. コンテンツ\n4.1 ユーザーコンテンツ：ユーザーはアプリにアップロードまたは投稿したすべてのコンテンツに対する権利を保持します。ただし、ユーザーは当社に該当コンテンツをアプリ内で使用できる非独占的、永続的、取消不可能な権利を付与します。\n4.2 禁止されたコンテンツ：ユーザーは名誉毀損、わいせつ物、暴力、憎悪発言などを含む違法なコンテンツを投稿することはできません。\n\n5. プライバシー保護\n5.1 個人情報収集：本アプリはログインが不要です。ユーザーの個人情報は収集されないため、別途のプライバシーポリシーはありません。\n\n6. 第三者サービス\nアプリは第三者サービスやコンテンツを含む場合があります。当社は第三者サービスについて責任を負わず、ユーザーは該当第三者サービスの規約を遵守する必要があります。\n\n7. 免責事項\nアプリは「現状のまま」提供され、当社はアプリの正確性、信頼性、完全性について保証しません。ユーザーはアプリ使用に伴うすべてのリスクを負担する必要があります。\n\n8. 責任の制限\n法律が許可する最大限度内で、当社はアプリ使用に関連する直接的または間接的損害について責任を負いません。\n\n9. 規約の変更\n当社はいつでもこの規約を修正する権利を有します。変更事項はアプリ内に掲載され、ユーザーは変更された規約に同意したものとみなされます。\n\n10. 終了\n当社はユーザーがこの規約に違反した場合、いつでも事前通知なしにユーザーのアプリアクセスを終了することができます。\n\n11. 準拠法および紛争解決\nこの規約は大韓民国の法律に従って解釈され、規約に関連するすべての紛争は大韓民国の法院に専属管轄権があります。\n\n12. 連絡先情報\n規約に関する質問は下記連絡先にお問い合わせください：\n\n정종원\nメール：jjwon2149@gmail.com";
+
+// MARK: - アプリバージョン (App Version)
+"appVersion.title" = "アプリバージョン";
+"appVersion.current" = "現在のバージョン：1.0.0";
+"appVersion.updateHistory" = "更新履歴：\n- バージョン1.0.0：初回リリース";
+
+// MARK: - カスタマーサポート (Customer Service)
+"customerService.title" = "カスタマーサポート";
+"customerService.contactInfo" = "カスタマーサポートお問い合わせ：\n- メール：jjwon2149@gmail.com";
+"customerService.faq" = "よくある質問";
+"customerService.faqPassword" = "Q：パスワードを忘れました。";
+"customerService.faqPasswordAnswer" = "A：このアプリはログインが不要です。";
+"customerService.faqNotWorking" = "Q：アプリが正常に動作しません。";
+"customerService.faqNotWorkingAnswer" = "A：アプリを再インストールするか、最新バージョンにアップデートしてみてください。それでも問題が解決しない場合は、カスタマーサポートにお問い合わせください。";
+
+// MARK: - フィードバック (Feedback)
+"feedback.title" = "フィードバック";
+"feedback.content" = "アプリ使用中にご不便な点や改善事項がございましたら、いつでもフィードバックをお送りください。皆様のご意見は私たちにとって大きな助けとなります。";
+"feedback.contactInfo" = "フィードバック送信：\n- メール：jjwon2149@gmail.com\n- 鋭いご指摘をいただければすぐに反映いたします ^_^";
+"word.bookmark" = "ブックマーク";
+"word.learned" = "学習完了";
+"word.learning" = "学習中";
+"word.notStarted" = "未学習";

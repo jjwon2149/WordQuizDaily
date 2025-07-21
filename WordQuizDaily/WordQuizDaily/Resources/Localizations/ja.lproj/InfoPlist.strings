@@ -1,0 +1,20 @@
+/* 
+  InfoPlist.strings
+  WordQuizDaily
+
+  Japanese (日本語)
+  Created on 2025-07-18.
+*/
+
+// アプリ名
+"CFBundleDisplayName" = "単語クイズデイリー";
+
+// 使用目的の説明
+"NSCameraUsageDescription" = "単語に関連する画像を撮影または選択するため、カメラへのアクセスが必要です。";
+"NSPhotoLibraryUsageDescription" = "単語に関連する画像を選択するため、フォトライブラリへのアクセスが必要です。";
+"NSMicrophoneUsageDescription" = "単語の発音録音機能を使用するため、マイクへのアクセスが必要です。";
+"NSUserNotificationsUsageDescription" = "毎日の単語クイズ通知を受け取るため、通知権限が必要です。";
+
+// 位置情報権限（必要な場合）
+"NSLocationWhenInUseUsageDescription" = "地域別の単語推薦機能を提供するため、位置情報が必要です。";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "地域別の単語推薦機能を提供するため、位置情報が必要です。";

@@ -29,7 +29,7 @@ struct QuizView: View {
                 }
                 Spacer()
             }
-            .navigationTitle("단어 퀴즈")
+            .navigationTitle(LocalizedStringKey(LocalizationKeys.Quiz.title))
 
         }
     }
@@ -43,7 +43,7 @@ struct answerImageView: View {
         
         VStack {
             if quizViewModel.isLoading {
-                ProgressView("Loading...")
+                ProgressView(LocalizedStringKey(LocalizationKeys.Quiz.loadingImages))
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.8, minHeight: 200, maxHeight: 200, alignment: .center)
             } else {
                 if let imageData = quizViewModel.imageData {
@@ -109,7 +109,7 @@ struct ChoiceView: View {
                         if isAnswerCorrect {
                             quizViewModel.fetchData()
                         }
-                        print("선택된 단어: \(word), 정답?: \(isAnswerCorrect)")
+                        print("\(LocalizationKeys.Quiz.selectedWord.localized): \(word), \(LocalizationKeys.Quiz.isCorrect.localized)?: \(isAnswerCorrect)")
                     }
                 }) {
                     HStack {
@@ -138,7 +138,20 @@ struct ChoiceView: View {
 }
 
 
-#Preview {
+#Preview("한국어") {
     QuizView()
         .environmentObject(QuizViewModel())
+        .previewLocale("ko")
+}
+
+#Preview("English") {
+    QuizView()
+        .environmentObject(QuizViewModel())
+        .previewLocale("en")
+}
+
+#Preview("日本語") {
+    QuizView()
+        .environmentObject(QuizViewModel())
+        .previewLocale("ja")
 }

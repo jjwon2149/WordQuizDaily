@@ -1,0 +1,125 @@
+/* 
+  Localizable.strings
+  WordQuizDaily
+
+  Korean (한국어) - 기본 언어
+  Created on 2025-07-18.
+*/
+
+// MARK: - 공통 (Common)
+"common.ok" = "확인";
+"common.cancel" = "취소";
+"common.save" = "저장";
+"common.delete" = "삭제";
+"common.edit" = "편집";
+"common.done" = "완료";
+"common.loading" = "로딩 중...";
+"common.error" = "오류";
+"common.retry" = "다시 시도";
+"common.close" = "닫기";
+
+// MARK: - 탭 바 (Tab Bar)
+"tab.home" = "홈";
+"tab.quiz" = "퀴즈";
+"tab.settings" = "설정";
+
+// MARK: - 홈 화면 (Home Screen)
+"home.title" = "단어 퀴즈 데일리";
+"home.subtitle" = "매일 새로운 단어와 만나보세요";
+"home.todayWord" = "오늘의 단어";
+"home.startQuiz" = "퀴즈 시작하기";
+"home.studyCount" = "학습한 단어: %d개";
+"home.streakCount" = "연속 학습: %d일";
+
+// MARK: - 퀴즈 화면 (Quiz Screen)
+"quiz.title" = "단어 퀴즈";
+"quiz.question" = "문제 %d / %d";
+"quiz.nextButton" = "다음";
+"quiz.submitButton" = "제출";
+"quiz.finishButton" = "완료";
+"quiz.correct" = "정답입니다!";
+"quiz.incorrect" = "틀렸습니다.";
+"quiz.correctAnswer" = "정답: %@";
+"quiz.score" = "점수: %d점";
+"quiz.completion" = "퀴즈 완료!";
+"quiz.totalScore" = "총 점수: %d / %d";
+"quiz.restartButton" = "다시 시작";
+"quiz.homeButton" = "홈으로";
+"quiz.loadingImages" = "이미지 로딩 중...";
+"quiz.selectedWord" = "선택된 단어";
+"quiz.isCorrect" = "정답";
+
+// MARK: - 설정 화면 (Settings Screen)
+"settings.title" = "설정";
+"settings.notification" = "알림 설정";
+"settings.language" = "언어";
+"settings.theme" = "테마";
+"settings.about" = "앱 정보";
+"settings.version" = "버전";
+"settings.contact" = "문의하기";
+"settings.privacy" = "개인정보처리방침";
+"settings.terms" = "이용약관";
+"settings.notificationSection" = "알림 설정";
+"settings.otherSection" = "기타 설정";
+"settings.termsOfService" = "서비스 약관";
+"settings.appVersion" = "앱 버전";
+"settings.customerService" = "고객 지원";
+"settings.feedback" = "피드백";
+"settings.pushNotification" = "푸시 알림";
+
+// MARK: - 알림 설정 (Notification Settings)
+"notification.title" = "알림 설정";
+"notification.daily" = "매일 알림";
+"notification.time" = "알림 시간";
+"notification.sound" = "알림음";
+"notification.permission.title" = "알림 권한 필요";
+"notification.permission.message" = "단어 퀴즈 알림을 받으려면 알림 권한이 필요합니다.";
+"notification.permission.settings" = "설정으로 이동";
+"notification.alert.title" = "알림 설정 필요";
+"notification.alert.message" = "알림 설정이 꺼져있습니다. 설정에서 알림을 켜주세요.";
+"notification.alert.goToSettings" = "이동";
+
+// MARK: - 오류 메시지 (Error Messages)
+"error.network" = "네트워크 연결을 확인해주세요.";
+"error.unknown" = "알 수 없는 오류가 발생했습니다.";
+"error.dataLoad" = "데이터를 불러오는 중 오류가 발생했습니다.";
+"error.permission" = "권한이 필요합니다.";
+
+// MARK: - 성공 메시지 (Success Messages)
+"success.save" = "저장되었습니다.";
+"success.update" = "업데이트되었습니다.";
+"success.delete" = "삭제되었습니다.";
+
+// MARK: - 단어 관련 (Word Related)
+"word.meaning" = "뜻";
+"word.pronunciation" = "발음";
+"word.example" = "예문";
+"word.difficulty" = "난이도";
+"word.category" = "카테고리";
+"word.bookmark" = "즐겨찾기";
+"word.learned" = "학습 완료";
+"word.learning" = "학습 중";
+"word.notStarted" = "학습 전";
+
+// MARK: - 서비스 약관 (Terms of Service)
+"terms.title" = "서비스 약관";
+"terms.content" = "최종 수정일: 2024년 07월 01일\n\n1. 개요\n이 서비스 약관(\"약관\")은 WordQuizDaily(\"앱\")의 이용에 관한 법적 조건을 명시합니다. 개인 개발자인 정종원에 의해 제공되며, 사용자는 앱을 다운로드하거나 사용함으로써 이 약관에 동의하는 것으로 간주됩니다.\n\n2. 서비스 이용\n2.1 허용된 사용: 사용자는 앱을 법적 목적으로만 사용해야 합니다. 불법적인 활동이나 당사의 정책을 위반하는 행위는 엄격히 금지됩니다.\n2.2 제한된 사용: 사용자는 앱을 해킹, 스팸 발송, 바이러스 유포 등의 방식으로 사용할 수 없습니다. 당사는 사용자의 앱 접근을 제한할 권리를 가집니다.\n\n3. API 사용\n3.1 외부 API: 본 앱은 네이버 이미지 검색 API와 우리말샘 단어 검색 API를 사용합니다. 사용자는 해당 API 제공자의 이용 약관을 준수해야 합니다.\n\n4. 콘텐츠\n4.1 사용자 콘텐츠: 사용자는 앱에 업로드하거나 게시한 모든 콘텐츠에 대한 권리를 보유합니다. 그러나 사용자는 당사에 해당 콘텐츠를 앱 내에서 사용할 수 있는 비독점적, 영구적, 취소 불가능한 권리를 부여합니다.\n4.2 금지된 콘텐츠: 사용자는 명예 훼손, 음란물, 폭력, 증오 발언 등을 포함한 불법적인 콘텐츠를 게시할 수 없습니다.\n\n5. 개인정보 보호\n5.1 개인정보 수집: 본 앱은 로그인이 필요하지 않습니다. 사용자의 개인정보는 수집되지 않으며, 따라서 별도의 개인정보 처리방침은 없습니다.\n\n6. 제3자 서비스\n앱은 제3자 서비스나 콘텐츠를 포함할 수 있습니다. 당사는 제3자 서비스에 대해 책임지지 않으며, 사용자는 해당 제3자 서비스의 약관을 준수해야 합니다.\n\n7. 면책 조항\n앱은 \"있는 그대로\" 제공되며, 당사는 앱의 정확성, 신뢰성, 완전성에 대해 보증하지 않습니다. 사용자는 앱 사용에 따른 모든 위험을 감수해야 합니다.\n\n8. 책임 제한\n법이 허용하는 최대 한도 내에서, 당사는 앱 사용과 관련된 직간접적 손해에 대해 책임지지 않습니다.\n\n9. 약관의 변경\n당사는 언제든지 이 약관을 수정할 권리를 가집니다. 변경 사항은 앱 내에 게시되며, 사용자는 변경된 약관에 동의하는 것으로 간주됩니다.\n\n10. 종료\n당사는 사용자가 이 약관을 위반하는 경우 언제든지 사전 통보 없이 사용자의 앱 접근을 종료할 수 있습니다.\n\n11. 준거법 및 분쟁 해결\n이 약관은 대한민국 법에 따라 해석되며, 약관과 관련된 모든 분쟁은 대한민국의 법원에 전속 관할권이 있습니다.\n\n12. 연락처 정보\n약관에 관한 질문은 아래 연락처로 문의해 주십시오:\n\n정종원\n이메일: jjwon2149@gmail.com";
+
+// MARK: - 앱 버전 (App Version)
+"appVersion.title" = "앱 버전";
+"appVersion.current" = "현재 버전: 1.0.0";
+"appVersion.updateHistory" = "업데이트 내역:\n- 버전 1.0.0: 최초 릴리즈";
+
+// MARK: - 고객 지원 (Customer Service)
+"customerService.title" = "고객 지원";
+"customerService.contactInfo" = "고객 지원 문의:\n- 이메일: jjwon2149@gmail.com";
+"customerService.faq" = "자주 묻는 질문";
+"customerService.faqPassword" = "Q: 비밀번호를 잊어버렸어요.";
+"customerService.faqPasswordAnswer" = "A: 이 앱은 로그인이 없습니다.";
+"customerService.faqNotWorking" = "Q: 앱이 제대로 작동하지 않아요.";
+"customerService.faqNotWorkingAnswer" = "A: 앱을 재설치하거나 최신 버전으로 업데이트해보세요. 그래도 문제가 해결되지 않으면 고객 지원에 문의하세요.";
+
+// MARK: - 피드백 (Feedback)
+"feedback.title" = "피드백";
+"feedback.content" = "앱 사용 중 불편한 점이나 개선사항이 있다면 언제든지 피드백을 보내주세요. 여러분의 의견은 저희에게 큰 도움이 됩니다.";
+"feedback.contactInfo" = "피드백 보내기:\n- 이메일: jjwon2149@gmail.com\n- 날카로운 지적 해주시면 바로 반영 하겠습니다 ^_^";

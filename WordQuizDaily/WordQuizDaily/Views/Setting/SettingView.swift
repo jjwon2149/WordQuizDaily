@@ -1,5 +1,5 @@
 //
-//  NotificationView.swift
+//  SettingView.swift
 //  WordQuizDaily
 //
 //  Created by 정종원 on 1/24/24.
@@ -21,14 +21,14 @@ struct SettingView: View {
             VStack(alignment: .leading, spacing: 10){
                 Form{
                     //알림 설정 ex) 푸시알림, 효과음
-                    Section(header: Text("알림 설정").font(.caption)) {
+                    Section(header: Text(LocalizedStringKey(LocalizationKeys.Settings.notificationSection)).font(.caption)) {
                         //NotiView
                         NotiView()
                         
                     }
                     //개인정보 보호 설정...?
-                    Section(header: Text("기타 설정").font(.caption)) {
-                        Button("서비스 약관") {
+                    Section(header: Text(LocalizedStringKey(LocalizationKeys.Settings.otherSection)).font(.caption)) {
+                        Button(LocalizedStringKey(LocalizationKeys.Settings.termsOfService)) {
                             isShowTermsOfService = true
                         }
                         .foregroundStyle(.black)
@@ -36,7 +36,7 @@ struct SettingView: View {
                             TermsofServiceView()
                         })
                         
-                        Button("앱 버전") {
+                        Button(LocalizedStringKey(LocalizationKeys.Settings.appVersion)) {
                             isShowAppVersion = true
                         }
                         .foregroundStyle(.black)
@@ -44,7 +44,7 @@ struct SettingView: View {
                             AppVersionView()
                         })
                         
-                        Button("고객 지원") {
+                        Button(LocalizedStringKey(LocalizationKeys.Settings.customerService)) {
                             isShowCustomerService = true
                         }
                         .foregroundStyle(.black)
@@ -52,7 +52,7 @@ struct SettingView: View {
                             CustomerServiceView()
                         })
                         
-                        Button("피드백") {
+                        Button(LocalizedStringKey(LocalizationKeys.Settings.feedback)) {
                             isShowFeedback = true
                         }
                         .foregroundStyle(.black)
@@ -65,7 +65,7 @@ struct SettingView: View {
                 
                 
             }
-            .navigationTitle("Setting")
+            .navigationTitle(LocalizedStringKey(LocalizationKeys.Settings.title))
             
         } //NavigationStack
     }
@@ -80,7 +80,7 @@ struct NotiView: View {
         VStack(alignment: .leading){
             
             HStack {
-                Text("푸시 알림")
+                Text(LocalizedStringKey(LocalizationKeys.Settings.pushNotification))
                 if notificationManager.isToggleOn {
                     DatePicker("", selection: $notificationManager.notificationTime, displayedComponents: .hourAndMinute)
                         .datePickerStyle(.graphical)
@@ -99,9 +99,14 @@ struct NotiView: View {
             } //HStack
             .alert(isPresented: $notificationManager.isAlertOccurred) {
                 //알림 설정이 꺼져있을 경우 설정창으로 이동
-                Alert(title:Text("Notification Alert"), message: Text("알림 설정이 꺼져있습니다. 설정에서 알림을 켜주세요."), primaryButton: .cancel(Text("이동"), action: {
-                    notificationManager.openSettings()
-                }), secondaryButton: .destructive(Text("Cancel")))
+                Alert(
+                    title: Text(LocalizedStringKey(LocalizationKeys.Notification.alertTitle)), 
+                    message: Text(LocalizedStringKey(LocalizationKeys.Notification.alertMessage)), 
+                    primaryButton: .cancel(Text(LocalizedStringKey(LocalizationKeys.Notification.alertGoToSettings)), action: {
+                        notificationManager.openSettings()
+                    }), 
+                    secondaryButton: .destructive(Text(LocalizedStringKey(LocalizationKeys.Common.cancel)))
+                )
             }
             .onTapGesture {
                 if notificationManager.isToggleOn {
@@ -117,56 +122,13 @@ struct TermsofServiceView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("서비스 약관")
+            Text(LocalizedStringKey(LocalizationKeys.TermsOfService.title))
                 .font(.title)
                 .padding(.bottom, 10)
             
             ScrollView {
-                Text("""
-                        최종 수정일: 2024년 07월 01일
-                        
-                        1. 개요
-                        이 서비스 약관("약관")은 WordQuizDaily("앱")의 이용에 관한 법적 조건을 명시합니다. 개인 개발자인 정종원에 의해 제공되며, 사용자는 앱을 다운로드하거나 사용함으로써 이 약관에 동의하는 것으로 간주됩니다.
-                        
-                        2. 서비스 이용
-                        2.1 허용된 사용: 사용자는 앱을 법적 목적으로만 사용해야 합니다. 불법적인 활동이나 당사의 정책을 위반하는 행위는 엄격히 금지됩니다.
-                        2.2 제한된 사용: 사용자는 앱을 해킹, 스팸 발송, 바이러스 유포 등의 방식으로 사용할 수 없습니다. 당사는 사용자의 앱 접근을 제한할 권리를 가집니다.
-                        
-                        3. API 사용
-                        3.1 외부 API: 본 앱은 네이버 이미지 검색 API와 우리말샘 단어 검색 API를 사용합니다. 사용자는 해당 API 제공자의 이용 약관을 준수해야 합니다.
-                        
-                        4. 콘텐츠
-                        4.1 사용자 콘텐츠: 사용자는 앱에 업로드하거나 게시한 모든 콘텐츠에 대한 권리를 보유합니다. 그러나 사용자는 당사에 해당 콘텐츠를 앱 내에서 사용할 수 있는 비독점적, 영구적, 취소 불가능한 권리를 부여합니다.
-                        4.2 금지된 콘텐츠: 사용자는 명예 훼손, 음란물, 폭력, 증오 발언 등을 포함한 불법적인 콘텐츠를 게시할 수 없습니다.
-                        
-                        5. 개인정보 보호
-                        5.1 개인정보 수집: 본 앱은 로그인이 필요하지 않습니다. 사용자의 개인정보는 수집되지 않으며, 따라서 별도의 개인정보 처리방침은 없습니다.
-                        
-                        6. 제3자 서비스
-                        앱은 제3자 서비스나 콘텐츠를 포함할 수 있습니다. 당사는 제3자 서비스에 대해 책임지지 않으며, 사용자는 해당 제3자 서비스의 약관을 준수해야 합니다.
-                        
-                        7. 면책 조항
-                        앱은 "있는 그대로" 제공되며, 당사는 앱의 정확성, 신뢰성, 완전성에 대해 보증하지 않습니다. 사용자는 앱 사용에 따른 모든 위험을 감수해야 합니다.
-                        
-                        8. 책임 제한
-                        법이 허용하는 최대 한도 내에서, 당사는 앱 사용과 관련된 직간접적 손해에 대해 책임지지 않습니다.
-                        
-                        9. 약관의 변경
-                        당사는 언제든지 이 약관을 수정할 권리를 가집니다. 변경 사항은 앱 내에 게시되며, 사용자는 변경된 약관에 동의하는 것으로 간주됩니다.
-                        
-                        10. 종료
-                        당사는 사용자가 이 약관을 위반하는 경우 언제든지 사전 통보 없이 사용자의 앱 접근을 종료할 수 있습니다.
-                        
-                        11. 준거법 및 분쟁 해결
-                        이 약관은 대한민국 법에 따라 해석되며, 약관과 관련된 모든 분쟁은 대한민국의 법원에 전속 관할권이 있습니다.
-                        
-                        12. 연락처 정보
-                        약관에 관한 질문은 아래 연락처로 문의해 주십시오:
-                        
-                        정종원
-                        이메일: jjwon2149@gmail.com
-                        """)
-                .padding()
+                Text(LocalizedStringKey(LocalizationKeys.TermsOfService.content))
+                    .padding()
             }
         }
         .padding()
@@ -178,18 +140,15 @@ struct AppVersionView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("앱 버전")
+            Text(LocalizedStringKey(LocalizationKeys.AppVersion.title))
                 .font(.title)
                 .padding(.bottom, 10)
             
-            Text("현재 버전: 1.0.0")
+            Text(LocalizedStringKey(LocalizationKeys.AppVersion.currentVersion))
                 .padding(.bottom, 5)
             
-            Text("""
-                업데이트 내역:
-                - 버전 1.0.0: 최초 릴리즈
-                """)
-            .padding()
+            Text(LocalizedStringKey(LocalizationKeys.AppVersion.updateHistory))
+                .padding()
         }
         .padding()
     }
@@ -200,31 +159,28 @@ struct CustomerServiceView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("고객 지원")
+            Text(LocalizedStringKey(LocalizationKeys.CustomerService.title))
                 .font(.title)
                 .padding(.bottom, 10)
             
-            Text("""
-                고객 지원 문의:
-                - 이메일: jjwon2149@gmail.com
-                """)
-            .padding()
+            Text(LocalizedStringKey(LocalizationKeys.CustomerService.contactInfo))
+                .padding()
             
-            Text("자주 묻는 질문")
+            Text(LocalizedStringKey(LocalizationKeys.CustomerService.faq))
                 .font(.headline)
                 .padding(.top, 10)
             
-            Text("""
-                Q: 비밀번호를 잊어버렸어요.
-                A: 이 앱은 로그인이 없는디용
+            VStack(alignment: .leading, spacing: 5) {
+                Text(LocalizedStringKey(LocalizationKeys.CustomerService.faqPassword))
+                Text(LocalizedStringKey(LocalizationKeys.CustomerService.faqPasswordAnswer))
+                    .padding(.bottom, 10)
                 
-                Q: 앱이 제대로 작동하지 않아요.
-                A: 앱을 재설치하거나 최신 버전으로 업데이트해보세요. 그래도 문제가 해결되지 않으면 고객 지원에 문의하세요.
-                """)
+                Text(LocalizedStringKey(LocalizationKeys.CustomerService.faqNotWorking))
+                Text(LocalizedStringKey(LocalizationKeys.CustomerService.faqNotWorkingAnswer))
+            }
             .padding()
-            
-            
         }
+        .padding()
     }
 }
 
@@ -233,23 +189,34 @@ struct FeedBackView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("피드백")
+            Text(LocalizedStringKey(LocalizationKeys.Feedback.title))
                 .font(.title)
                 .padding(.bottom, 10)
             
-            Text("""
-                앱 사용 중 불편한 점이나 개선사항이 있다면 언제든지 피드백을 보내주세요. 여러분의 의견은 저희에게 큰 도움이 됩니다.
-                
-                피드백 보내기:
-                - 이메일: jjwon2149@gmail.com
-                - 날카로운 지적 해주시면 바로 반영 하겠습니다 ^_^
-                """)
-            .padding()
+            Text(LocalizedStringKey(LocalizationKeys.Feedback.content))
+                .padding(.bottom, 10)
+            
+            Text(LocalizedStringKey(LocalizationKeys.Feedback.contactInfo))
+                .padding()
         }
+        .padding()
     }
 }
 
-#Preview {
+#Preview("한국어") {
     SettingView()
         .environmentObject(FCMNotificationManager())
+        .previewLocale("ko")
+}
+
+#Preview("English") {
+    SettingView()
+        .environmentObject(FCMNotificationManager())
+        .previewLocale("en")
+}
+
+#Preview("日本語") {
+    SettingView()
+        .environmentObject(FCMNotificationManager())
+        .previewLocale("ja")
 }

@@ -23,21 +23,21 @@ struct ContentView: View {
                 .environmentObject(quizViewModel)
                 .tag(1)
                 .tabItem {
-                    Label("Quiz", systemImage: "questionmark.circle")
+                    Label(LocalizedStringKey(LocalizationKeys.Tab.quiz), systemImage: "questionmark.circle")
                 }
             
             HomeView()
                 .environmentObject(homeViewModel)
                 .tag(2)
                 .tabItem {
-                    Label("Home", systemImage: "house.circle.fill")
+                    Label(LocalizedStringKey(LocalizationKeys.Tab.home), systemImage: "house.circle.fill")
                 }
             
             SettingView()
                 .environmentObject(notificationManager)
                 .tag(3)
                 .tabItem {
-                    Label("Setting", systemImage: "gearshape.fill")
+                    Label(LocalizedStringKey(LocalizationKeys.Tab.settings), systemImage: "gearshape.fill")
                 }
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name("NavigateToQuiz"))) { _ in
@@ -54,4 +54,24 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .previewLocale("ko")
+}
+
+// MARK: - 다국어 프리뷰
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            ContentView()
+                .previewLocale("ko")
+                .previewDisplayName("Korean")
+            
+            ContentView()
+                .previewLocale("en")
+                .previewDisplayName("English")
+            
+            ContentView()
+                .previewLocale("ja")
+                .previewDisplayName("Japanese")
+        }
+    }
 }

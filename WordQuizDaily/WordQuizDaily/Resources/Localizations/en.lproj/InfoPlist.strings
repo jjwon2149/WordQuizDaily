@@ -1,0 +1,20 @@
+/* 
+  InfoPlist.strings
+  WordQuizDaily
+
+  English
+  Created on 2025-07-18.
+*/
+
+// App Name
+"CFBundleDisplayName" = "Word Quiz Daily";
+
+// Usage Descriptions
+"NSCameraUsageDescription" = "Camera access is needed to take or select word-related images.";
+"NSPhotoLibraryUsageDescription" = "Photo library access is needed to select word-related images.";
+"NSMicrophoneUsageDescription" = "Microphone access is needed for word pronunciation recording features.";
+"NSUserNotificationsUsageDescription" = "Notification permission is needed to receive daily word quiz reminders.";
+
+// Location Permission (if needed)
+"NSLocationWhenInUseUsageDescription" = "Location information is needed to provide region-specific word recommendations.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Location information is needed to provide region-specific word recommendations.";

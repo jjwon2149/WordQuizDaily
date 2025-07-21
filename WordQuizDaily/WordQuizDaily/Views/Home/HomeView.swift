@@ -49,7 +49,7 @@ struct HomeView: View {
                 Spacer()
                 
             }
-            .navigationTitle("오늘의 단어")
+            .navigationTitle(LocalizedStringKey(LocalizationKeys.Home.todayWord))
 
         }
         .onReceive(homeViewModel.$toDayWordDefinition) { _ in
@@ -62,4 +62,27 @@ struct HomeView: View {
 #Preview {
     HomeView()
         .environmentObject(HomeViewModel())
+        .previewLocale("ko")
+}
+
+// MARK: - 다국어 프리뷰
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            HomeView()
+                .environmentObject(HomeViewModel())
+                .previewLocale("ko")
+                .previewDisplayName("Korean")
+            
+            HomeView()
+                .environmentObject(HomeViewModel())
+                .previewLocale("en")
+                .previewDisplayName("English")
+            
+            HomeView()
+                .environmentObject(HomeViewModel())
+                .previewLocale("ja")
+                .previewDisplayName("Japanese")
+        }
+    }
 }

@@ -1,0 +1,187 @@
+//Localizable.strings
+//WordQuizDaily
+//
+//English - 영어
+//Created on 2025-07-18.
+
+
+// MARK: - Common
+"common.ok" = "OK";
+"common.cancel" = "Cancel";
+"common.save" = "Save";
+"common.delete" = "Delete";
+"common.edit" = "Edit";
+"common.done" = "Done";
+"common.loading" = "Loading...";
+"common.error" = "Error";
+"common.retry" = "Retry";
+"common.close" = "Close";
+
+// MARK: - Tab Bar
+"tab.home" = "Home";
+"tab.quiz" = "Quiz";
+"tab.settings" = "Settings";
+
+// MARK: - Home Screen
+"home.title" = "Word Quiz Daily";
+"home.subtitle" = "Meet new words every day";
+"home.todayWord" = "Today's Word";
+"home.startQuiz" = "Start Quiz";
+"home.studyCount" = "Words Studied: %d";
+"home.streakCount" = "Study Streak: %d days";
+
+// MARK: - Quiz Screen
+"quiz.title" = "Word Quiz";
+"quiz.question" = "Question %d / %d";
+"quiz.nextButton" = "Next";
+"quiz.submitButton" = "Submit";
+"quiz.finishButton" = "Finish";
+"quiz.correct" = "Correct!";
+"quiz.incorrect" = "Incorrect.";
+"quiz.correctAnswer" = "Answer: %@";
+"quiz.score" = "Score: %d points";
+"quiz.completion" = "Quiz Complete!";
+"quiz.totalScore" = "Total Score: %d / %d";
+"quiz.restartButton" = "Restart";
+"quiz.homeButton" = "Home";
+"quiz.loadingImages" = "Loading images...";
+"quiz.selectedWord" = "Selected word";
+"quiz.isCorrect" = "Correct";
+
+// MARK: - Settings Screen
+"settings.title" = "Settings";
+"settings.notification" = "Notifications";
+"settings.language" = "Language";
+"settings.theme" = "Theme";
+"settings.about" = "About";
+"settings.version" = "Version";
+"settings.contact" = "Contact";
+"settings.privacy" = "Privacy Policy";
+"settings.terms" = "Terms of Service";
+"settings.notificationSection" = "Notification Settings";
+"settings.otherSection" = "Other Settings";
+"settings.termsOfService" = "Terms of Service";
+"settings.appVersion" = "App Version";
+"settings.customerService" = "Customer Support";
+"settings.feedback" = "Feedback";
+"settings.pushNotification" = "Push Notifications";
+
+// MARK: - Notification Settings
+"notification.title" = "Notification Settings";
+"notification.daily" = "Daily Notifications";
+"notification.time" = "Notification Time";
+"notification.sound" = "Notification Sound";
+"notification.permission.title" = "Notification Permission Required";
+"notification.permission.message" = "Notification permission is required to receive word quiz alerts.";
+"notification.permission.settings" = "Go to Settings";
+"notification.alert.title" = "Notification Alert";
+"notification.alert.message" = "Notifications are disabled. Please enable notifications in Settings.";
+"notification.alert.goToSettings" = "Go"; 
+
+// MARK: - Common
+"common.ok" = "OK";
+"common.cancel" = "Cancel";
+"common.save" = "Save";
+"common.delete" = "Delete";
+"common.edit" = "Edit";
+"common.done" = "Done";
+"common.loading" = "Loading...";
+"common.error" = "Error";
+"common.retry" = "Retry";
+"common.close" = "Close";
+
+// MARK: - Tab Bar
+"tab.home" = "Home";
+"tab.quiz" = "Quiz";
+"tab.settings" = "Settings";
+
+// MARK: - Home Screen
+"home.title" = "Word Quiz Daily";
+"home.subtitle" = "Meet new words every day";
+"home.todayWord" = "Today's Word";
+"home.startQuiz" = "Start Quiz";
+"home.studyCount" = "Words Studied: %d";
+"home.streakCount" = "Study Streak: %d days";
+
+// MARK: - Quiz Screen
+"quiz.title" = "Word Quiz";
+"quiz.question" = "Question %d / %d";
+"quiz.nextButton" = "Next";
+"quiz.submitButton" = "Submit";
+"quiz.finishButton" = "Finish";
+"quiz.correct" = "Correct!";
+"quiz.incorrect" = "Incorrect.";
+"quiz.correctAnswer" = "Answer: %@";
+"quiz.score" = "Score: %d points";
+"quiz.completion" = "Quiz Complete!";
+"quiz.totalScore" = "Total Score: %d / %d";
+"quiz.restartButton" = "Restart";
+"quiz.homeButton" = "Home";
+"quiz.loadingImages" = "Loading images...";
+"quiz.selectedWord" = "Selected word";
+"quiz.isCorrect" = "Correct";
+
+// MARK: - Settings Screen
+"settings.title" = "Settings";
+"settings.notification" = "Notifications";
+"settings.language" = "Language";
+"settings.theme" = "Theme";
+"settings.about" = "About";
+"settings.version" = "Version";
+"settings.contact" = "Contact";
+"settings.privacy" = "Privacy Policy";
+"settings.terms" = "Terms of Service";
+
+// MARK: - Notification Settings
+"notification.title" = "Notification Settings";
+"notification.daily" = "Daily Notifications";
+"notification.time" = "Notification Time";
+"notification.sound" = "Notification Sound";
+"notification.permission.title" = "Notification Permission Required";
+"notification.permission.message" = "Please allow notifications to receive word quiz reminders.";
+"notification.permission.settings" = "Go to Settings";
+
+// MARK: - Error Messages
+"error.network" = "Please check your network connection.";
+"error.unknown" = "An unknown error occurred.";
+"error.dataLoad" = "An error occurred while loading data.";
+"error.permission" = "Permission required.";
+
+// MARK: - Success Messages
+"success.save" = "Saved successfully.";
+"success.update" = "Updated successfully.";
+"success.delete" = "Deleted successfully.";
+
+// MARK: - Word Related
+"word.meaning" = "Meaning";
+"word.pronunciation" = "Pronunciation";
+"word.example" = "Example";
+"word.difficulty" = "Difficulty";
+"word.category" = "Category";
+"word.bookmark" = "Bookmark";
+"word.learned" = "Learned";
+"word.learning" = "Learning";
+"word.notStarted" = "Not Started";
+
+// MARK: - Terms of Service
+"terms.title" = "Terms of Service";
+"terms.content" = "Last Modified: July 01, 2024\n\n1. Overview\nThese Terms of Service (\"Terms\") set forth the legal conditions governing the use of WordQuizDaily (\"App\"). Provided by individual developer Jongwon Jeong, by downloading or using the app, users are deemed to agree to these terms.\n\n2. Service Usage\n2.1 Permitted Use: Users must use the app for legal purposes only. Illegal activities or actions that violate our policies are strictly prohibited.\n2.2 Restricted Use: Users may not use the app in ways such as hacking, spamming, or distributing viruses. We reserve the right to restrict user access to the app.\n\n3. API Usage\n3.1 External APIs: This app uses Naver Image Search API and Urimalsaem Word Search API. Users must comply with the terms of service of these API providers.\n\n4. Content\n4.1 User Content: Users retain rights to all content they upload or post to the app. However, users grant us a non-exclusive, perpetual, irrevocable right to use such content within the app.\n4.2 Prohibited Content: Users may not post illegal content including defamation, obscenity, violence, hate speech, etc.\n\n5. Privacy Protection\n5.1 Personal Information Collection: This app does not require login. User personal information is not collected, therefore there is no separate privacy policy.\n\n6. Third-Party Services\nThe app may include third-party services or content. We are not responsible for third-party services, and users must comply with the terms of such third-party services.\n\n7. Disclaimer\nThe app is provided \"as is\" and we do not warrant the accuracy, reliability, or completeness of the app. Users must assume all risks associated with using the app.\n\n8. Limitation of Liability\nTo the maximum extent permitted by law, we are not liable for any direct or indirect damages related to app usage.\n\n9. Changes to Terms\nWe reserve the right to modify these terms at any time. Changes will be posted within the app, and users are deemed to agree to the modified terms.\n\n10. Termination\nWe may terminate user access to the app at any time without prior notice if users violate these terms.\n\n11. Governing Law and Dispute Resolution\nThese terms are governed by the laws of the Republic of Korea, and all disputes related to the terms are subject to the exclusive jurisdiction of Korean courts.\n\n12. Contact Information\nFor questions about the terms, please contact:\n\nJongwon Jeong\nEmail: jjwon2149@gmail.com";
+
+// MARK: - App Version
+"appVersion.title" = "App Version";
+"appVersion.current" = "Current Version: 1.0.0";
+"appVersion.updateHistory" = "Update History:\n- Version 1.0.0: Initial Release";
+
+// MARK: - Customer Service
+"customerService.title" = "Customer Support";
+"customerService.contactInfo" = "Customer Support Contact:\n- Email: jjwon2149@gmail.com";
+"customerService.faq" = "Frequently Asked Questions";
+"customerService.faqPassword" = "Q: I forgot my password.";
+"customerService.faqPasswordAnswer" = "A: This app does not require login.";
+"customerService.faqNotWorking" = "Q: The app is not working properly.";
+"customerService.faqNotWorkingAnswer" = "A: Try reinstalling the app or updating to the latest version. If the problem persists, please contact customer support.";
+
+// MARK: - Feedback
+"feedback.title" = "Feedback";
+"feedback.content" = "If you have any inconveniences or suggestions while using the app, please send us feedback anytime. Your opinions are very helpful to us.";
+"feedback.contactInfo" = "Send Feedback:\n- Email: jjwon2149@gmail.com\n- Sharp criticism will be reflected immediately ^_^";
