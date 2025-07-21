@@ -14,7 +14,11 @@ struct LocalizationHelper {
     
     /// 현재 설정된 언어 코드 반환
     static var currentLanguage: String {
-        return Locale.current.languageCode ?? "ko"
+        if #available(iOS 16, *) {
+            return Locale.current.language.languageCode?.identifier ?? "ko"
+        } else {
+            return Locale.current.languageCode ?? "ko"
+        }
     }
     
     /// 앱에서 지원하는 언어 목록

@@ -170,7 +170,12 @@ struct FormatterUtils {
     /// - Parameter text: 원본 텍스트
     /// - Returns: 언어별 특수 포맷이 적용된 텍스트
     static func localizedSpecialFormat(text: String) -> String {
-        let currentLanguage = Locale.current.languageCode ?? "ko"
+        let currentLanguage: String
+        if #available(iOS 16, *) {
+            currentLanguage = Locale.current.language.languageCode?.identifier ?? "ko"
+        } else {
+            currentLanguage = Locale.current.languageCode ?? "ko"
+        }
         
         switch currentLanguage {
         case "ja":
