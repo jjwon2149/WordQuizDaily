@@ -14,6 +14,11 @@ struct HomeView: View {
     
     var body: some View {
         NavigationStack{
+            ZStack {
+                // AdMob 배너 광고 - 최상단 위치
+                AdMobBannerView()
+                    .padding(.top, 10)
+            }
             VStack{
                 
                 VStack {

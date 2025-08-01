@@ -107,8 +107,8 @@
 
 // MARK: - 앱 버전 (App Version)
 "appVersion.title" = "앱 버전";
-"appVersion.current" = "현재 버전: 1.0.0";
-"appVersion.updateHistory" = "업데이트 내역:\n- 버전 1.0.0: 최초 릴리즈";
+"appVersion.current" = "현재 버전: 1.0.3";
+"appVersion.updateHistory" = "업데이트 내역:\n- 버전 1.0.3";
 
 // MARK: - 고객 지원 (Customer Service)
 "customerService.title" = "고객 지원";
