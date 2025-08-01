@@ -17,9 +17,14 @@ struct SettingView: View {
     
     var body: some View {
         NavigationStack {
+            ZStack {
+                // AdMob 배너 광고 - 최상단 위치
+                AdMobBannerView()
+                    .padding(.top, 10)
+            }
             
             VStack(alignment: .leading, spacing: 10){
-                Form{
+                Form {
                     //알림 설정 ex) 푸시알림, 효과음
                     Section(header: Text(LocalizedStringKey(LocalizationKeys.Settings.notificationSection)).font(.caption)) {
                         //NotiView
@@ -59,11 +64,10 @@ struct SettingView: View {
                         .sheet(isPresented: self.$isShowFeedback, content: {
                             FeedBackView()
                         })
+                        
                     }
                     
                 }
-                
-                
             }
             .navigationTitle(LocalizedStringKey(LocalizationKeys.Settings.title))
             

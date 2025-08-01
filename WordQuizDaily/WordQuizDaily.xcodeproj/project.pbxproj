@@ -41,6 +41,8 @@
 		4A4F06B82E26B88700EAB174 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 4A4F06B72E26B88700EAB174 /* Alamofire */; };
 		4A6323632B64DA6D004CA2DD /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6323622B64DA6D004CA2DD /* QuizViewModel.swift */; };
 		4A6323652B66BA1F004CA2DD /* NaverNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6323642B66BA1F004CA2DD /* NaverNetwork.swift */; };
+		4A7D36DE2E3A0A5500AF0C40 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 4A7D36DD2E3A0A5500AF0C40 /* GoogleMobileAds */; };
+		4A7D36E12E3CA70E00AF0C40 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7D36DF2E3CA70E00AF0C40 /* BannerAdView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +108,7 @@
 		4A47DA162E2B818500E26A6E /* LocalizationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationHelper.swift; sourceTree = "<group>"; };
 		4A6323622B64DA6D004CA2DD /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
 		4A6323642B66BA1F004CA2DD /* NaverNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverNetwork.swift; sourceTree = "<group>"; };
+		4A7D36DF2E3CA70E00AF0C40 /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +131,7 @@
 				4A3A37032E26AFA8008BF8EA /* Alamofire in Frameworks */,
 				4A3A370D2E26AFFD008BF8EA /* FirebaseAnalyticsCore in Frameworks */,
 				4A3A370B2E26AFFD008BF8EA /* FirebaseAnalytics in Frameworks */,
+				4A7D36DE2E3A0A5500AF0C40 /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +194,7 @@
 		4A14C9582B610A87004EE0AF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4A7D36E02E3CA70E00AF0C40 /* AdMob */,
 				4A14C95A2B610A99004EE0AF /* Quiz */,
 				4A14C9592B610A92004EE0AF /* Home */,
 				4A14C95B2B610AA2004EE0AF /* Setting */,
@@ -294,6 +299,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		4A7D36E02E3CA70E00AF0C40 /* AdMob */ = {
+			isa = PBXGroup;
+			children = (
+				4A7D36DF2E3CA70E00AF0C40 /* BannerAdView.swift */,
+			);
+			path = AdMob;
+			sourceTree = "<group>";
+		};
 		87A96DACB312BCA20D3F552A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -375,6 +388,7 @@
 				4A3A37062E26AFB2008BF8EA /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				4A3A37092E26AFFD008BF8EA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				4A4F06B62E26B88700EAB174 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				4A7D36DC2E3A0A5500AF0C40 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = 4A14C93D2B6109E2004EE0AF;
 			projectDirPath = "";
@@ -437,6 +451,7 @@
 				4A3E08482B822F2000848B7B /* NaverImageData.swift in Sources */,
 				4A6323652B66BA1F004CA2DD /* NaverNetwork.swift in Sources */,
 				4A14C94A2B6109E2004EE0AF /* WordQuizDailyApp.swift in Sources */,
+				4A7D36E12E3CA70E00AF0C40 /* BannerAdView.swift in Sources */,
 				4A3A37132E26B16C008BF8EA /* FCMService.swift in Sources */,
 				4A3A37142E26B16C008BF8EA /* FCMNotificationManager.swift in Sources */,
 				4A3A37162E26B346008BF8EA /* AppDelegate.swift in Sources */,
@@ -806,6 +821,14 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		4A7D36DC2E3A0A5500AF0C40 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -838,6 +861,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4A4F06B62E26B88700EAB174 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		4A7D36DD2E3A0A5500AF0C40 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A7D36DC2E3A0A5500AF0C40 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

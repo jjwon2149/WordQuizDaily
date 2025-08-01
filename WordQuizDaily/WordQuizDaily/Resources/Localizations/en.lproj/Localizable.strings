@@ -169,8 +169,8 @@
 
 // MARK: - App Version
 "appVersion.title" = "App Version";
-"appVersion.current" = "Current Version: 1.0.0";
-"appVersion.updateHistory" = "Update History:\n- Version 1.0.0: Initial Release";
+"appVersion.current" = "Current Version: 1.0.3";
+"appVersion.updateHistory" = "Update History:\n- Version 1.0.3";
 
 // MARK: - Customer Service
 "customerService.title" = "Customer Support";
