@@ -9,14 +9,18 @@ import UIKit
 import Firebase
 import FirebaseMessaging
 import UserNotifications
+import GoogleMobileAds
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        
         // Firebase 초기화
         FirebaseApp.configure()
+        // AdMob 초기화
+        MobileAds.shared.start(completionHandler: nil)
+        
+        
         
         // FCM 델리게이트 설정
         Messaging.messaging().delegate = self

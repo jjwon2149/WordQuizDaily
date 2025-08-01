@@ -174,8 +174,8 @@
 
 // MARK: - アプリバージョン (App Version)
 "appVersion.title" = "アプリバージョン";
-"appVersion.current" = "現在のバージョン：1.0.0";
-"appVersion.updateHistory" = "更新履歴：\n- バージョン1.0.0：初回リリース";
+"appVersion.current" = "現在のバージョン：1.0.3";
+"appVersion.updateHistory" = "更新履歴：\n- バージョン1.0.3";
 
 // MARK: - カスタマーサポート (Customer Service)
 "customerService.title" = "カスタマーサポート";

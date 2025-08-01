@@ -8,6 +8,10 @@
 	<string>$(NAVER_CLIENT_SECRET)</string>
 	<key>WOORI_API_KEY</key>
 	<string>$(WOORI_API_KEY)</string>
+	<key>GADApplicationIdentifier</key>
+	<string>$(ADMOB_APP_ID)</string>
+	<key>ADMOB_BANNER_AD_UNIT_ID</key>
+	<string>$(ADMOB_BANNER_AD_UNIT_ID)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
