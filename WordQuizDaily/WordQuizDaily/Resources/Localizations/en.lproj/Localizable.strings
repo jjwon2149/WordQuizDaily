@@ -30,6 +30,16 @@
 "home.studyCount" = "Words Studied: %d";
 "home.streakCount" = "Study Streak: %d days";
 
+// MARK: - Today's Word
+"todayWord.card.title" = "Today's Word Card";
+"todayWord.detail.title" = "Word Details";
+"todayWord.meaning.title" = "Meaning";
+"todayWord.easyKorean.title" = "Easy Korean";
+"todayWord.romanization.title" = "Romanization";
+"todayWord.example.title" = "Example";
+"todayWord.difficulty.title" = "Difficulty";
+"todayWord.empty.message" = "Today's word is not ready yet.";
+
 // MARK: - Quiz Screen
 "quiz.title" = "Word Quiz";
 "quiz.question" = "Question %d / %d";
@@ -47,6 +57,19 @@
 "quiz.loadingImages" = "Loading images...";
 "quiz.selectedWord" = "Selected word";
 "quiz.isCorrect" = "Correct";
+"quiz.prompt.chooseWord" = "Choose the Korean word that matches the meaning.";
+"quiz.prompt.chooseMeaning" = "Choose the correct meaning.";
+"quiz.feedback.title" = "Feedback";
+"quiz.feedback.correctTitle" = "Correct";
+"quiz.feedback.correctMessage" = "Good job. %@ means %@.";
+"quiz.feedback.incorrectTitle" = "Not quite";
+"quiz.feedback.incorrectMessage" = "%@ means %@.";
+"quiz.feedback.tryAgain" = "Try the next question.";
+"quiz.feedback.reviewMeaning" = "Review the meaning and try again.";
+"quiz.result.title" = "Quiz Result";
+"quiz.result.summary" = "Correct: %d / %d";
+"quiz.result.perfect" = "Perfect score.";
+"quiz.result.keepPracticing" = "Keep practicing.";
 
 // MARK: - Settings Screen
 "settings.title" = "Settings";
@@ -76,70 +99,13 @@
 "notification.permission.settings" = "Go to Settings";
 "notification.alert.title" = "Notification Alert";
 "notification.alert.message" = "Notifications are disabled. Please enable notifications in Settings.";
-"notification.alert.goToSettings" = "Go"; 
-
-// MARK: - Common
-"common.ok" = "OK";
-"common.cancel" = "Cancel";
-"common.save" = "Save";
-"common.delete" = "Delete";
-"common.edit" = "Edit";
-"common.done" = "Done";
-"common.loading" = "Loading...";
-"common.error" = "Error";
-"common.retry" = "Retry";
-"common.close" = "Close";
-
-// MARK: - Tab Bar
-"tab.home" = "Home";
-"tab.quiz" = "Quiz";
-"tab.settings" = "Settings";
-
-// MARK: - Home Screen
-"home.title" = "Word Quiz Daily";
-"home.subtitle" = "Meet new words every day";
-"home.todayWord" = "Today's Word";
-"home.startQuiz" = "Start Quiz";
-"home.studyCount" = "Words Studied: %d";
-"home.streakCount" = "Study Streak: %d days";
-
-// MARK: - Quiz Screen
-"quiz.title" = "Word Quiz";
-"quiz.question" = "Question %d / %d";
-"quiz.nextButton" = "Next";
-"quiz.submitButton" = "Submit";
-"quiz.finishButton" = "Finish";
-"quiz.correct" = "Correct!";
-"quiz.incorrect" = "Incorrect.";
-"quiz.correctAnswer" = "Answer: %@";
-"quiz.score" = "Score: %d points";
-"quiz.completion" = "Quiz Complete!";
-"quiz.totalScore" = "Total Score: %d / %d";
-"quiz.restartButton" = "Restart";
-"quiz.homeButton" = "Home";
-"quiz.loadingImages" = "Loading images...";
-"quiz.selectedWord" = "Selected word";
-"quiz.isCorrect" = "Correct";
-
-// MARK: - Settings Screen
-"settings.title" = "Settings";
-"settings.notification" = "Notifications";
-"settings.language" = "Language";
-"settings.theme" = "Theme";
-"settings.about" = "About";
-"settings.version" = "Version";
-"settings.contact" = "Contact";
-"settings.privacy" = "Privacy Policy";
-"settings.terms" = "Terms of Service";
-
-// MARK: - Notification Settings
-"notification.title" = "Notification Settings";
-"notification.daily" = "Daily Notifications";
-"notification.time" = "Notification Time";
-"notification.sound" = "Notification Sound";
-"notification.permission.title" = "Notification Permission Required";
-"notification.permission.message" = "Please allow notifications to receive word quiz reminders.";
-"notification.permission.settings" = "Go to Settings";
+"notification.alert.goToSettings" = "Go";
+"notification.wordOfDay.title" = "Today's word: %@";
+"notification.wordOfDay.bodyMeaning" = "Meaning: %@";
+"notification.wordOfDay.bodyEasyKorean" = "Easy Korean: %@";
+"notification.wordOfDay.bodyDefinition" = "Korean meaning: %@";
+"notification.wordOfDay.bodyFallback" = "Open the app to learn today's Korean word.";
+"notification.wordOfDay.fallbackWord" = "Korean word";
 
 // MARK: - Error Messages
 "error.network" = "Please check your network connection.";
@@ -162,6 +128,20 @@
 "word.learned" = "Learned";
 "word.learning" = "Learning";
 "word.notStarted" = "Not Started";
+"word.easyKorean" = "Easy Korean";
+"word.romanization" = "Romanization";
+"word.englishMeaning" = "English Meaning";
+"word.partOfSpeech" = "Part of Speech";
+"word.exampleKorean" = "Korean Example";
+"word.exampleTranslation" = "Example Meaning";
+"word.feedback" = "Feedback";
+"word.answer" = "Answer";
+"word.hint" = "Hint";
+"word.detail" = "Details";
+"word.sourceDictionary" = "Dictionary Source";
+"word.difficulty.easy" = "Easy";
+"word.difficulty.medium" = "Medium";
+"word.difficulty.hard" = "Hard";
 
 // MARK: - Terms of Service
 "terms.title" = "Terms of Service";
@@ -171,6 +151,7 @@
 "appVersion.title" = "App Version";
 "appVersion.current" = "Current Version: 1.0.3";
 "appVersion.updateHistory" = "Update History:\n- Version 1.0.3";
+"appVersion.version100" = "Version 1.0.0\n- Initial release";
 
 // MARK: - Customer Service
 "customerService.title" = "Customer Support";

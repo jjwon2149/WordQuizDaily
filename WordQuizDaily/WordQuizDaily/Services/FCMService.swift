@@ -10,6 +10,7 @@ import Firebase
 import FirebaseMessaging
 import Combine
 import UserNotifications
+import UIKit
 
 // MARK: - FCM 알림 모델
 struct FCMNotification {
@@ -203,28 +204,61 @@ extension FCMService {
 // MARK: - 다국어 지원
 extension FCMService {
     
-    func getLocalizedNotificationContent(for language: String = Locale.current.language.languageCode?.identifier ?? "ko") -> (title: String, body: String) {
-        
-        let todayWord = UserDefaults.shared.string(forKey: "TodayWord") ?? "단어"
-        let todayDefinition = UserDefaults.shared.string(forKey: "TodayWordDefinition") ?? "뜻"
-        
-        switch language {
-        case "ko":
-            return (
-                title: "오늘의 단어: \(todayWord)",
-                body: "뜻: \(todayDefinition)"
+    func getLocalizedNotificationContent(for language: String = LocalizationHelper.currentLanguage) -> (title: String, body: String) {
+        let normalizedLanguage = LocalizationHelper.normalizedLanguageCode(language)
+        let todayWord = storedLearningString(forKey: "TodayWord")
+            ?? LocalizationHelper.localizedString(
+                for: LocalizationKeys.Notification.wordOfDayFallbackWord,
+                language: normalizedLanguage
             )
-        case "en":
-            return (
-                title: "Word of the Day: \(todayWord)",
-                body: "Meaning: \(todayDefinition)"
+        let title = LocalizationHelper.localizedString(
+            for: LocalizationKeys.Notification.wordOfDayTitle,
+            language: normalizedLanguage,
+            arguments: todayWord
+        )
+
+        if let englishMeaning = storedLearningString(forKey: "TodayWordEnglishMeaning") {
+            let body = LocalizationHelper.localizedString(
+                for: LocalizationKeys.Notification.wordOfDayBodyMeaning,
+                language: normalizedLanguage,
+                arguments: englishMeaning
             )
-        default:
-            return (
-                title: "오늘의 단어: \(todayWord)",
-                body: "뜻: \(todayDefinition)"
-            )
+            return (title, body)
         }
+
+        if let easyKorean = storedLearningString(forKey: "TodayWordEasyKorean") {
+            let body = LocalizationHelper.localizedString(
+                for: LocalizationKeys.Notification.wordOfDayBodyEasyKorean,
+                language: normalizedLanguage,
+                arguments: easyKorean
+            )
+            return (title, body)
+        }
+
+        if let definition = storedLearningString(forKey: "TodayWordDefinition") {
+            let body = LocalizationHelper.localizedString(
+                for: LocalizationKeys.Notification.wordOfDayBodyDefinition,
+                language: normalizedLanguage,
+                arguments: definition
+            )
+            return (title, body)
+        }
+
+        let fallbackBody = LocalizationHelper.localizedString(
+            for: LocalizationKeys.Notification.wordOfDayBodyFallback,
+            language: normalizedLanguage
+        )
+        return (title, fallbackBody)
+    }
+
+    private func storedLearningString(forKey key: String) -> String? {
+        guard let value = UserDefaults.shared.string(forKey: key)?
+            .trimmingCharacters(in: .whitespacesAndNewlines),
+              !value.isEmpty else {
+            return nil
+        }
+
+        return value
     }
 }
 

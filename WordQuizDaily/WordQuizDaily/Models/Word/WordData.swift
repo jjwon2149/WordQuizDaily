@@ -26,3 +26,29 @@ struct Sense: Codable {
     let link: String
     let type: String
 }
+
+extension WordData {
+    init(learningWord: LearningWord) {
+        self.init(
+            channel: Channel(
+                item: [
+                    Item(
+                        word: learningWord.korean,
+                        sense: [
+                            Sense(
+                                definition: learningWord.simpleKoreanDefinition,
+                                pos: learningWord.partOfSpeech,
+                                link: "",
+                                type: "local"
+                            )
+                        ]
+                    )
+                ]
+            )
+        )
+    }
+
+    var firstDefinition: String? {
+        channel.item.first?.sense.first?.definition
+    }
+}

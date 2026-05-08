@@ -27,8 +27,15 @@ class NaverNetwork: ObservableObject {
     func requestSearchImage(query: String, completion: @escaping () -> Void) {
         let baseURL = "https://openapi.naver.com/v1/search/image"
         
-        guard let clientID = naverClientID, let clientSecret = naverClientSecret else {
+        guard let clientID = naverClientID,
+              let clientSecret = naverClientSecret,
+              !clientID.isEmpty,
+              !clientSecret.isEmpty else {
             print("Missing Naver API Keys")
+            DispatchQueue.main.async {
+                self.delegate?.imageDataUpdated(nil)
+                completion()
+            }
             return
         }
         
@@ -51,17 +58,32 @@ class NaverNetwork: ObservableObject {
         .responseDecodable(of: NaverImageData.self) { response in
             switch response.result {
             case .success(let data):
-                guard let statusCode = response.response?.statusCode else { return }
+                guard let statusCode = response.response?.statusCode else {
+                    DispatchQueue.main.async {
+                        self.delegate?.imageDataUpdated(nil)
+                        completion()
+                    }
+                    return
+                }
                 if statusCode == 200 {
                     DispatchQueue.main.async {
                         self.imageData = data
                         self.delegate?.imageDataUpdated(data)
                         completion()
                     }
+                } else {
+                    DispatchQueue.main.async {
+                        self.delegate?.imageDataUpdated(nil)
+                        completion()
+                    }
                 }
                 print("\(#file) > \(#function) :: SUCCESS")
             case .failure(let error):
                 print("\(#file) > \(#function) :: FAILURE : \(error)")
+                DispatchQueue.main.async {
+                    self.delegate?.imageDataUpdated(nil)
+                    completion()
+                }
             }
         }
     }

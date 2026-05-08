@@ -14,8 +14,8 @@ class WordNetwork: ObservableObject {
     
     func searchWord(_ searchWord: String) async throws -> WordData? {
         
-        guard let myApiKey = myApiKey else {
-            print("Missing Naver API Keys")
+        guard let myApiKey = myApiKey, !myApiKey.isEmpty else {
+            print("Missing Woori API Key")
             return nil
         }
         

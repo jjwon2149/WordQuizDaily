@@ -35,6 +35,16 @@
 "home.studyCount" = "学習した単語：%d個";
 "home.streakCount" = "連続学習：%d日";
 
+// MARK: - 今日の単語 (Today's Word)
+"todayWord.card.title" = "今日の単語カード";
+"todayWord.detail.title" = "単語の詳細";
+"todayWord.meaning.title" = "意味";
+"todayWord.easyKorean.title" = "やさしい韓国語";
+"todayWord.romanization.title" = "ローマ字表記";
+"todayWord.example.title" = "例文";
+"todayWord.difficulty.title" = "難易度";
+"todayWord.empty.message" = "今日の単語を読み込めませんでした。";
+
 // MARK: - クイズ画面 (Quiz Screen)
 "quiz.title" = "単語クイズ";
 "quiz.question" = "問題 %d / %d";
@@ -52,6 +62,19 @@
 "quiz.loadingImages" = "画像読み込み中...";
 "quiz.selectedWord" = "選択した単語";
 "quiz.isCorrect" = "正解";
+"quiz.prompt.chooseWord" = "意味に合う韓国語の単語を選んでください。";
+"quiz.prompt.chooseMeaning" = "正しい意味を選んでください。";
+"quiz.feedback.title" = "フィードバック";
+"quiz.feedback.correctTitle" = "正解";
+"quiz.feedback.correctMessage" = "よくできました。%@ の意味は %@ です。";
+"quiz.feedback.incorrectTitle" = "もう少し";
+"quiz.feedback.incorrectMessage" = "%@ の意味は %@ です。";
+"quiz.feedback.tryAgain" = "次の問題に進みましょう。";
+"quiz.feedback.reviewMeaning" = "意味をもう一度確認しましょう。";
+"quiz.result.title" = "クイズ結果";
+"quiz.result.summary" = "正解：%d / %d";
+"quiz.result.perfect" = "満点です。";
+"quiz.result.keepPracticing" = "続けて練習しましょう。";
 
 // MARK: - 設定画面 (Settings Screen)
 "settings.title" = "設定";
@@ -82,69 +105,12 @@
 "notification.alert.title" = "通知アラート";
 "notification.alert.message" = "通知設定がオフになっています。設定で通知をオンにしてください。";
 "notification.alert.goToSettings" = "移動";
-
-// MARK: - 共通 (Common)
-"common.ok" = "OK";
-"common.cancel" = "キャンセル";
-"common.save" = "保存";
-"common.delete" = "削除";
-"common.edit" = "編集";
-"common.done" = "完了";
-"common.loading" = "読み込み中...";
-"common.error" = "エラー";
-"common.retry" = "再試行";
-"common.close" = "閉じる";
-
-// MARK: - タブバー (Tab Bar)
-"tab.home" = "ホーム";
-"tab.quiz" = "クイズ";
-"tab.settings" = "設定";
-
-// MARK: - ホーム画面 (Home Screen)
-"home.title" = "単語クイズデイリー";
-"home.subtitle" = "毎日新しい単語と出会おう";
-"home.todayWord" = "今日の単語";
-"home.startQuiz" = "クイズを始める";
-"home.studyCount" = "学習した単語：%d個";
-"home.streakCount" = "連続学習：%d日";
-
-// MARK: - クイズ画面 (Quiz Screen)
-"quiz.title" = "単語クイズ";
-"quiz.question" = "問題 %d / %d";
-"quiz.nextButton" = "次へ";
-"quiz.submitButton" = "回答";
-"quiz.finishButton" = "終了";
-"quiz.correct" = "正解です！";
-"quiz.incorrect" = "不正解です。";
-"quiz.correctAnswer" = "正解：%@";
-"quiz.score" = "スコア：%d点";
-"quiz.completion" = "クイズ完了！";
-"quiz.totalScore" = "合計スコア：%d / %d";
-"quiz.restartButton" = "再開始";
-"quiz.homeButton" = "ホーム";
-"quiz.loadingImages" = "画像読み込み中...";
-"quiz.selectedWord" = "選択した単語";
-"quiz.isCorrect" = "正解";
-
-// MARK: - 設定画面 (Settings Screen)
-"settings.title" = "設定";
-"settings.notification" = "通知設定";
-"settings.language" = "言語";
-"settings.theme" = "テーマ";
-"settings.about" = "アプリについて";
-"settings.version" = "バージョン";
-"settings.contact" = "お問い合わせ";
-"settings.privacy" = "プライバシーポリシー";
-"settings.terms" = "利用規約";
-
-// MARK: - 通知設定 (Notification Settings)
-"notification.title" = "通知設定";
-"notification.daily" = "毎日の通知";
-"notification.time" = "通知時間";
-"notification.sound" = "通知音";
-"notification.permission.title" = "通知許可が必要です";
-"notification.permission.message" = "単語クイズの通知を受け取るには、通知許可が必要です。";
-"notification.permission.settings" = "設定へ移動";
+"notification.wordOfDay.title" = "今日の単語：%@";
+"notification.wordOfDay.bodyMeaning" = "意味：%@";
+"notification.wordOfDay.bodyEasyKorean" = "やさしい韓国語：%@";
+"notification.wordOfDay.bodyDefinition" = "韓国語の意味：%@";
+"notification.wordOfDay.bodyFallback" = "アプリで今日の韓国語単語を学習しましょう。";
+"notification.wordOfDay.fallbackWord" = "韓国語単語";
 
 // MARK: - エラーメッセージ (Error Messages)
 "error.network" = "ネットワーク接続を確認してください。";
@@ -167,6 +133,20 @@
 "word.learned" = "学習済み";
 "word.learning" = "学習中";
 "word.notStarted" = "未学習";
+"word.easyKorean" = "やさしい韓国語";
+"word.romanization" = "ローマ字表記";
+"word.englishMeaning" = "英語の意味";
+"word.partOfSpeech" = "品詞";
+"word.exampleKorean" = "韓国語の例文";
+"word.exampleTranslation" = "例文の意味";
+"word.feedback" = "フィードバック";
+"word.answer" = "答え";
+"word.hint" = "ヒント";
+"word.detail" = "詳細";
+"word.sourceDictionary" = "辞書出典";
+"word.difficulty.easy" = "やさしい";
+"word.difficulty.medium" = "ふつう";
+"word.difficulty.hard" = "難しい";
 
 // MARK: - サービス利用規約 (Terms of Service)
 "terms.title" = "サービス利用規約";
@@ -176,6 +156,7 @@
 "appVersion.title" = "アプリバージョン";
 "appVersion.current" = "現在のバージョン：1.0.3";
 "appVersion.updateHistory" = "更新履歴：\n- バージョン1.0.3";
+"appVersion.version100" = "バージョン1.0.0\n- 初回リリース";
 
 // MARK: - カスタマーサポート (Customer Service)
 "customerService.title" = "カスタマーサポート";
@@ -190,7 +171,3 @@
 "feedback.title" = "フィードバック";
 "feedback.content" = "アプリ使用中にご不便な点や改善事項がございましたら、いつでもフィードバックをお送りください。皆様のご意見は私たちにとって大きな助けとなります。";
 "feedback.contactInfo" = "フィードバック送信：\n- メール：jjwon2149@gmail.com\n- 鋭いご指摘をいただければすぐに反映いたします ^_^";
-"word.bookmark" = "ブックマーク";
-"word.learned" = "学習完了";
-"word.learning" = "学習中";
-"word.notStarted" = "未学習";

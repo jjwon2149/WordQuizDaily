@@ -23,6 +23,8 @@
 		4A14C9642B610F9C004EE0AF /* WordNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A14C9632B610F9C004EE0AF /* WordNetwork.swift */; };
 		4A14C9662B610FC0004EE0AF /* WordData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A14C9652B610FC0004EE0AF /* WordData.swift */; };
 		4A14C96B2B6171B5004EE0AF /* HardKoreanWords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A14C96A2B6171B5004EE0AF /* HardKoreanWords.swift */; };
+		4A8B10022E3D5A0100ABC001 /* LearningWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B10012E3D5A0100ABC001 /* LearningWord.swift */; };
+		4A8B10042E3D5A0100ABC001 /* LearningWordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B10032E3D5A0100ABC001 /* LearningWordRepository.swift */; };
 		4A3A37032E26AFA8008BF8EA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 4A3A37022E26AFA8008BF8EA /* Alamofire */; };
 		4A3A37082E26AFB2008BF8EA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4A3A37072E26AFB2008BF8EA /* Kingfisher */; };
 		4A3A370B2E26AFFD008BF8EA /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4A3A370A2E26AFFD008BF8EA /* FirebaseAnalytics */; };
@@ -90,6 +92,8 @@
 		4A14C9632B610F9C004EE0AF /* WordNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordNetwork.swift; sourceTree = "<group>"; };
 		4A14C9652B610FC0004EE0AF /* WordData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordData.swift; sourceTree = "<group>"; };
 		4A14C96A2B6171B5004EE0AF /* HardKoreanWords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardKoreanWords.swift; sourceTree = "<group>"; };
+		4A8B10012E3D5A0100ABC001 /* LearningWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningWord.swift; sourceTree = "<group>"; };
+		4A8B10032E3D5A0100ABC001 /* LearningWordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningWordRepository.swift; sourceTree = "<group>"; };
 		4A2462842C29457D00966E04 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		4A3A37102E26B16C008BF8EA /* FCMNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMNotificationManager.swift; sourceTree = "<group>"; };
 		4A3A37112E26B16C008BF8EA /* FCMService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMService.swift; sourceTree = "<group>"; };
@@ -251,6 +255,8 @@
 			isa = PBXGroup;
 			children = (
 				4A14C9652B610FC0004EE0AF /* WordData.swift */,
+				4A8B10012E3D5A0100ABC001 /* LearningWord.swift */,
+				4A8B10032E3D5A0100ABC001 /* LearningWordRepository.swift */,
 			);
 			path = Word;
 			sourceTree = "<group>";
@@ -438,6 +444,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A14C9662B610FC0004EE0AF /* WordData.swift in Sources */,
+				4A8B10022E3D5A0100ABC001 /* LearningWord.swift in Sources */,
+				4A8B10042E3D5A0100ABC001 /* LearningWordRepository.swift in Sources */,
 				4A14C95D2B610ABC004EE0AF /* HomeView.swift in Sources */,
 				4A3E084E2B82389800848B7B /* HTTPMethod.swift in Sources */,
 				4A3E08562B90893000848B7B /* HomeViewModel.swift in Sources */,

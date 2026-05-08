@@ -8,63 +8,109 @@
 import Foundation
 import Kingfisher
 
+enum QuizAnswerState: Equatable {
+    case waitingForAnswer
+    case correct
+    case incorrect
+}
+
 class QuizViewModel: ObservableObject, NaverNetworkDelegate {
-    
+
     @Published var choiceWord = [String]()
     @Published var correctWord: String = ""
     @Published var correctWordDefinition: String = ""
+    @Published var correctLearningWord: LearningWord?
+    @Published var selectedWord: String?
+    @Published var answerState: QuizAnswerState = .waitingForAnswer
     @Published var wordDataDictionary = [String: WordData]()
     @Published var imageData: NaverImageData?
     @Published var isLoading = false
-    @Published var errorMessage: String? //에러메세지
-    
+    @Published var isImageLoading = false
+    @Published var errorMessage: String?
+
     var naverNetwork = NaverNetwork.shared
     let hardKoreanWords = HardKoreanWords()
-    let wordNetwork = WordNetwork()
-    
-    init() {
+    private let learningWordRepository: LearningWordProviding
+
+    var hasSubmittedAnswer: Bool {
+        answerState != .waitingForAnswer
+    }
+
+    var isSelectedAnswerCorrect: Bool {
+        answerState == .correct
+    }
+
+    init(learningWordRepository: LearningWordProviding = LearningWordRepository.shared) {
+        self.learningWordRepository = learningWordRepository
         naverNetwork.delegate = self
         fetchData()
     }
-    
+
     func fetchData() {
         Task {
             await setupNewQuiz()
         }
     }
-    
-    //퀴즈 셋업
+
+    // 퀴즈 셋업
     @MainActor
     func setupNewQuiz() async {
         isLoading = true
-        correctWord = hardKoreanWords.hardWords.randomElement() ?? ""
-        choiceWord = await generateChoices()
-        
-        do {
-            let wordData = try await wordNetwork.searchWord(correctWord)
-            await handleWordData(word: correctWord, wordData: wordData)
-        } catch {
-            handleNetworkError(error)
+        errorMessage = nil
+        imageData = nil
+        selectedWord = nil
+        answerState = .waitingForAnswer
+
+        if let learningWord = learningWordRepository.randomWord(excluding: []) {
+            applyQuizWord(learningWord)
+            isLoading = false
+            fetchImageForWord(learningWord.korean)
+            return
         }
-        
+
+        correctLearningWord = nil
+        correctWord = hardKoreanWords.hardWords.randomElement() ?? ""
+        correctWordDefinition = "설명을 가져올 수 없습니다."
+        choiceWord = generateFallbackChoices()
         isLoading = false
     }
-    
-    //보기 생성
-    func generateChoices() async -> [String] {
+
+    // 보기 생성
+    func generateChoices() -> [String] {
+        guard let correctLearningWord else {
+            return generateFallbackChoices()
+        }
+
+        return learningWordRepository
+            .choices(for: correctLearningWord, count: 4)
+            .map(\.korean)
+    }
+
+    func generateFallbackChoices() -> [String] {
         var choices = [correctWord]
         while choices.count < 4 {
-            let randomWord = hardKoreanWords.hardWords.randomElement()!
+            guard let randomWord = hardKoreanWords.hardWords.randomElement() else {
+                break
+            }
             if !choices.contains(randomWord) {
                 choices.append(randomWord)
             }
         }
         return choices.shuffled()
     }
-    
-    //MARK: - KoreanWordSearchAPI
-    
-    // 단어 데이터 처리 메서드
+
+    private func applyQuizWord(_ word: LearningWord) {
+        correctLearningWord = word
+        correctWord = word.korean
+        correctWordDefinition = word.displayDefinition
+        wordDataDictionary[word.korean] = WordData(learningWord: word)
+        choiceWord = learningWordRepository
+            .choices(for: word, count: 4)
+            .map(\.korean)
+    }
+
+    // MARK: - KoreanWordSearchAPI
+
     func handleWordData(word: String, wordData: WordData?) async {
         DispatchQueue.main.async {
             if let wordData = wordData {
@@ -72,7 +118,6 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
                 if word == self.correctWord {
                     Task {
                         await self.fetchCorrectWordDefinition()
-                        self.fetchImageForWord(self.correctWord)
                     }
                 }
             } else {
@@ -81,8 +126,7 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
             self.isLoading = false
         }
     }
-    
-    // 정답 단어의 설명 가져오기
+
     func fetchCorrectWordDefinition() async {
         guard let wordData = wordDataDictionary[correctWord] else {
             DispatchQueue.main.async {
@@ -91,11 +135,10 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
             }
             return
         }
-        
-        if let firstSense = wordData.channel.item.first?.sense.first {
+
+        if let definition = wordData.firstDefinition {
             DispatchQueue.main.async {
-                self.correctWordDefinition = firstSense.definition
-                print(self.correctWordDefinition)
+                self.correctWordDefinition = definition
             }
         } else {
             DispatchQueue.main.async {
@@ -105,41 +148,56 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
         DispatchQueue.main.async {
             self.isLoading = false
         }
-        
     }
-    
-    //정답 확인 메서드 확인용
+
+    @discardableResult
     func checkAnswer(selectedWord: String) -> Bool {
-        return selectedWord == correctWord
-    }
-    //MARK: - NaverSearchAPI
-    
-    func fetchImageForWord (_ word: String) {
-        DispatchQueue.main.async {
-            self.isLoading = true
+        guard !isLoading, !hasSubmittedAnswer else {
+            return isSelectedAnswerCorrect
         }
-        
-        naverNetwork.requestSearchImage(query: word){ [weak self] in
-            // 이미지 데이터 로드 완료 시에만 isLoading을 false로 설정
+
+        self.selectedWord = selectedWord
+        let isCorrect = selectedWord == correctWord
+        answerState = isCorrect ? .correct : .incorrect
+        return isCorrect
+    }
+
+    @MainActor
+    func moveToNextQuiz() {
+        guard !isLoading else { return }
+        fetchData()
+    }
+
+    // MARK: - NaverSearchAPI
+
+    func fetchImageForWord(_ word: String) {
+        DispatchQueue.main.async {
+            self.isImageLoading = true
+        }
+
+        naverNetwork.requestSearchImage(query: word) { [weak self] in
             DispatchQueue.main.async {
-                self?.isLoading = false
+                self?.isImageLoading = false
             }
         }
     }
-    
-    //MARK: - NaverNetworkDelegate
+
+    // MARK: - NaverNetworkDelegate
+
     func imageDataUpdated(_ imageData: NaverImageData?) {
-        //publishing changes from background threads is not allowed의 에러가 나와 변경.
         DispatchQueue.main.async { [weak self] in
             self?.imageData = imageData
+            self?.isImageLoading = false
         }
     }
-    
-    //MARK: - Error Handling
+
+    // MARK: - Error Handling
+
     func handleNetworkError(_ error: Error) {
         DispatchQueue.main.async {
             self.errorMessage = error.localizedDescription
             self.isLoading = false
+            self.isImageLoading = false
         }
     }
 }

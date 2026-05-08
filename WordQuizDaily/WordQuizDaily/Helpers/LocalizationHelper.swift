@@ -30,6 +30,18 @@ struct LocalizationHelper {
         "en": "English",
         "ja": "日本語"
     ]
+
+    /// 지원 언어 코드로 정규화
+    /// - Parameter language: 언어 코드 (예: "ko", "en-US", "ja")
+    /// - Returns: 앱에서 지원하는 언어 코드
+    static func normalizedLanguageCode(_ language: String?) -> String {
+        guard let languageCode = language?.split(separator: "-").first.map(String.init),
+              supportedLanguages.contains(languageCode) else {
+            return "ko"
+        }
+
+        return languageCode
+    }
     
     /// 특정 키에 대한 로컬라이즈된 문자열 반환
     /// - Parameters:
@@ -39,6 +51,21 @@ struct LocalizationHelper {
     static func localizedString(for key: String, arguments: CVarArg...) -> String {
         let format = NSLocalizedString(key, comment: "")
         return String(format: format, arguments: arguments)
+    }
+
+    /// 특정 언어 리소스에서 로컬라이즈된 문자열 반환
+    /// - Parameters:
+    ///   - key: 로컬라이제이션 키
+    ///   - language: 언어 코드
+    ///   - arguments: 문자열 포맷 인수
+    /// - Returns: 로컬라이즈된 문자열
+    static func localizedString(for key: String, language: String, arguments: CVarArg...) -> String {
+        let normalizedLanguage = normalizedLanguageCode(language)
+        let bundlePath = Bundle.main.path(forResource: normalizedLanguage, ofType: "lproj")
+        let bundle = bundlePath.flatMap(Bundle.init(path:)) ?? .main
+        let format = NSLocalizedString(key, bundle: bundle, comment: "")
+
+        return String(format: format, locale: Locale(identifier: normalizedLanguage), arguments: arguments)
     }
 }
 
@@ -113,6 +140,18 @@ enum LocalizationKeys {
         static let studyCount = "home.studyCount"
         static let streakCount = "home.streakCount"
     }
+
+    // MARK: Today's Word
+    enum TodayWord {
+        static let cardTitle = "todayWord.card.title"
+        static let detailTitle = "todayWord.detail.title"
+        static let meaningTitle = "todayWord.meaning.title"
+        static let easyKoreanTitle = "todayWord.easyKorean.title"
+        static let romanizationTitle = "todayWord.romanization.title"
+        static let exampleTitle = "todayWord.example.title"
+        static let difficultyTitle = "todayWord.difficulty.title"
+        static let emptyMessage = "todayWord.empty.message"
+    }
     
     // MARK: Quiz Screen
     enum Quiz {
@@ -132,6 +171,19 @@ enum LocalizationKeys {
         static let loadingImages = "quiz.loadingImages"
         static let selectedWord = "quiz.selectedWord"
         static let isCorrect = "quiz.isCorrect"
+        static let chooseWordPrompt = "quiz.prompt.chooseWord"
+        static let chooseMeaningPrompt = "quiz.prompt.chooseMeaning"
+        static let feedbackTitle = "quiz.feedback.title"
+        static let feedbackCorrectTitle = "quiz.feedback.correctTitle"
+        static let feedbackCorrectMessage = "quiz.feedback.correctMessage"
+        static let feedbackIncorrectTitle = "quiz.feedback.incorrectTitle"
+        static let feedbackIncorrectMessage = "quiz.feedback.incorrectMessage"
+        static let feedbackTryAgain = "quiz.feedback.tryAgain"
+        static let feedbackReviewMeaning = "quiz.feedback.reviewMeaning"
+        static let resultTitle = "quiz.result.title"
+        static let resultSummary = "quiz.result.summary"
+        static let resultPerfect = "quiz.result.perfect"
+        static let resultKeepPracticing = "quiz.result.keepPracticing"
     }
     
     // MARK: Settings Screen
@@ -166,6 +218,12 @@ enum LocalizationKeys {
         static let alertTitle = "notification.alert.title"
         static let alertMessage = "notification.alert.message"
         static let alertGoToSettings = "notification.alert.goToSettings"
+        static let wordOfDayTitle = "notification.wordOfDay.title"
+        static let wordOfDayBodyMeaning = "notification.wordOfDay.bodyMeaning"
+        static let wordOfDayBodyEasyKorean = "notification.wordOfDay.bodyEasyKorean"
+        static let wordOfDayBodyDefinition = "notification.wordOfDay.bodyDefinition"
+        static let wordOfDayBodyFallback = "notification.wordOfDay.bodyFallback"
+        static let wordOfDayFallbackWord = "notification.wordOfDay.fallbackWord"
     }
     
     // MARK: Error Messages
@@ -194,6 +252,20 @@ enum LocalizationKeys {
         static let learned = "word.learned"
         static let learning = "word.learning"
         static let notStarted = "word.notStarted"
+        static let easyKorean = "word.easyKorean"
+        static let romanization = "word.romanization"
+        static let englishMeaning = "word.englishMeaning"
+        static let partOfSpeech = "word.partOfSpeech"
+        static let exampleKorean = "word.exampleKorean"
+        static let exampleTranslation = "word.exampleTranslation"
+        static let feedback = "word.feedback"
+        static let answer = "word.answer"
+        static let hint = "word.hint"
+        static let detail = "word.detail"
+        static let sourceDictionary = "word.sourceDictionary"
+        static let difficultyEasy = "word.difficulty.easy"
+        static let difficultyMedium = "word.difficulty.medium"
+        static let difficultyHard = "word.difficulty.hard"
     }
     
     // MARK: Terms of Service

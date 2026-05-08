@@ -31,6 +31,16 @@
 "home.studyCount" = "학습한 단어: %d개";
 "home.streakCount" = "연속 학습: %d일";
 
+// MARK: - 오늘의 단어 (Today's Word)
+"todayWord.card.title" = "오늘의 단어 카드";
+"todayWord.detail.title" = "오늘의 단어 자세히 보기";
+"todayWord.meaning.title" = "뜻";
+"todayWord.easyKorean.title" = "쉬운 한국어";
+"todayWord.romanization.title" = "로마자 표기";
+"todayWord.example.title" = "예문";
+"todayWord.difficulty.title" = "난이도";
+"todayWord.empty.message" = "오늘의 단어를 불러오지 못했습니다.";
+
 // MARK: - 퀴즈 화면 (Quiz Screen)
 "quiz.title" = "단어 퀴즈";
 "quiz.question" = "문제 %d / %d";
@@ -48,6 +58,19 @@
 "quiz.loadingImages" = "이미지 로딩 중...";
 "quiz.selectedWord" = "선택된 단어";
 "quiz.isCorrect" = "정답";
+"quiz.prompt.chooseWord" = "뜻에 맞는 한국어 단어를 고르세요.";
+"quiz.prompt.chooseMeaning" = "알맞은 뜻을 고르세요.";
+"quiz.feedback.title" = "피드백";
+"quiz.feedback.correctTitle" = "정답";
+"quiz.feedback.correctMessage" = "좋아요. %@의 뜻은 %@입니다.";
+"quiz.feedback.incorrectTitle" = "아쉬워요";
+"quiz.feedback.incorrectMessage" = "%@의 뜻은 %@입니다.";
+"quiz.feedback.tryAgain" = "다음 문제에 도전해 보세요.";
+"quiz.feedback.reviewMeaning" = "뜻을 다시 확인하고 기억해 보세요.";
+"quiz.result.title" = "퀴즈 결과";
+"quiz.result.summary" = "정답: %d / %d";
+"quiz.result.perfect" = "모두 맞혔습니다.";
+"quiz.result.keepPracticing" = "계속 연습해 보세요.";
 
 // MARK: - 설정 화면 (Settings Screen)
 "settings.title" = "설정";
@@ -78,6 +101,12 @@
 "notification.alert.title" = "알림 설정 필요";
 "notification.alert.message" = "알림 설정이 꺼져있습니다. 설정에서 알림을 켜주세요.";
 "notification.alert.goToSettings" = "이동";
+"notification.wordOfDay.title" = "오늘의 단어: %@";
+"notification.wordOfDay.bodyMeaning" = "영어 뜻: %@";
+"notification.wordOfDay.bodyEasyKorean" = "쉬운 한국어: %@";
+"notification.wordOfDay.bodyDefinition" = "뜻: %@";
+"notification.wordOfDay.bodyFallback" = "앱에서 오늘의 한국어 단어를 학습해 보세요.";
+"notification.wordOfDay.fallbackWord" = "한국어 단어";
 
 // MARK: - 오류 메시지 (Error Messages)
 "error.network" = "네트워크 연결을 확인해주세요.";
@@ -100,6 +129,20 @@
 "word.learned" = "학습 완료";
 "word.learning" = "학습 중";
 "word.notStarted" = "학습 전";
+"word.easyKorean" = "쉬운 한국어";
+"word.romanization" = "로마자 표기";
+"word.englishMeaning" = "영어 뜻";
+"word.partOfSpeech" = "품사";
+"word.exampleKorean" = "한국어 예문";
+"word.exampleTranslation" = "예문 뜻";
+"word.feedback" = "피드백";
+"word.answer" = "정답";
+"word.hint" = "힌트";
+"word.detail" = "자세히 보기";
+"word.sourceDictionary" = "사전 출처";
+"word.difficulty.easy" = "쉬움";
+"word.difficulty.medium" = "보통";
+"word.difficulty.hard" = "어려움";
 
 // MARK: - 서비스 약관 (Terms of Service)
 "terms.title" = "서비스 약관";
@@ -109,6 +152,7 @@
 "appVersion.title" = "앱 버전";
 "appVersion.current" = "현재 버전: 1.0.3";
 "appVersion.updateHistory" = "업데이트 내역:\n- 버전 1.0.3";
+"appVersion.version100" = "버전 1.0.0\n- 최초 출시";
 
 // MARK: - 고객 지원 (Customer Service)
 "customerService.title" = "고객 지원";

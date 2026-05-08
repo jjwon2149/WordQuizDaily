@@ -9,8 +9,13 @@
 import Foundation
 
 struct HardKoreanWords {
+    var hardWords: [String] {
+        let learningWords = LearningWordRepository.shared.koreanWords
+        return learningWords.isEmpty ? legacyHardWords : learningWords
+    }
+
     //명사, 대명사, 의존명사 사용
-    let hardWords = [
+    private let legacyHardWords = [
         // ㄱ
         "가닥", "가상", "가설", "각광", "각오", "갈등", "갈피", "개발", "거리낌", "걸림돌",
         "겨를", "격려", "견문", "견본", "결손", "결의", "결핍", "결함", "경쟁", "경향",
