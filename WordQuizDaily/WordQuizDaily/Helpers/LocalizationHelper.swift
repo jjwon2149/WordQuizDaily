@@ -169,6 +169,7 @@ enum LocalizationKeys {
         static let restartButton = "quiz.restartButton"
         static let homeButton = "quiz.homeButton"
         static let loadingImages = "quiz.loadingImages"
+        static let imageUnavailable = "quiz.imageUnavailable"
         static let selectedWord = "quiz.selectedWord"
         static let isCorrect = "quiz.isCorrect"
         static let chooseWordPrompt = "quiz.prompt.chooseWord"

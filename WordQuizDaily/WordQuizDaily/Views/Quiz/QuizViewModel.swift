@@ -58,13 +58,13 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
         isLoading = true
         errorMessage = nil
         imageData = nil
+        isImageLoading = false
         selectedWord = nil
         answerState = .waitingForAnswer
 
         if let learningWord = learningWordRepository.randomWord(excluding: []) {
             applyQuizWord(learningWord)
             isLoading = false
-            fetchImageForWord(learningWord.korean)
             return
         }
 
@@ -159,6 +159,7 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
         self.selectedWord = selectedWord
         let isCorrect = selectedWord == correctWord
         answerState = isCorrect ? .correct : .incorrect
+        fetchImageForWord(correctWord)
         return isCorrect
     }
 
@@ -172,6 +173,7 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
 
     func fetchImageForWord(_ word: String) {
         DispatchQueue.main.async {
+            self.imageData = nil
             self.isImageLoading = true
         }
 

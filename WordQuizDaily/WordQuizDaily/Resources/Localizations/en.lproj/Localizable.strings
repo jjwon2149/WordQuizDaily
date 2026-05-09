@@ -55,6 +55,7 @@
 "quiz.restartButton" = "Restart";
 "quiz.homeButton" = "Home";
 "quiz.loadingImages" = "Loading images...";
+"quiz.imageUnavailable" = "Image unavailable.";
 "quiz.selectedWord" = "Selected word";
 "quiz.isCorrect" = "Correct";
 "quiz.prompt.chooseWord" = "Choose the Korean word that matches the meaning.";

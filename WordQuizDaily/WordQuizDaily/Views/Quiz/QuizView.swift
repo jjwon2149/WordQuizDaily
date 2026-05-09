@@ -35,19 +35,21 @@ struct answerImageView: View {
 
     var body: some View {
         VStack {
-            if quizViewModel.isImageLoading {
+            if !quizViewModel.hasSubmittedAnswer {
+                neutralPlaceholder
+            } else if quizViewModel.isImageLoading {
                 ProgressView(LocalizedStringKey(LocalizationKeys.Quiz.loadingImages))
                     .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180, alignment: .center)
             } else if let imageURL = imageURL {
                 KFImage(imageURL)
                     .placeholder {
-                        imagePlaceholder
+                        neutralPlaceholder
                     }
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180, alignment: .center)
             } else {
-                imagePlaceholder
+                unavailablePlaceholder
             }
         }
         .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180)
@@ -62,12 +64,21 @@ struct answerImageView: View {
         return URL(string: imageLink)
     }
 
-    private var imagePlaceholder: some View {
+    private var neutralPlaceholder: some View {
         VStack(spacing: 8) {
             Image(systemName: "photo")
                 .font(.title2)
                 .foregroundColor(.secondary)
-            Text(quizViewModel.correctLearningWord?.romanization ?? quizViewModel.correctWord)
+        }
+        .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180, alignment: .center)
+    }
+
+    private var unavailablePlaceholder: some View {
+        VStack(spacing: 8) {
+            Image(systemName: "photo")
+                .font(.title2)
+                .foregroundColor(.secondary)
+            Text(LocalizedStringKey(LocalizationKeys.Quiz.imageUnavailable))
                 .font(.subheadline)
                 .foregroundColor(.secondary)
         }
