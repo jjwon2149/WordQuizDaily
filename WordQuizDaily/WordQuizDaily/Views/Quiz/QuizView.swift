@@ -35,13 +35,9 @@ struct answerImageView: View {
 
     var body: some View {
         VStack {
-            if !quizViewModel.hasSubmittedAnswer {
-                neutralPlaceholder
-            } else if quizViewModel.isImageLoading {
+            if quizViewModel.isImageLoading {
                 ProgressView(LocalizedStringKey(LocalizationKeys.Quiz.loadingImages))
                     .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180, alignment: .center)
-            } else if quizViewModel.hasImageRenderFailed || quizViewModel.imageError != nil {
-                unavailablePlaceholder
             } else if let imageItem = quizViewModel.imageData?.preferredItem,
                       !imageItem.imageURLCandidates.isEmpty {
                 AnswerRemoteImage(
@@ -50,8 +46,10 @@ struct answerImageView: View {
                     onUnavailable: quizViewModel.handleAllImageCandidatesFailed
                 )
                 .id("\(imageItem.thumbnail)-\(imageItem.link)")
-            } else {
+            } else if quizViewModel.hasImageRenderFailed || quizViewModel.imageError != nil {
                 unavailablePlaceholder
+            } else {
+                neutralPlaceholder
             }
         }
         .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180)
@@ -132,20 +130,14 @@ struct answerExplainView: View {
                     .frame(maxWidth: .infinity, minHeight: 90, alignment: .center)
             } else {
                 if let learningWord = quizViewModel.correctLearningWord {
-                    HStack(spacing: 8) {
-                        Text(learningWord.difficulty)
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .foregroundColor(.blue)
-                            .background(Color.blue.opacity(0.12))
-                            .clipShape(Capsule())
-
-                        Text(learningWord.romanization)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
+                    Text(learningWord.difficulty)
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .foregroundColor(.blue)
+                        .background(Color.blue.opacity(0.12))
+                        .clipShape(Capsule())
                 }
 
                 Text(quizViewModel.correctWordDefinition)
