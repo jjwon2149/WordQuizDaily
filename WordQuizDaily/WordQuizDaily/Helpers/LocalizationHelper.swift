@@ -35,7 +35,7 @@ struct LocalizationHelper {
     /// - Parameter language: 언어 코드 (예: "ko", "en-US", "ja")
     /// - Returns: 앱에서 지원하는 언어 코드
     static func normalizedLanguageCode(_ language: String?) -> String {
-        guard let languageCode = language?.split(separator: "-").first.map(String.init),
+        guard let languageCode = language?.split(whereSeparator: { $0 == "-" || $0 == "_" }).first.map(String.init),
               supportedLanguages.contains(languageCode) else {
             return "ko"
         }
@@ -267,6 +267,7 @@ enum LocalizationKeys {
         static let difficultyEasy = "word.difficulty.easy"
         static let difficultyMedium = "word.difficulty.medium"
         static let difficultyHard = "word.difficulty.hard"
+        static let partOfSpeechNoun = "word.partOfSpeech.noun"
     }
     
     // MARK: Terms of Service

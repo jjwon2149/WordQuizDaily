@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     @EnvironmentObject var homeViewModel: HomeViewModel
+    @Environment(\.locale) private var locale
     
     var body: some View {
         NavigationStack {
@@ -22,21 +23,30 @@ struct HomeView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         TodayWordSummaryCard(
                             word: homeViewModel.toDayWord,
-                            learningWord: homeViewModel.todayLearningWord
+                            learningWord: homeViewModel.todayLearningWord,
+                            languageCode: locale.identifier
                         )
 
                         if let learningWord = homeViewModel.todayLearningWord {
-                            LearnerDetailCard(
-                                title: LocalizedStringKey(LocalizationKeys.Word.englishMeaning),
-                                text: learningWord.englishMeaning
-                            )
+                            let languageCode = locale.identifier
+                            let normalizedLanguage = LocalizationHelper.normalizedLanguageCode(languageCode)
+
+                            if normalizedLanguage == "en" {
+                                LearnerDetailCard(
+                                    title: LocalizedStringKey(LocalizationKeys.Word.englishMeaning),
+                                    text: learningWord.englishMeaning
+                                )
+                            }
 
                             LearnerDetailCard(
                                 title: LocalizedStringKey(LocalizationKeys.Word.easyKorean),
                                 text: learningWord.easyKoreanDefinition
                             )
 
-                            ExampleDetailCard(learningWord: learningWord)
+                            ExampleDetailCard(
+                                learningWord: learningWord,
+                                languageCode: languageCode
+                            )
                         } else if !homeViewModel.toDayWordDefinition.isEmpty {
                             LearnerDetailCard(
                                 title: LocalizedStringKey(LocalizationKeys.Word.easyKorean),
@@ -63,6 +73,7 @@ struct HomeView: View {
 private struct TodayWordSummaryCard: View {
     let word: String
     let learningWord: LearningWord?
+    let languageCode: String
 
     private let columns = [
         GridItem(.flexible(), alignment: .leading),
@@ -90,11 +101,11 @@ private struct TodayWordSummaryCard: View {
                 LazyVGrid(columns: columns, alignment: .leading, spacing: 14) {
                     MetadataBlock(
                         title: LocalizedStringKey(LocalizationKeys.Word.difficulty),
-                        value: learningWord.difficulty
+                        value: learningWord.localizedDifficulty(for: languageCode)
                     )
                     MetadataBlock(
                         title: LocalizedStringKey(LocalizationKeys.Word.partOfSpeech),
-                        value: learningWord.partOfSpeech
+                        value: learningWord.localizedPartOfSpeech(for: languageCode)
                     )
                     MetadataBlock(
                         title: LocalizedStringKey(LocalizationKeys.Word.romanization),
@@ -155,6 +166,7 @@ private struct LearnerDetailCard: View {
 
 private struct ExampleDetailCard: View {
     let learningWord: LearningWord
+    let languageCode: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -170,16 +182,18 @@ private struct ExampleDetailCard: View {
 
             Divider()
 
-            VStack(alignment: .leading, spacing: 6) {
-                Text(LocalizedStringKey(LocalizationKeys.Word.exampleTranslation))
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.secondary)
+            if let exampleTranslation = learningWord.exampleTranslation(for: languageCode) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(LocalizedStringKey(LocalizationKeys.Word.exampleTranslation))
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.secondary)
 
-                Text(learningWord.exampleTranslation)
-                    .font(.callout)
-                    .foregroundStyle(.primary)
-                    .lineSpacing(3)
-                    .fixedSize(horizontal: false, vertical: true)
+                    Text(exampleTranslation)
+                        .font(.callout)
+                        .foregroundStyle(.primary)
+                        .lineSpacing(3)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
         }
         .padding(18)

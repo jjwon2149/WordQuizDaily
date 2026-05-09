@@ -122,6 +122,7 @@ struct AnswerRemoteImage: View {
 struct answerExplainView: View {
 
     @EnvironmentObject var quizViewModel: QuizViewModel
+    @Environment(\.locale) private var locale
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -130,7 +131,7 @@ struct answerExplainView: View {
                     .frame(maxWidth: .infinity, minHeight: 90, alignment: .center)
             } else {
                 if let learningWord = quizViewModel.correctLearningWord {
-                    Text(learningWord.difficulty)
+                    Text(learningWord.localizedDifficulty(for: locale.identifier))
                         .font(.caption)
                         .fontWeight(.semibold)
                         .padding(.horizontal, 8)
@@ -276,7 +277,8 @@ struct QuizFeedbackView: View {
                         .foregroundColor(.primary)
 
                     FeedbackDetailRow(titleKey: LocalizationKeys.Word.meaning, value: feedbackMeaning)
-                    FeedbackDetailRow(titleKey: LocalizationKeys.Word.difficulty, value: learningWord.difficulty)
+                    FeedbackDetailRow(titleKey: LocalizationKeys.Word.difficulty, value: learningWord.localizedDifficulty(for: languageCode))
+                    FeedbackDetailRow(titleKey: LocalizationKeys.Word.romanization, value: learningWord.romanization)
                     FeedbackDetailRow(titleKey: LocalizationKeys.Word.example, value: learningWord.example)
 
                     if let exampleTranslation = learningWord.exampleTranslation(for: languageCode) {

@@ -27,15 +27,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         // UNUserNotificationCenter 델리게이트 설정
         UNUserNotificationCenter.current().delegate = self
-        
-        // 푸시 알림 권한 요청
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-            print("FCM Permission granted: \(granted)")
-            if let error = error {
-                print("FCM Permission error: \(error.localizedDescription)")
-            }
-        }
-        
+
         // 원격 알림 등록
         application.registerForRemoteNotifications()
         

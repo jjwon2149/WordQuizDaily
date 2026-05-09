@@ -28,6 +28,17 @@ enum LearningWordDifficulty: String, Codable, CaseIterable, Comparable, Hashable
     var displayName: String {
         rawValue.capitalized
     }
+
+    var localizationKey: String {
+        switch self {
+        case .beginner:
+            return LocalizationKeys.Word.difficultyEasy
+        case .intermediate:
+            return LocalizationKeys.Word.difficultyMedium
+        case .advanced:
+            return LocalizationKeys.Word.difficultyHard
+        }
+    }
 }
 
 struct LearningWord: Identifiable, Codable, Hashable {
@@ -142,9 +153,35 @@ struct LearningWord: Identifiable, Codable, Hashable {
         }
     }
 
+    func localizedDifficulty(for languageCode: String = LocalizationHelper.currentLanguage) -> String {
+        let difficultyKey: String
+
+        switch difficulty.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+        case LearningWordDifficulty.beginner.rawValue, "easy":
+            difficultyKey = LearningWordDifficulty.beginner.localizationKey
+        case LearningWordDifficulty.intermediate.rawValue, "medium":
+            difficultyKey = LearningWordDifficulty.intermediate.localizationKey
+        case LearningWordDifficulty.advanced.rawValue, "hard":
+            difficultyKey = LearningWordDifficulty.advanced.localizationKey
+        default:
+            return difficulty
+        }
+
+        return LocalizationHelper.localizedString(for: difficultyKey, language: languageCode)
+    }
+
+    func localizedPartOfSpeech(for languageCode: String = LocalizationHelper.currentLanguage) -> String {
+        switch partOfSpeech.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+        case "noun":
+            return LocalizationHelper.localizedString(for: LocalizationKeys.Word.partOfSpeechNoun, language: languageCode)
+        default:
+            return partOfSpeech
+        }
+    }
+
     private static func normalizedLanguageCode(_ languageCode: String) -> String {
         languageCode
-            .split { $0 == "-" || $0 == "_" }
+            .split(whereSeparator: { $0 == "-" || $0 == "_" })
             .first
             .map(String.init)?
             .lowercased() ?? "ko"

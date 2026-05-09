@@ -217,7 +217,8 @@ extension FCMService {
             arguments: todayWord
         )
 
-        if let englishMeaning = storedLearningString(forKey: "TodayWordEnglishMeaning") {
+        if normalizedLanguage == "en",
+           let englishMeaning = storedLearningString(forKey: "TodayWordEnglishMeaning") {
             let body = LocalizationHelper.localizedString(
                 for: LocalizationKeys.Notification.wordOfDayBodyMeaning,
                 language: normalizedLanguage,

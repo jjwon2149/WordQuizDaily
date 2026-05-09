@@ -145,9 +145,10 @@
 "word.hint" = "ヒント";
 "word.detail" = "詳細";
 "word.sourceDictionary" = "辞書出典";
-"word.difficulty.easy" = "やさしい";
-"word.difficulty.medium" = "ふつう";
-"word.difficulty.hard" = "難しい";
+"word.difficulty.easy" = "初級";
+"word.difficulty.medium" = "中級";
+"word.difficulty.hard" = "上級";
+"word.partOfSpeech.noun" = "名詞";
 
 // MARK: - サービス利用規約 (Terms of Service)
 "terms.title" = "サービス利用規約";

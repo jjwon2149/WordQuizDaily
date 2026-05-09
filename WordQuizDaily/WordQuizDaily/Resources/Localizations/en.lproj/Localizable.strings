@@ -140,9 +140,10 @@
 "word.hint" = "Hint";
 "word.detail" = "Details";
 "word.sourceDictionary" = "Dictionary Source";
-"word.difficulty.easy" = "Easy";
-"word.difficulty.medium" = "Medium";
-"word.difficulty.hard" = "Hard";
+"word.difficulty.easy" = "Beginner";
+"word.difficulty.medium" = "Intermediate";
+"word.difficulty.hard" = "Advanced";
+"word.partOfSpeech.noun" = "Noun";
 
 // MARK: - Terms of Service
 "terms.title" = "Terms of Service";

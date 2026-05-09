@@ -14,6 +14,7 @@ struct ContentView: View {
     // FCM 기반 알림 매니저로 교체
     @StateObject var notificationManager = FCMNotificationManager()
     @EnvironmentObject var fcmService: FCMService
+    @Environment(\.scenePhase) private var scenePhase
     @State private var selection = 2
     
     var body: some View {
@@ -48,6 +49,11 @@ struct ContentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name("NavigateToTodayWord"))) { _ in
             selection = 2 // 홈 화면으로 이동 (오늘의 단어가 홈에 있다고 가정)
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                homeViewModel.fetchTodayWordOnceADay()
+            }
         }
     }
 }

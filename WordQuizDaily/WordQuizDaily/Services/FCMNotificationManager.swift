@@ -216,6 +216,14 @@ private extension FCMNotificationManager {
                 UserDefaults.shared.set(wordData, forKey: "TodayWord")
                 UserDefaults.shared.set(definitionData, forKey: "TodayWordDefinition")
             }
+
+            if let easyKoreanData = notification.data["todayWordEasyKorean"] as? String {
+                UserDefaults.shared.set(easyKoreanData, forKey: "TodayWordEasyKorean")
+            }
+
+            if let englishMeaningData = notification.data["todayWordEnglishMeaning"] as? String {
+                UserDefaults.shared.set(englishMeaningData, forKey: "TodayWordEnglishMeaning")
+            }
         }
     }
     

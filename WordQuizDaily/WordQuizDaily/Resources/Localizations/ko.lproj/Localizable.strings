@@ -141,9 +141,10 @@
 "word.hint" = "힌트";
 "word.detail" = "자세히 보기";
 "word.sourceDictionary" = "사전 출처";
-"word.difficulty.easy" = "쉬움";
-"word.difficulty.medium" = "보통";
-"word.difficulty.hard" = "어려움";
+"word.difficulty.easy" = "초급";
+"word.difficulty.medium" = "중급";
+"word.difficulty.hard" = "고급";
+"word.partOfSpeech.noun" = "명사";
 
 // MARK: - 서비스 약관 (Terms of Service)
 "terms.title" = "서비스 약관";
