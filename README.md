@@ -1,93 +1,125 @@
-# 우리말 단어 퀴즈 - Korean Words Quiz
+# WordQuizDaily
 
-![App Logo](WordQuizDaily/WordQuizDaily/Assets.xcassets/AppIcon.appiconset/114.png)
+![iOS](https://img.shields.io/badge/iOS-17.0+-111827?style=flat-square&logo=apple&logoColor=white)
+![SwiftUI](https://img.shields.io/badge/SwiftUI-Production_App-0ea5e9?style=flat-square&logo=swift&logoColor=white)
+![Localization](https://img.shields.io/badge/Localization-KO%20%7C%20EN%20%7C%20JA-16a34a?style=flat-square)
+![Status](https://img.shields.io/badge/App%20Store-Live-2563eb?style=flat-square)
 
-## 소개
+**WordQuizDaily** is a SwiftUI vocabulary learning app that helps learners review one Korean word every day, solve short quizzes, and keep a steady study rhythm through reminders.
 
-우리말 단어 퀴즈는 한국어 단어를 매일 확인하고 퀴즈로 복습하는 iOS 앱입니다. 현재 앱의 핵심 흐름인 오늘의 단어, 단어 퀴즈, 알림 설정을 유지하면서, MVP 개선 방향은 외국인 한국어 학습자가 단어의 의미와 사용 맥락을 더 쉽게 이해하도록 돕는 것입니다.
+The project is built as a real App Store product, with localized resources, widget support, push notification integration, and a local learning-word model designed to keep the core study flow available even when remote services are unavailable.
 
-외국인 학습자용 MVP는 서버 연동 없이 앱에 포함된 로컬 학습 데이터를 기준으로 동작하는 것을 원칙으로 합니다. 단어별 영어 뜻, 쉬운 한국어 설명, 로마자 표기, 예문, 난이도, 오답 피드백을 제공해 네트워크 상태와 관계없이 기본 학습 경험을 보장하는 것이 목표입니다.
+[View App Store](https://apps.apple.com/kr/app/%EC%9A%B0%EB%A6%AC%EB%A7%90-%EB%8B%A8%EC%96%B4-%ED%80%B4%EC%A6%88-korean-words-quiz/id6505052767) · [Product Page](https://jjwon2149.github.io/WordQuizDaily/) · [Project Docs](docs/README.md)
 
-## MVP 개선 방향
+![WordQuizDaily screenshots](docs/groupScreenshot.png)
 
-- **대상 사용자**: 한국어 어휘를 배우는 외국인 학습자
-- **데이터 정책**: 원격 서버, CMS, 원격 DB 연동은 MVP 범위에서 제외하고 앱 번들 또는 로컬 코드 기반 데이터를 사용합니다.
-- **학습 콘텐츠**: 한국어 단어, 영어 뜻, 쉬운 한국어 설명, 로마자 표기, 품사, 난이도, 예문, 예문 번역, 오답 피드백을 단어 단위로 관리합니다.
-- **기존 기능 유지**: 오늘의 단어, 퀴즈, 알림 설정 흐름은 제거하지 않고 학습자용 데이터로 보강합니다.
-- **네트워크 의존도 축소**: 사전/이미지 API 호출 여부와 관계없이 핵심 단어 설명과 퀴즈가 표시될 수 있어야 합니다.
+## Why This Project Stands Out
 
-## 기능
+- **Product-minded iOS implementation**: today word, quiz, reminder, widget, and App Store presentation are treated as one user journey.
+- **Offline-first learning data**: the MVP learning content is stored locally so definitions, examples, romanization, and feedback can load without depending on a server.
+- **Localized learner experience**: Korean, English, and Japanese resources support a broader learner audience.
+- **Maintainable SwiftUI structure**: screens, view models, models, network clients, services, helpers, and localization resources are separated by responsibility.
+- **Recruiter-friendly documentation**: product scope, architecture notes, QA checklist, and implementation boundaries are documented for reviewers.
 
-- **오늘의 단어**: 매일 하나의 한국어 단어와 학습자용 설명을 확인합니다.
-- **퀴즈**: 한국어 단어의 뜻과 예문을 바탕으로 객관식 퀴즈를 풉니다.
-- **오답 피드백**: MVP에서는 틀린 선택지에 대해 쉬운 설명과 복습 힌트를 제공하는 방향으로 개선합니다.
-- **알림**: 오늘의 단어를 잊지 않도록 알림 설정 흐름을 유지합니다. MVP의 알림 콘텐츠는 로컬 학습 데이터에서 가져오는 것을 기준으로 합니다.
-- **다국어 문구**: 기존 한국어, 영어, 일본어 리소스를 유지하면서 외국인 학습자용 라벨과 피드백 문구를 추가합니다.
+## Core Features
 
-## 로컬 학습 데이터 필드
-
-MVP 단어 데이터는 오늘의 단어, 퀴즈, 알림이 같은 콘텐츠를 재사용할 수 있도록 공통 모델로 관리합니다.
-
-| 필드 | 용도 |
+| Area | Description |
 | --- | --- |
-| `id` | 단어를 안정적으로 식별하는 고유 값 |
-| `korean` | 화면과 퀴즈에 표시할 한국어 단어 |
-| `romanization` | 한글을 아직 빠르게 읽기 어려운 학습자를 위한 로마자 표기 |
-| `partOfSpeech` | 명사, 동사, 형용사 등 품사 정보 |
-| `difficulty` | beginner, intermediate, advanced 등 난이도 구분 |
-| `englishMeaning` | 가장 짧고 명확한 영어 뜻 |
-| `easyKoreanDefinition` | 초급 학습자가 이해하기 쉬운 한국어 설명 |
-| `exampleKorean` | 실제 사용 맥락을 보여주는 한국어 예문 |
-| `exampleEnglish` | 예문의 영어 번역 |
-| `incorrectFeedback` | 퀴즈 오답 시 보여줄 복습 힌트 또는 피드백 |
+| Today Word | Shows a daily Korean word with learner-friendly definition, romanization, part of speech, difficulty, and example sentence. |
+| Quiz | Generates multiple-choice quizzes from the local learning-word repository and gives answer feedback after submission. |
+| Feedback | Explains the correct answer with meaning, example, romanization, difficulty, and review hints. |
+| Reminder | Supports notification-driven study habits through Firebase Cloud Messaging integration. |
+| Widget | Provides a home-screen widget target for quick daily-word exposure. |
+| Localization | Maintains Korean, English, and Japanese resource files for app labels and learning flow text. |
 
-자세한 MVP 범위와 샘플 데이터 형식은 [외국인 학습자 MVP 문서](docs/foreign-learner-mvp.md)를 참고하세요.
+## Tech Stack
 
-## 설치
+- **Language/UI**: Swift, SwiftUI
+- **Architecture**: MVVM-style screen state with `ObservableObject` view models
+- **Data**: Local `LearningWordRepository` sample data and validation rules
+- **Networking/Media**: Naver image search integration, Kingfisher image loading
+- **Notifications/Analytics**: Firebase Analytics, Firebase Messaging
+- **Monetization**: Google Mobile Ads banner integration
+- **Distribution Assets**: App Store screenshots and GitHub Pages product page
 
-앱을 설치하려면 [App Store](https://apps.apple.com/kr/app/%EC%9A%B0%EB%A6%AC%EB%A7%90-%EB%8B%A8%EC%96%B4-%ED%80%B4%EC%A6%88-korean-words-quiz/id6505052767)에서 다운로드하세요.
+## Project Structure
 
-## 사용 방법
+```text
+WordQuizDaily/
+├── WordQuizDaily/
+│   ├── WordQuizDaily/              # Main SwiftUI app target
+│   │   ├── Models/                 # Learning words, Naver response models
+│   │   ├── Views/                  # Home, quiz, settings, AdMob views
+│   │   ├── Network/                # Naver API clients
+│   │   ├── Services/               # FCM service and notification manager
+│   │   ├── Helpers/                # Localization and formatting helpers
+│   │   └── Resources/Localizations # ko, en, ja strings
+│   ├── WordQuizWidget/             # Widget extension
+│   └── NotificationServiceExtension/
+├── AppStoreScreenshots/            # Store-ready screenshots
+├── docs/                           # Product page and project documentation
+└── tools/                          # Screenshot framing utility
+```
 
-1. 앱을 실행하고 홈 화면에서 오늘의 단어를 확인합니다.
-2. 퀴즈 메뉴에서 단어 뜻과 예문을 바탕으로 객관식 퀴즈를 풉니다.
-3. 설정 화면에서 알림을 켜 매일 단어 학습을 이어갑니다.
+## Getting Started
 
-### 스크린샷
+### Requirements
 
-![Screenshots](docs/groupScreenshot.png)
+- macOS with Xcode 15 or newer
+- iOS 17.0+ deployment target for the main app
+- CocoaPods if you want to install pod-based dependencies
+- Firebase configuration file for local notification/analytics builds
 
-## 개발 문서
+### Local Setup
 
-- [문서 인덱스](docs/README.md)
-- [외국인 학습자 MVP 범위](docs/foreign-learner-mvp.md)
-- [현재 구조 분석](docs/foreign-learner-mvp-analysis.md)
-- [리뷰어 QA 체크리스트](docs/qa/foreign-learner-mvp-checklist.md)
+1. Clone the repository.
+2. Run `pod install` inside the `WordQuizDaily/` directory if the `Pods/` support files are not present locally.
+3. Copy `WordQuizDaily/WordQuizDaily/Config.xcconfig.example` to `WordQuizDaily/WordQuizDaily/Config.xcconfig` and fill in local API/ad identifiers.
+4. Add a valid `GoogleService-Info.plist` to the app target when building Firebase-enabled flows.
+5. Open `WordQuizDaily/WordQuizDaily.xcworkspace` in Xcode.
+6. Confirm signing settings for the app, widget, and notification extension targets.
+7. Build and run the `WordQuizDaily` scheme on an iOS simulator or device.
 
-## 개인정보 처리방침
+`GoogleService-Info.plist` and local `.xcconfig` files are intentionally ignored by Git because they contain environment-specific configuration.
 
-우리말 단어 퀴즈 앱은 사용자의 개인정보를 수집하지 않습니다. 외국인 학습자용 MVP에서도 학습 콘텐츠는 로컬 데이터 기반으로 제공하며, 계정, 원격 학습 기록, 서버 기반 개인화는 범위에 포함하지 않습니다.
+## Documentation
 
-## 개발자
+- [Documentation Index](docs/README.md)
+- [Architecture Overview](docs/architecture.md)
+- [Foreign Learner MVP Scope](docs/foreign-learner-mvp.md)
+- [Current Structure Analysis](docs/foreign-learner-mvp-analysis.md)
+- [Reviewer QA Checklist](docs/qa/foreign-learner-mvp-checklist.md)
 
-이 앱은 개인 개발자인 정종원에 의해 개발되었습니다.
+## Product Direction
 
-## 문의
+The next product milestone focuses on foreign Korean learners. The MVP keeps the existing today-word, quiz, and reminder flows, then strengthens them with:
 
-앱 관련 문의는 아래 이메일로 연락 주세요.
+- English meaning
+- Easy Korean definition
+- Romanization
+- Part of speech
+- Difficulty
+- Korean example sentence
+- English example translation
+- Incorrect-answer feedback
 
+This keeps the learning experience clear, reviewable, and resilient without requiring a new backend during the MVP phase.
+
+## Privacy
+
+WordQuizDaily does not require account creation for the core learning flow. The MVP learning content is local-first and does not depend on server-side personal study history.
+
+## Contact
+
+- Developer: Jongwon Jeong
 - Email: jjwon2149@gmail.com
 
-## 기여
+## Commit Convention
 
-기여를 원하시면 Pull Request를 보내주세요. 모든 기여는 환영합니다.
-
-### Commit Convention
-
-- feat: 새로운 기능 추가
-- fix: 버그 수정
-- docs: 문서 수정
-- style: 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
-- refactor: 코드 리펙토링
-- test: 테스트 코드, 리팩토링 테스트 코드 추가
-- chore: 빌드 업무 수정, 패키지 매니저 수정
+- `feat`: new feature
+- `fix`: bug fix
+- `docs`: documentation update
+- `style`: formatting-only change
+- `refactor`: code refactor
+- `test`: test update
+- `chore`: build or maintenance task

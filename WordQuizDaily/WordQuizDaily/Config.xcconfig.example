@@ -1,0 +1,10 @@
+// Copy this file to Config.xcconfig and fill in local values before building.
+//
+// Config.xcconfig is intentionally ignored by Git because it can contain
+// developer-specific API keys and advertising identifiers.
+
+NAVER_CLIENT_ID = your_naver_client_id
+NAVER_CLIENT_SECRET = your_naver_client_secret
+WOORI_API_KEY = your_woori_api_key
+ADMOB_APP_ID = your_admob_app_id
+ADMOB_BANNER_AD_UNIT_ID = your_admob_banner_ad_unit_id

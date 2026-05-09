@@ -1,45 +1,32 @@
 # Pull Request
 
-## 📝 변경 사항 요약
-<!-- 이 PR에서 변경된 내용을 간단히 설명해주세요 -->
+## Summary
 
-## 🎯 변경 유형
-<!-- 해당되는 항목에 [x]를 표시해주세요 -->
-- [ ] 🐛 버그 수정 (Bug fix)
-- [ ] ✨ 새로운 기능 (New feature)
-- [ ] 🔧 리팩토링 (Refactoring)
-- [ ] 📝 문서 업데이트 (Documentation)
-- [ ] 🎨 UI/UX 개선 (UI/UX improvement)
-- [ ] ⚡ 성능 개선 (Performance improvement)
-- [ ] 🔒 보안 강화 (Security enhancement)
-- [ ] 🧪 테스트 추가/수정 (Test)
+<!-- What changed, and why? Keep this reviewable in 2-4 bullets. -->
 
-## 🔍 변경된 파일
-<!-- 주요 변경된 파일들을 나열해주세요 -->
-- `파일경로/파일명.swift`
-- `파일경로/파일명.swift`
+## Type
 
-## 📱 테스트 환경
-<!-- 테스트한 환경을 체크해주세요 -->
-- [ ] iOS Simulator
-- [ ] 실제 디바이스 (기종: )
-- [ ] Unit Tests 통과
-- [ ] UI Tests 통과
+- [ ] Feature
+- [ ] Bug fix
+- [ ] Refactor
+- [ ] UI/UX
+- [ ] Documentation
+- [ ] Test
+- [ ] Chore
 
-## 📸 스크린샷 (선택사항)
-<!-- UI 변경이 있는 경우 스크린샷을 첨부해주세요 -->
+## Verification
 
-## ✅ 체크리스트
-<!-- PR 제출 전 확인사항 -->
-- [ ] 코드가 정상적으로 빌드됩니다
-- [ ] 기존 기능에 영향을 주지 않습니다
-- [ ] 새로운 기능에 대한 테스트가 추가되었습니다 (해당하는 경우)
-- [ ] 문서가 업데이트되었습니다 (해당하는 경우)
-- [ ] 코드 리뷰 가이드라인을 준수했습니다
+- [ ] Built the `WordQuizDaily` scheme
+- [ ] Checked today-word flow
+- [ ] Checked quiz answer and feedback flow
+- [ ] Checked reminder/settings flow
+- [ ] Checked localization impact
+- [ ] Updated docs when product scope or reviewer expectations changed
 
-## 📚 추가 정보
-<!-- 리뷰어가 알아야 할 추가 정보나 특별한 주의사항이 있다면 작성해주세요 -->
+## Screenshots
 
-## 🔗 관련 이슈
-<!-- 관련된 이슈가 있다면 링크해주세요 -->
-Closes #이슈번호
+<!-- Add screenshots or a short screen recording for UI changes. -->
+
+## Notes For Reviewers
+
+<!-- Call out tradeoffs, follow-up work, or config needed for local testing. -->
