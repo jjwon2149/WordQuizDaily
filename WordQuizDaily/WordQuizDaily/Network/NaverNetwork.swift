@@ -9,7 +9,39 @@ import Foundation
 import Alamofire
 
 protocol NaverNetworkDelegate: AnyObject {
-    func imageDataUpdated(_ imageData: NaverImageData?)
+    func imageDataUpdated(_ result: Result<NaverImageData, NaverImageError>)
+}
+
+enum NaverImageError: Error {
+    case missingAPIKeys
+    case invalidResponse
+    case apiError(statusCode: Int, code: String?, message: String?)
+    case decodingFailed(String)
+    case emptyResult
+    case requestFailed(String)
+
+    var logMessage: String {
+        switch self {
+        case .missingAPIKeys:
+            return "Missing Naver API keys"
+        case .invalidResponse:
+            return "Missing Naver API response status"
+        case .apiError(let statusCode, let code, let message):
+            return "Naver API error status=\(statusCode), code=\(code ?? "unknown"), message=\(message ?? "unknown")"
+        case .decodingFailed(let message):
+            return "Naver image response decode failed: \(message)"
+        case .emptyResult:
+            return "Naver image response contained no items"
+        case .requestFailed(let message):
+            return "Naver image request failed: \(message)"
+        }
+    }
+}
+
+private struct NaverAPIErrorResponse: Decodable {
+    let errorCode: String?
+    let errorMessage: String?
+    let message: String?
 }
 //ProcessInfo.processInfo.environment["API_KEY"]
 class NaverNetwork: ObservableObject {
@@ -27,15 +59,11 @@ class NaverNetwork: ObservableObject {
     func requestSearchImage(query: String, completion: @escaping () -> Void) {
         let baseURL = "https://openapi.naver.com/v1/search/image"
         
-        guard let clientID = naverClientID,
-              let clientSecret = naverClientSecret,
+        guard let clientID = naverClientID?.trimmingCharacters(in: .whitespacesAndNewlines),
+              let clientSecret = naverClientSecret?.trimmingCharacters(in: .whitespacesAndNewlines),
               !clientID.isEmpty,
               !clientSecret.isEmpty else {
-            print("Missing Naver API Keys")
-            DispatchQueue.main.async {
-                self.delegate?.imageDataUpdated(nil)
-                completion()
-            }
+            publish(.failure(.missingAPIKeys), completion: completion)
             return
         }
         
@@ -54,37 +82,56 @@ class NaverNetwork: ObservableObject {
                    parameters: parameters,
                    encoding: URLEncoding.default,
                    headers: headers)
-        .validate(statusCode: 200...500)
-        .responseDecodable(of: NaverImageData.self) { response in
+        .responseData { response in
             switch response.result {
-            case .success(let data):
+            case .success(let responseData):
                 guard let statusCode = response.response?.statusCode else {
-                    DispatchQueue.main.async {
-                        self.delegate?.imageDataUpdated(nil)
-                        completion()
-                    }
+                    self.publish(.failure(.invalidResponse), completion: completion)
                     return
                 }
-                if statusCode == 200 {
-                    DispatchQueue.main.async {
-                        self.imageData = data
-                        self.delegate?.imageDataUpdated(data)
-                        completion()
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.delegate?.imageDataUpdated(nil)
-                        completion()
-                    }
+
+                guard (200..<300).contains(statusCode) else {
+                    let apiError = try? JSONDecoder().decode(NaverAPIErrorResponse.self, from: responseData)
+                    self.publish(
+                        .failure(.apiError(
+                            statusCode: statusCode,
+                            code: apiError?.errorCode,
+                            message: apiError?.errorMessage ?? apiError?.message
+                        )),
+                        completion: completion
+                    )
+                    return
                 }
+
+                do {
+                    let data = try JSONDecoder().decode(NaverImageData.self, from: responseData)
+                    guard !data.items.isEmpty else {
+                        self.publish(.failure(.emptyResult), completion: completion)
+                        return
+                    }
+                    self.publish(.success(data), completion: completion)
+                } catch {
+                    self.publish(.failure(.decodingFailed(error.localizedDescription)), completion: completion)
+                }
+            case .failure(let error):
+                self.publish(.failure(.requestFailed(error.localizedDescription)), completion: completion)
+            }
+        }
+    }
+
+    private func publish(_ result: Result<NaverImageData, NaverImageError>, completion: @escaping () -> Void) {
+        DispatchQueue.main.async {
+            switch result {
+            case .success(let data):
+                self.imageData = data
                 print("\(#file) > \(#function) :: SUCCESS")
             case .failure(let error):
-                print("\(#file) > \(#function) :: FAILURE : \(error)")
-                DispatchQueue.main.async {
-                    self.delegate?.imageDataUpdated(nil)
-                    completion()
-                }
+                self.imageData = nil
+                print("\(#file) > \(#function) :: FAILURE : \(error.logMessage)")
             }
+
+            self.delegate?.imageDataUpdated(result)
+            completion()
         }
     }
 }

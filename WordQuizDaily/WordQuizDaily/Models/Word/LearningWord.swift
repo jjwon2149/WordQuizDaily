@@ -109,6 +109,47 @@ struct LearningWord: Identifiable, Codable, Hashable {
         easyKoreanDefinition
     }
 
+    func meaning(for languageCode: String = LocalizationHelper.currentLanguage) -> String {
+        switch Self.normalizedLanguageCode(languageCode) {
+        case "en":
+            return englishMeaning
+        case "ko", "ja":
+            return easyKoreanDefinition
+        default:
+            return easyKoreanDefinition
+        }
+    }
+
+    func exampleTranslation(for languageCode: String = LocalizationHelper.currentLanguage) -> String? {
+        switch Self.normalizedLanguageCode(languageCode) {
+        case "en":
+            return exampleTranslation
+        case "ko", "ja":
+            return nil
+        default:
+            return nil
+        }
+    }
+
+    func feedbackDescription(for languageCode: String = LocalizationHelper.currentLanguage) -> String {
+        switch Self.normalizedLanguageCode(languageCode) {
+        case "en":
+            return englishMeaning
+        case "ko", "ja":
+            return easyKoreanDefinition
+        default:
+            return easyKoreanDefinition
+        }
+    }
+
+    private static func normalizedLanguageCode(_ languageCode: String) -> String {
+        languageCode
+            .split { $0 == "-" || $0 == "_" }
+            .first
+            .map(String.init)?
+            .lowercased() ?? "ko"
+    }
+
     var requiredTextFields: [(name: String, value: String)] {
         [
             ("id", id),

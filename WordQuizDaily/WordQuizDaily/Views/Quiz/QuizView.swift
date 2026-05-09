@@ -40,14 +40,16 @@ struct answerImageView: View {
             } else if quizViewModel.isImageLoading {
                 ProgressView(LocalizedStringKey(LocalizationKeys.Quiz.loadingImages))
                     .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180, alignment: .center)
-            } else if let imageURL = imageURL {
-                KFImage(imageURL)
-                    .placeholder {
-                        neutralPlaceholder
-                    }
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180, alignment: .center)
+            } else if quizViewModel.hasImageRenderFailed || quizViewModel.imageError != nil {
+                unavailablePlaceholder
+            } else if let imageItem = quizViewModel.imageData?.preferredItem,
+                      !imageItem.imageURLCandidates.isEmpty {
+                AnswerRemoteImage(
+                    imageItem: imageItem,
+                    onFailure: quizViewModel.handleImageRenderFailure,
+                    onUnavailable: quizViewModel.handleAllImageCandidatesFailed
+                )
+                .id("\(imageItem.thumbnail)-\(imageItem.link)")
             } else {
                 unavailablePlaceholder
             }
@@ -55,13 +57,6 @@ struct answerImageView: View {
         .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180)
         .background(Color(.secondarySystemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 8))
-    }
-
-    private var imageURL: URL? {
-        guard let imageData = quizViewModel.imageData else { return nil }
-        let imageItem = imageData.items.count > 3 ? imageData.items[2] : imageData.items.first
-        guard let imageLink = imageItem?.link else { return nil }
-        return URL(string: imageLink)
     }
 
     private var neutralPlaceholder: some View {
@@ -83,6 +78,45 @@ struct answerImageView: View {
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180, alignment: .center)
+    }
+}
+
+struct AnswerRemoteImage: View {
+    let imageItem: NaverItem
+    let onFailure: (URL, Error) -> Void
+    let onUnavailable: () -> Void
+
+    @State private var imageURLIndex = 0
+
+    private var imageURLs: [URL] {
+        imageItem.imageURLCandidates
+    }
+
+    var body: some View {
+        if imageURLs.indices.contains(imageURLIndex) {
+            let imageURL = imageURLs[imageURLIndex]
+            KFImage(imageURL)
+                .onFailure { error in
+                    onFailure(imageURL, error)
+                    DispatchQueue.main.async {
+                        if imageURLIndex + 1 < imageURLs.count {
+                            imageURLIndex += 1
+                        } else {
+                            onUnavailable()
+                        }
+                    }
+                }
+                .placeholder {
+                    ProgressView(LocalizedStringKey(LocalizationKeys.Quiz.loadingImages))
+                }
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180, alignment: .center)
+        } else {
+            Color.clear
+                .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 180, alignment: .center)
+                .onAppear(perform: onUnavailable)
+        }
     }
 }
 
@@ -221,6 +255,7 @@ struct ChoiceView: View {
 struct QuizFeedbackView: View {
 
     @EnvironmentObject var quizViewModel: QuizViewModel
+    @Environment(\.locale) private var locale
 
     var body: some View {
         if quizViewModel.hasSubmittedAnswer {
@@ -240,22 +275,30 @@ struct QuizFeedbackView: View {
                 }
 
                 if let learningWord = quizViewModel.correctLearningWord {
+                    let languageCode = locale.identifier
+                    let feedbackMeaning = learningWord.meaning(for: languageCode)
+                    let feedbackDescription = learningWord.feedbackDescription(for: languageCode)
+
                     Text(LocalizationKeys.Quiz.correctAnswer.localized(with: learningWord.word))
                         .font(.headline)
                         .foregroundColor(.primary)
 
-                    FeedbackDetailRow(titleKey: LocalizationKeys.Word.meaning, value: learningWord.englishMeaning)
+                    FeedbackDetailRow(titleKey: LocalizationKeys.Word.meaning, value: feedbackMeaning)
                     FeedbackDetailRow(titleKey: LocalizationKeys.Word.difficulty, value: learningWord.difficulty)
                     FeedbackDetailRow(titleKey: LocalizationKeys.Word.example, value: learningWord.example)
 
-                    Text(learningWord.exampleTranslation)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
+                    if let exampleTranslation = learningWord.exampleTranslation(for: languageCode) {
+                        Text(exampleTranslation)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
 
-                    Text(learningWord.easyKoreanDescription)
-                        .font(.body)
-                        .foregroundColor(.primary)
-                        .fixedSize(horizontal: false, vertical: true)
+                    if feedbackDescription != feedbackMeaning {
+                        Text(feedbackDescription)
+                            .font(.body)
+                            .foregroundColor(.primary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
 
                     if !quizViewModel.isSelectedAnswerCorrect {
                         FeedbackDetailRow(titleKey: LocalizationKeys.Feedback.title, value: learningWord.incorrectFeedback)

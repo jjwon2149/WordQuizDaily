@@ -24,6 +24,8 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
     @Published var answerState: QuizAnswerState = .waitingForAnswer
     @Published var wordDataDictionary = [String: WordData]()
     @Published var imageData: NaverImageData?
+    @Published var imageError: NaverImageError?
+    @Published var hasImageRenderFailed = false
     @Published var isLoading = false
     @Published var isImageLoading = false
     @Published var errorMessage: String?
@@ -31,6 +33,7 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
     var naverNetwork = NaverNetwork.shared
     let hardKoreanWords = HardKoreanWords()
     private let learningWordRepository: LearningWordProviding
+    private var imageRequestWord: String?
 
     var hasSubmittedAnswer: Bool {
         answerState != .waitingForAnswer
@@ -58,7 +61,10 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
         isLoading = true
         errorMessage = nil
         imageData = nil
+        imageError = nil
+        hasImageRenderFailed = false
         isImageLoading = false
+        imageRequestWord = nil
         selectedWord = nil
         answerState = .waitingForAnswer
 
@@ -172,13 +178,15 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
     // MARK: - NaverSearchAPI
 
     func fetchImageForWord(_ word: String) {
-        DispatchQueue.main.async {
-            self.imageData = nil
-            self.isImageLoading = true
-        }
+        imageData = nil
+        imageError = nil
+        hasImageRenderFailed = false
+        imageRequestWord = word
+        isImageLoading = true
 
         naverNetwork.requestSearchImage(query: word) { [weak self] in
             DispatchQueue.main.async {
+                guard self?.imageRequestWord == word else { return }
                 self?.isImageLoading = false
             }
         }
@@ -186,10 +194,31 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
 
     // MARK: - NaverNetworkDelegate
 
-    func imageDataUpdated(_ imageData: NaverImageData?) {
+    func imageDataUpdated(_ result: Result<NaverImageData, NaverImageError>) {
         DispatchQueue.main.async { [weak self] in
-            self?.imageData = imageData
-            self?.isImageLoading = false
+            guard let self,
+                  self.hasSubmittedAnswer,
+                  self.imageRequestWord == self.correctWord else { return }
+
+            switch result {
+            case .success(let imageData):
+                self.imageData = imageData
+                self.imageError = nil
+            case .failure(let error):
+                self.imageData = nil
+                self.imageError = error
+            }
+            self.isImageLoading = false
+        }
+    }
+
+    func handleImageRenderFailure(url: URL, error: Error) {
+        print("Kingfisher image render failed: \(url.absoluteString), error=\(error.localizedDescription)")
+    }
+
+    func handleAllImageCandidatesFailed() {
+        DispatchQueue.main.async {
+            self.hasImageRenderFailed = true
         }
     }
 
