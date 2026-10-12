@@ -144,6 +144,35 @@
 "word.difficulty.medium" = "Intermediate";
 "word.difficulty.hard" = "Advanced";
 "word.partOfSpeech.noun" = "Noun";
+"word.partOfSpeech.verb" = "Verb";
+"word.partOfSpeech.adjective" = "Adjective";
+"learning.progress.title" = "Learning progress";
+"learning.progress.summary" = "Questions answered today and words to review.";
+"learning.progress.empty" = "There are no words to review.";
+"learning.progress.startReview" = "Start review";
+"learning.progress.reviewComplete" = "Review complete";
+"learning.progress.reviewResult" = "You got %2$d of %1$d correct. Words remaining: %3$d";
+"learning.progress.leaveReview" = "Return to regular quiz";
+"learning.progress.todaySolved" = "Answered today";
+"learning.progress.toReview" = "Words to review";
+"learning.progress.loadError" = "Learning history couldn't be read. The existing file was preserved; check your history before continuing.";
+"learning.progress.saveError" = "Learning history couldn't be saved. Check available storage and try again.";
+"quiz.error.insufficientChoices" = "Valid choices are unavailable for this level. Choose another level in Settings.";
+"error.catalogUnavailable" = "Learning content couldn't be loaded. Restart the app and try again.";
+"settings.learningSection" = "Learning";
+"settings.learningLevel" = "Quiz level";
+"settings.level.all" = "All levels";
+"settings.level.beginner" = "Beginner";
+"settings.level.intermediate" = "Intermediate";
+"settings.level.advanced" = "Advanced";
+"settings.localStorageNotice" = "Learning history is stored only on this device and may not be restored after deleting the app.";
+"settings.resetLearning" = "Reset learning history";
+"settings.resetTitle" = "Reset learning history?";
+"settings.resetMessage" = "Only answer history will be deleted. Notifications and today's word settings will remain.";
+"notification.reminder.title" = "Today's Korean practice";
+"notification.reminder.body" = "Keep learning with a short quiz today.";
+"notification.scheduleError.title" = "Couldn't schedule the reminder";
+"notification.scheduleError.message" = "Please turn it on again in a moment.";
 
 // MARK: - Terms of Service
 "terms.title" = "Terms of Service";

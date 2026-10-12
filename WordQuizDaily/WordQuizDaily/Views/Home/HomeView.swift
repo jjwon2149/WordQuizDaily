@@ -10,15 +10,12 @@ import SwiftUI
 struct HomeView: View {
     
     @EnvironmentObject var homeViewModel: HomeViewModel
+    @EnvironmentObject var learningStore: LearningStore
     @Environment(\.locale) private var locale
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                AdMobBannerView()
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 10)
-
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
                         TodayWordSummaryCard(
@@ -26,6 +23,16 @@ struct HomeView: View {
                             learningWord: homeViewModel.todayLearningWord,
                             languageCode: locale.identifier
                         )
+
+                        LearningProgressCard(
+                            todayCount: learningStore.todayAnswerCount,
+                            reviewCount: learningStore.reviewCount
+                        )
+                        if let persistenceError = learningStore.persistenceError {
+                            Label(persistenceError, systemImage: "exclamationmark.triangle")
+                                .font(.footnote).foregroundStyle(.red)
+                                .accessibilityLabel(persistenceError)
+                        }
 
                         if let learningWord = homeViewModel.todayLearningWord {
                             let languageCode = locale.identifier
@@ -52,9 +59,14 @@ struct HomeView: View {
                                 title: LocalizedStringKey(LocalizationKeys.Word.easyKorean),
                                 text: homeViewModel.toDayWordDefinition
                             )
+                        } else if let message = homeViewModel.errorMessage {
+                            ContentUnavailableView {
+                                Label(LocalizedStringKey(LocalizationKeys.Common.error), systemImage: "exclamationmark.triangle")
+                            } description: { Text(message) } actions: {
+                                Button(LocalizedStringKey(LocalizationKeys.Common.retry)) { homeViewModel.fetchTodayWordOnceADay() }
+                            }
                         } else {
-                            ProgressView(LocalizedStringKey(LocalizationKeys.Common.loading))
-                                .frame(maxWidth: .infinity, minHeight: 160)
+                            ProgressView(LocalizedStringKey(LocalizationKeys.Common.loading)).frame(maxWidth: .infinity, minHeight: 160)
                         }
                     }
                     .frame(maxWidth: 640, alignment: .leading)
@@ -64,10 +76,49 @@ struct HomeView: View {
                 }
             }
             .background(Color(.systemGroupedBackground))
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                AdMobBannerView()
+                    .background(Color(.systemGroupedBackground))
+            }
             .navigationTitle(LocalizedStringKey(LocalizationKeys.Home.todayWord))
         }
     }
 
+}
+
+private struct LearningProgressCard: View {
+    let todayCount: Int
+    let reviewCount: Int
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(LocalizedStringKey(LocalizationKeys.LearningProgress.title)).font(.headline)
+            HStack(alignment: .top) {
+                VStack(alignment: .leading) {
+                    Text(LocalizedStringKey(LocalizationKeys.LearningProgress.todaySolved)).font(.caption).foregroundStyle(.secondary)
+                    Label("\(todayCount)", systemImage: "checklist").font(.title3.bold())
+                }
+                Spacer()
+                VStack(alignment: .leading) {
+                    Text(LocalizedStringKey(LocalizationKeys.LearningProgress.toReview)).font(.caption).foregroundStyle(.secondary)
+                    Label("\(reviewCount)", systemImage: "arrow.clockwise").font(.title3.bold())
+                }
+            }
+            Text(LocalizedStringKey(reviewCount == 0 ? LocalizationKeys.LearningProgress.empty : LocalizationKeys.LearningProgress.summary))
+                .font(.subheadline).foregroundStyle(.secondary)
+            Button {
+                NotificationCenter.default.post(name: Notification.Name("StartReview"), object: nil)
+            } label: {
+                Label(LocalizedStringKey(LocalizationKeys.LearningProgress.startReview), systemImage: "play.fill")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(reviewCount == 0)
+        }
+        .padding(16)
+        .background(Color(.secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
 }
 
 private struct TodayWordSummaryCard: View {
@@ -75,10 +126,7 @@ private struct TodayWordSummaryCard: View {
     let learningWord: LearningWord?
     let languageCode: String
 
-    private let columns = [
-        GridItem(.flexible(), alignment: .leading),
-        GridItem(.flexible(), alignment: .leading)
-    ]
+    private let columns = [GridItem(.adaptive(minimum: 130), spacing: 16, alignment: .leading)]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -204,27 +252,33 @@ private struct ExampleDetailCard: View {
 }
 
 #Preview {
+    let store = LearningStore()
     HomeView()
-        .environmentObject(HomeViewModel())
+        .environmentObject(HomeViewModel(learningStore: store))
+        .environmentObject(store)
         .previewLocale("ko")
 }
 
 // MARK: - 다국어 프리뷰
 struct HomeView_Previews: PreviewProvider {
+    static let store = LearningStore()
     static var previews: some View {
         Group {
             HomeView()
-                .environmentObject(HomeViewModel())
+                .environmentObject(HomeViewModel(learningStore: store))
+                .environmentObject(store)
                 .previewLocale("ko")
                 .previewDisplayName("Korean")
             
             HomeView()
-                .environmentObject(HomeViewModel())
+                .environmentObject(HomeViewModel(learningStore: store))
+                .environmentObject(store)
                 .previewLocale("en")
                 .previewDisplayName("English")
             
             HomeView()
-                .environmentObject(HomeViewModel())
+                .environmentObject(HomeViewModel(learningStore: store))
+                .environmentObject(store)
                 .previewLocale("ja")
                 .previewDisplayName("Japanese")
         }

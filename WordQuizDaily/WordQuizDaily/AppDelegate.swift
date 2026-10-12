@@ -37,16 +37,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     // APNs 토큰 수신
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("APNs token received: \(deviceToken)")
-        
         // FCM에 APNs 토큰 설정
         Messaging.messaging().apnsToken = deviceToken
     }
     
     // APNs 등록 실패
     func application(_ application: UIApplication,
-                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Failed to register for remote notifications: \(error.localizedDescription)")
+                     didFailToRegisterForRemoteNotificationsWithError _: Error) {
+        // Registration can be retried by the system. Do not log device-specific details.
     }
 }
 
@@ -55,8 +53,6 @@ extension AppDelegate: MessagingDelegate {
     
     // FCM 토큰 갱신
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("Firebase registration token: \(String(describing: fcmToken))")
-        
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(
             name: Notification.Name("FCMToken"),
@@ -78,9 +74,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         let userInfo = notification.request.content.userInfo
-        
-        // FCM 알림 로깅
-        print("Foreground notification received: \(userInfo)")
+
+        FCMService.shared.handleNotificationReceived(userInfo: userInfo)
         
         // 포그라운드에서도 알림 표시
         completionHandler([[.banner, .badge, .sound]])
@@ -101,8 +96,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     // 딥링크 처리 로직
     private func handleNotificationResponse(userInfo: [AnyHashable: Any]) {
-        print("Notification tapped: \(userInfo)")
-        
         // 특정 화면으로 이동하는 로직
         if let deepLink = userInfo["deepLink"] as? String {
             DispatchQueue.main.async {

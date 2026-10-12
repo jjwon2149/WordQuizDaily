@@ -69,6 +69,7 @@ struct BannerAdView: UIViewRepresentable {
 struct AdMobBannerView: View {
     let adUnitID: String
     @State private var isBannerSlotVisible = false
+    @State private var availableWidth: CGFloat = 0
     
     init(adUnitID: String? = nil) {
         #if DEBUG
@@ -80,17 +81,27 @@ struct AdMobBannerView: View {
     }
     
     var body: some View {
-        BannerAdView(adUnitID: adUnitID) { isLoaded in
-            withAnimation(.easeInOut(duration: 0.2)) {
-                isBannerSlotVisible = isLoaded
+        GeometryReader { proxy in
+            if proxy.size.width >= AdSizeBanner.size.width {
+                BannerAdView(adUnitID: adUnitID) { isLoaded in
+                    isBannerSlotVisible = isLoaded
+                }
+                .frame(width: AdSizeBanner.size.width, height: AdSizeBanner.size.height)
+                .frame(maxWidth: .infinity)
+                .opacity(isBannerSlotVisible ? 1 : 0)
             }
+            Color.clear
+                .allowsHitTesting(false)
+                .onAppear { availableWidth = proxy.size.width }
+                .onChange(of: proxy.size.width) { _, width in
+                    availableWidth = width
+                    if width < AdSizeBanner.size.width { isBannerSlotVisible = false }
+                }
         }
-        .frame(width: 320, height: 50) // 표준 배너 크기
-        .opacity(isBannerSlotVisible ? 1 : 0)
-        .background(isBannerSlotVisible ? Color.gray.opacity(0.1) : Color.clear)
-        .cornerRadius(8)
-        .frame(height: isBannerSlotVisible ? 50 : 0)
+        .frame(height: availableWidth >= AdSizeBanner.size.width ? (isBannerSlotVisible ? AdSizeBanner.size.height : 0) : 0)
         .clipped()
+        .accessibilityHidden(!(isBannerSlotVisible) || availableWidth < AdSizeBanner.size.width)
+        .padding(.top, isBannerSlotVisible && availableWidth >= AdSizeBanner.size.width ? 8 : 0)
     }
 }
 

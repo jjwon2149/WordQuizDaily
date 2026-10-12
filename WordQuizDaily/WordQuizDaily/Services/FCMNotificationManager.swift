@@ -9,251 +9,281 @@ import Foundation
 import Combine
 import UserNotifications
 import SwiftUI
+import LearningCore
 
 class FCMNotificationManager: ObservableObject {
-    
-    // MARK: - Published Properties
-    @Published var isAlertOccurred: Bool = false
-    @Published var notificationTime: Date = Date() {
+    @Published var isAlertOccurred = false
+    @Published var isNotificationAuthorized = false
+    @Published var alertTitleKey = LocalizationKeys.Notification.alertTitle
+    @Published var alertMessageKey = LocalizationKeys.Notification.alertMessage
+
+    @Published var notificationTime: Date {
         didSet {
-            // FCM은 서버에서 스케줄링하므로 시간 변경 시 서버에 알림
-            scheduleNotificationTime()
+            guard !isInitializing else { return }
+            persistNotificationTime()
+            synchronizeSchedule()
         }
     }
-    @Published var isToggleOn: Bool = UserDefaults.standard.bool(forKey: "hasUserAgreedNoti") {
+
+    @Published var isToggleOn: Bool {
         didSet {
-            UserDefaults.standard.set(isToggleOn, forKey: "hasUserAgreedNoti")
+            guard !isInitializing, isToggleOn != oldValue else { return }
+            defaults.set(isToggleOn, forKey: Self.notificationToggleKey)
             handleToggleChange()
         }
     }
-    @Published var isNotificationAuthorized: Bool = false
-    
-    // MARK: - Dependencies
-    private let fcmService = FCMService.shared
+
+    private static let notificationToggleKey = "hasUserAgreedNoti"
+    private static let notificationHourKey = "dailyLearningReminderHour"
+    private static let notificationMinuteKey = "dailyLearningReminderMinute"
+    private static let legacyRequestIdentifier = "backup_notification"
+
+    private let fcmService: FCMService
+    private let notificationCenter: UNUserNotificationCenter
+    private let defaults: UserDefaults
+    private var permissionRequestID: UUID?
+    private var authorizationRefreshID: UUID?
+    private var scheduleRevision = UUID()
+    private var isScheduleAddInFlight = false
+    private var isInitializing = true
     private var cancellables = Set<AnyCancellable>()
-    
-    // MARK: - Initialization
-    init() {
-        setupBindings()
-        checkNotificationStatus()
+
+    init(
+        fcmService: FCMService = .shared,
+        notificationCenter: UNUserNotificationCenter = .current(),
+        defaults: UserDefaults = .standard
+    ) {
+        self.fcmService = fcmService
+        self.notificationCenter = notificationCenter
+        self.defaults = defaults
+        self.isToggleOn = defaults.bool(forKey: Self.notificationToggleKey)
+
+        self.notificationTime = Self.restoredNotificationTime(from: defaults)
+
+        isInitializing = false
+        persistNotificationTime()
+        setupAuthorizationBinding()
+        refreshAuthorizationAndSchedule()
     }
-    
-    private func setupBindings() {
-        // FCM 토큰 변경 감지
-        fcmService.fcmTokenPublisher
-            .sink { [weak self] token in
-                print("FCM Token updated: \(token ?? "nil")")
-                // 필요시 서버에 토큰 전송
-                self?.sendTokenToServer(token)
-            }
-            .store(in: &cancellables)
-        
-        // 알림 수신 감지
-        fcmService.notificationReceivedPublisher
-            .sink { [weak self] notification in
-                self?.handleReceivedNotification(notification)
-            }
-            .store(in: &cancellables)
-        
-        // 알림 탭 감지
-        fcmService.notificationTappedPublisher
-            .sink { [weak self] userInfo in
-                self?.handleNotificationTap(userInfo)
-            }
-            .store(in: &cancellables)
-        
-        // 권한 상태 바인딩
+
+    private func setupAuthorizationBinding() {
         fcmService.$isNotificationAuthorized
-            .assign(to: \.isNotificationAuthorized, on: self)
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] authorized in
+                self?.isNotificationAuthorized = authorized
+            }
             .store(in: &cancellables)
     }
 }
 
 // MARK: - Public Methods (기존 NotificationManager 인터페이스 유지)
 extension FCMNotificationManager {
-    
     func requestNotiAuthorization() {
+        let requestID = UUID()
+        authorizationRefreshID = nil
+        permissionRequestID = requestID
+
         fcmService.requestNotificationPermission()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] granted in
+                guard let self, self.permissionRequestID == requestID else { return }
+                self.permissionRequestID = nil
+
+                // The toggle may have been switched off while the system prompt was visible.
+                guard self.isToggleOn else {
+                    self.removeScheduledReminder()
+                    return
+                }
+
+                self.isNotificationAuthorized = granted
+                self.fcmService.isNotificationAuthorized = granted
                 if granted {
-                    self?.isNotificationAuthorized = true
-                    self?.scheduleNotificationTime()
+                    self.synchronizeSchedule()
                 } else {
-                    self?.isToggleOn = false
-                    self?.isAlertOccurred = true
+                    self.disableToggleForUnavailableAuthorization(showAlert: true)
                 }
             }
             .store(in: &cancellables)
     }
-    
+
     func removeAllNotifications() {
-        // FCM의 경우 서버에서 스케줄된 알림 취소 요청
-        cancelServerNotifications()
-        
-        // 로컬 대기 중인 알림도 제거
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        permissionRequestID = nil
+        scheduleRevision = UUID()
+        removeScheduledReminder()
     }
-    
+
     func openSettings() {
         fcmService.openSettings()
     }
-}
 
-// MARK: - Private Methods
-private extension FCMNotificationManager {
-    
-    func checkNotificationStatus() {
-        fcmService.checkNotificationPermission()
-        
-        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+    /// Reconciles the saved preference with current system permission and locale.
+    /// Call whenever the app becomes active so Settings changes and language changes
+    /// are reflected in the repeating local reminder.
+    func refreshAuthorizationAndSchedule() {
+        let refreshID = UUID()
+        authorizationRefreshID = refreshID
+        notificationCenter.getNotificationSettings { [weak self] settings in
             DispatchQueue.main.async {
-                self?.isNotificationAuthorized = settings.authorizationStatus == .authorized
-                
-                if settings.authorizationStatus == .denied && self?.isToggleOn == true {
-                    self?.isAlertOccurred = true
-                    self?.isToggleOn = false
+                guard let self,
+                      self.authorizationRefreshID == refreshID,
+                      self.permissionRequestID == nil else { return }
+                self.authorizationRefreshID = nil
+                self.restoreNotificationTimeForCurrentTimeZone()
+                let authorized = Self.isAuthorized(settings.authorizationStatus)
+                self.isNotificationAuthorized = authorized
+                self.fcmService.isNotificationAuthorized = authorized
+
+                if self.isToggleOn && !authorized {
+                    self.disableToggleForUnavailableAuthorization(
+                        showAlert: settings.authorizationStatus == .denied
+                    )
+                } else {
+                    self.synchronizeSchedule()
                 }
             }
         }
     }
-    
+
+    func addNotification(with time: Date) {
+        notificationTime = time
+    }
+
+    var storedWord: String? {
+        UserDefaults.shared.string(forKey: "TodayWord")
+    }
+
+    var storedDefinition: String? {
+        UserDefaults.shared.string(forKey: "TodayWordDefinition")
+    }
+}
+
+private extension FCMNotificationManager {
+    static func isAuthorized(_ status: UNAuthorizationStatus) -> Bool {
+        switch status {
+        case .authorized, .provisional, .ephemeral:
+            return true
+        case .notDetermined, .denied:
+            return false
+        @unknown default:
+            return false
+        }
+    }
+
+    static func restoredNotificationTime(from defaults: UserDefaults) -> Date {
+        let now = Date()
+        let calendar = Calendar.current
+        guard defaults.object(forKey: notificationHourKey) != nil,
+              defaults.object(forKey: notificationMinuteKey) != nil else {
+            return now
+        }
+
+        let hour = defaults.integer(forKey: notificationHourKey)
+        let minute = defaults.integer(forKey: notificationMinuteKey)
+        return calendar.date(bySettingHour: hour, minute: minute, second: 0, of: now) ?? now
+    }
+
+    func persistNotificationTime() {
+        let components = Calendar.current.dateComponents([.hour, .minute], from: notificationTime)
+        defaults.set(components.hour ?? 0, forKey: Self.notificationHourKey)
+        defaults.set(components.minute ?? 0, forKey: Self.notificationMinuteKey)
+    }
+
+    func restoreNotificationTimeForCurrentTimeZone() {
+        isInitializing = true
+        notificationTime = Self.restoredNotificationTime(from: defaults)
+        isInitializing = false
+    }
+
     func handleToggleChange() {
         if isToggleOn {
             requestNotiAuthorization()
         } else {
-            removeAllNotifications()
+            permissionRequestID = nil
+            synchronizeSchedule()
         }
     }
-    
-    func scheduleNotificationTime() {
-        guard isToggleOn && isNotificationAuthorized else { return }
-        
-        // 서버에 알림 시간 전송 (실제 구현에서는 API 호출)
-        sendNotificationScheduleToServer()
-        
-        // 로컬 백업 알림도 설정 (FCM 실패 시를 대비)
-        scheduleLocalBackupNotification()
+
+    func disableToggleForUnavailableAuthorization(showAlert: Bool) {
+        permissionRequestID = nil
+        if isToggleOn {
+            isToggleOn = false
+        } else {
+            removeScheduledReminder()
+        }
+        if showAlert {
+            alertTitleKey = LocalizationKeys.Notification.alertTitle
+            alertMessageKey = LocalizationKeys.Notification.alertMessage
+            isAlertOccurred = true
+        }
     }
-    
-    func sendTokenToServer(_ token: String?) {
-        guard let token = token else { return }
-        
-        // TODO: 실제 서버 API 호출
-        print("Sending FCM token to server: \(token)")
-        
-        // 예시: 서버에 토큰 전송
-        // NetworkService.shared.sendFCMToken(token) { result in
-        //     // Handle result
-        // }
-    }
-    
-    func sendNotificationScheduleToServer() {
-        guard let fcmToken = fcmService.fcmToken else { return }
-        
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.hour, .minute], from: notificationTime)
-        
-        // TODO: 서버에 스케줄 정보 전송
-        print("Scheduling notification at \(components.hour ?? 0):\(components.minute ?? 0)")
-        
-        // 예시: 서버에 스케줄 전송
-        // let scheduleData = [
-        //     "fcmToken": fcmToken,
-        //     "hour": components.hour ?? 0,
-        //     "minute": components.minute ?? 0,
-        //     "timezone": TimeZone.current.identifier
-        // ]
-        // NetworkService.shared.scheduleNotification(scheduleData) { result in
-        //     // Handle result
-        // }
-    }
-    
-    func cancelServerNotifications() {
-        guard let fcmToken = fcmService.fcmToken else { return }
-        
-        // TODO: 서버에 알림 취소 요청
-        print("Canceling server notifications for token: \(fcmToken)")
-        
-        // 예시: 서버에 취소 요청
-        // NetworkService.shared.cancelNotifications(fcmToken) { result in
-        //     // Handle result
-        // }
-    }
-    
-    func scheduleLocalBackupNotification() {
-        // FCM 실패 시를 대비한 로컬 백업 알림
+
+    func synchronizeSchedule() {
+        scheduleRevision = UUID()
+        let revision = scheduleRevision
+
+        guard NotificationSchedulePolicy.shouldSchedule(
+            toggleOn: isToggleOn,
+            authorized: isNotificationAuthorized
+        ) else {
+            removeScheduledReminder()
+            return
+        }
+
+        // Wait for the current add to finish, then apply only the newest desired state.
+        guard !isScheduleAddInFlight else { return }
+
         let content = UNMutableNotificationContent()
-        
-        let localizedContent = fcmService.getLocalizedNotificationContent()
+        let localizedContent = fcmService.getLocalizedReminderContent()
         content.title = localizedContent.title
         content.body = localizedContent.body
-        content.sound = UNNotificationSound.default
-        content.userInfo = ["source": "local_backup"]
-        
-        let dateComponents = Calendar.current.dateComponents([.hour, .minute], from: notificationTime)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-        let request = UNNotificationRequest(identifier: "backup_notification", content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Error scheduling backup notification: \(error.localizedDescription)")
-            } else {
-                print("Backup notification scheduled successfully")
+        content.sound = .default
+        content.userInfo = ["source": "daily_learning_reminder", "deepLink": "home"]
+
+        let components = Calendar.current.dateComponents([.hour, .minute], from: notificationTime)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+        let request = UNNotificationRequest(
+            identifier: NotificationSchedulePolicy.requestIdentifier,
+            content: content,
+            trigger: trigger
+        )
+
+        isScheduleAddInFlight = true
+        removeScheduledReminder()
+        notificationCenter.add(request) { [weak self] error in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.isScheduleAddInFlight = false
+
+                guard self.scheduleRevision == revision else {
+                    self.synchronizeSchedule()
+                    return
+                }
+
+                if error != nil {
+                    self.disableToggleAfterSchedulingFailure()
+                }
             }
         }
     }
-    
-    func handleReceivedNotification(_ notification: FCMNotification) {
-        // 알림 수신 시 처리 로직
-        print("FCM Notification received: \(notification.title)")
-        
-        // 필요시 UI 업데이트 또는 데이터 갱신
-        DispatchQueue.main.async {
-            // 예: 새로운 단어 데이터 업데이트
-            if let wordData = notification.data["todayWord"] as? String,
-               let definitionData = notification.data["todayDefinition"] as? String {
-                UserDefaults.shared.set(wordData, forKey: "TodayWord")
-                UserDefaults.shared.set(definitionData, forKey: "TodayWordDefinition")
-            }
 
-            if let easyKoreanData = notification.data["todayWordEasyKorean"] as? String {
-                UserDefaults.shared.set(easyKoreanData, forKey: "TodayWordEasyKorean")
-            }
-
-            if let englishMeaningData = notification.data["todayWordEnglishMeaning"] as? String {
-                UserDefaults.shared.set(englishMeaningData, forKey: "TodayWordEnglishMeaning")
-            }
+    func disableToggleAfterSchedulingFailure() {
+        if isToggleOn {
+            isToggleOn = false
+        } else {
+            removeScheduledReminder()
         }
+        alertTitleKey = "notification.scheduleError.title"
+        alertMessageKey = "notification.scheduleError.message"
+        isAlertOccurred = true
     }
-    
-    func handleNotificationTap(_ userInfo: [AnyHashable: Any]) {
-        // 알림 탭 시 처리 로직
-        print("FCM Notification tapped")
-        
-        // 특정 화면으로 이동하거나 상태 업데이트
-        if let deepLink = userInfo["deepLink"] as? String {
-            // 딥링크 처리는 FCMService에서 이미 처리됨
-            print("Deep link from notification: \(deepLink)")
-        }
-    }
-}
 
-// MARK: - Migration Helper (기존 코드와의 호환성)
-extension FCMNotificationManager {
-    
-    /// 기존 addNotification 메서드와 호환성을 위한 메서드
-    /// FCM으로 마이그레이션 후에는 실제로 서버 스케줄링을 사용
-    func addNotification(with time: Date) {
-        self.notificationTime = time
-    }
-    
-    /// 기존 코드에서 사용하던 저장된 단어 데이터 접근
-    var storedWord: String? {
-        return UserDefaults.shared.string(forKey: "TodayWord")
-    }
-    
-    var storedDefinition: String? {
-        return UserDefaults.shared.string(forKey: "TodayWordDefinition")
+    func removeScheduledReminder() {
+        let identifiers = [
+            NotificationSchedulePolicy.requestIdentifier,
+            Self.legacyRequestIdentifier
+        ]
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
+        notificationCenter.removeDeliveredNotifications(withIdentifiers: identifiers)
     }
 }

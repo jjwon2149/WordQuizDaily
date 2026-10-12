@@ -7,6 +7,7 @@
 
 import Foundation
 import Kingfisher
+import LearningCore
 
 enum QuizAnswerState: Equatable {
     case waitingForAnswer
@@ -29,11 +30,19 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
     @Published var isLoading = false
     @Published var isImageLoading = false
     @Published var errorMessage: String?
+    @Published private(set) var isReviewMode = false
+    @Published private(set) var isReviewComplete = false
+    @Published private(set) var reviewCorrectCount = 0
+    @Published private(set) var reviewTotalCount = 0
 
     var naverNetwork = NaverNetwork.shared
-    let hardKoreanWords = HardKoreanWords()
-    private let learningWordRepository: LearningWordProviding
+    private let learningStore: LearningStore
+    private var learningWordRepository: LearningWordProviding { learningStore.repository }
     private var imageRequestWord: String?
+    private var imageRequestGate = RequestIdentityGate()
+    private var recentWordIDs: [String] = []
+    private var submissionID = UUID()
+    private var reviewSession: ReviewSession?
 
     var hasSubmittedAnswer: Bool {
         answerState != .waitingForAnswer
@@ -43,8 +52,8 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
         answerState == .correct
     }
 
-    init(learningWordRepository: LearningWordProviding = LearningWordRepository.shared) {
-        self.learningWordRepository = learningWordRepository
+    init(learningStore: LearningStore) {
+        self.learningStore = learningStore
         naverNetwork.delegate = self
         fetchData()
     }
@@ -67,55 +76,54 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
         imageRequestWord = nil
         selectedWord = nil
         answerState = .waitingForAnswer
+        correctLearningWord = nil
+        correctWord = ""
+        correctWordDefinition = ""
+        choiceWord = []
 
-        if let learningWord = learningWordRepository.randomWord(excluding: []) {
-            applyQuizWord(learningWord)
-            fetchImageForWord(learningWord.korean)
+        let question: QuizQuestion
+        do {
+            if isReviewMode {
+                guard let learningWord = reviewSession?.currentWordID.flatMap(learningWordRepository.word(id:)) else {
+                    isReviewComplete = true
+                    isLoading = false
+                    return
+                }
+                question = try QuizSelector.question(for: learningWord, words: learningWordRepository.words)
+            } else {
+                question = try QuizSelector.question(
+                    words: learningWordRepository.words,
+                    selection: learningStore.selectedLevel,
+                    recentIDs: recentWordIDs
+                )
+            }
+        } catch {
+            errorMessage = (learningStore.catalogLoadFailed ? LocalizationKeys.Error.catalogUnavailable : LocalizationKeys.Quiz.insufficientChoices).localized
             isLoading = false
             return
         }
 
-        correctLearningWord = nil
-        correctWord = hardKoreanWords.hardWords.randomElement() ?? ""
-        correctWordDefinition = "설명을 가져올 수 없습니다."
-        choiceWord = generateFallbackChoices()
-        fetchImageForWord(correctWord)
+        let learningWord = question.answer
+        applyQuizWord(learningWord, choices: question.choices)
+        recentWordIDs.append(learningWord.id)
+        recentWordIDs = Array(recentWordIDs.suffix(3))
+        submissionID = UUID()
+        fetchImageForWord(learningWord.korean)
         isLoading = false
     }
 
-    // 보기 생성
-    func generateChoices() -> [String] {
-        guard let correctLearningWord else {
-            return generateFallbackChoices()
-        }
-
-        return learningWordRepository
-            .choices(for: correctLearningWord, count: 4)
-            .map(\.korean)
-    }
-
-    func generateFallbackChoices() -> [String] {
-        var choices = [correctWord]
-        while choices.count < 4 {
-            guard let randomWord = hardKoreanWords.hardWords.randomElement() else {
-                break
-            }
-            if !choices.contains(randomWord) {
-                choices.append(randomWord)
-            }
-        }
-        return choices.shuffled()
-    }
-
-    private func applyQuizWord(_ word: LearningWord) {
+    private func applyQuizWord(_ word: LearningWord, choices: [LearningWord]) {
         correctLearningWord = word
         correctWord = word.korean
         correctWordDefinition = word.displayDefinition
         wordDataDictionary[word.korean] = WordData(learningWord: word)
-        choiceWord = learningWordRepository
-            .choices(for: word, count: 4)
-            .map(\.korean)
+        choiceWord = choices.map(\.korean)
     }
+
+    /*
+        A missing or invalid local catalog is handled above as a recoverable state.
+        Core quiz behavior never falls back to network or the legacy hard-word list.
+    */
 
     // MARK: - KoreanWordSearchAPI
 
@@ -159,20 +167,54 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
     }
 
     @discardableResult
+    @MainActor
     func checkAnswer(selectedWord: String) -> Bool {
-        guard !isLoading, !hasSubmittedAnswer else {
+        guard !isLoading,
+              !hasSubmittedAnswer,
+              correctLearningWord != nil,
+              choiceWord.contains(selectedWord) else {
             return isSelectedAnswerCorrect
         }
 
-        self.selectedWord = selectedWord
         let isCorrect = selectedWord == correctWord
+        if let id = correctLearningWord?.id {
+            guard learningStore.record(wordID: id, isCorrect: isCorrect, submissionID: submissionID) else {
+                errorMessage = learningStore.persistenceError ?? LocalizationKeys.Error.dataLoad.localized
+                return false
+            }
+        }
+        self.selectedWord = selectedWord
         answerState = isCorrect ? .correct : .incorrect
+        errorMessage = nil
+        if isReviewMode {
+            reviewSession?.submit(isCorrect: isCorrect)
+            reviewCorrectCount = reviewSession?.correctCount ?? reviewCorrectCount
+        }
         return isCorrect
     }
 
     @MainActor
     func moveToNextQuiz() {
         guard !isLoading else { return }
+        fetchData()
+    }
+
+    @MainActor
+    func startReview() {
+        let ids = learningStore.reviewWordIDs
+        reviewSession = ReviewSession(wordIDs: ids)
+        reviewTotalCount = ids.count
+        reviewCorrectCount = 0
+        isReviewComplete = ids.isEmpty
+        isReviewMode = !ids.isEmpty
+        fetchData()
+    }
+
+    @MainActor
+    func leaveReview() {
+        isReviewMode = false
+        isReviewComplete = false
+        reviewSession = nil
         fetchData()
     }
 
@@ -185,9 +227,10 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
         imageRequestWord = word
         isImageLoading = true
 
-        naverNetwork.requestSearchImage(query: word) { [weak self] in
+        let requestID = imageRequestGate.begin()
+        naverNetwork.requestSearchImage(query: word, requestID: requestID) { [weak self] in
             DispatchQueue.main.async {
-                guard self?.imageRequestWord == word else { return }
+                guard self?.imageRequestWord == word, self?.imageRequestGate.accepts(requestID) == true else { return }
                 self?.isImageLoading = false
             }
         }
@@ -195,10 +238,11 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
 
     // MARK: - NaverNetworkDelegate
 
-    func imageDataUpdated(_ result: Result<NaverImageData, NaverImageError>) {
+    func imageDataUpdated(_ result: Result<NaverImageData, NaverImageError>, requestID: UUID) {
         DispatchQueue.main.async { [weak self] in
             guard let self,
-                  self.imageRequestWord == self.correctWord else { return }
+                  self.imageRequestWord == self.correctWord,
+                  self.imageRequestGate.accepts(requestID) else { return }
 
             switch result {
             case .success(let imageData):
@@ -213,7 +257,7 @@ class QuizViewModel: ObservableObject, NaverNetworkDelegate {
     }
 
     func handleImageRenderFailure(url: URL, error: Error) {
-        print("Kingfisher image render failed: \(url.absoluteString), error=\(error.localizedDescription)")
+        hasImageRenderFailed = true
     }
 
     func handleAllImageCandidatesFailed() {

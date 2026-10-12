@@ -37,7 +37,7 @@ extension WordData {
                         sense: [
                             Sense(
                                 definition: learningWord.simpleKoreanDefinition,
-                                pos: learningWord.partOfSpeech,
+                                pos: learningWord.partOfSpeech.rawValue,
                                 link: "",
                                 type: "local"
                             )

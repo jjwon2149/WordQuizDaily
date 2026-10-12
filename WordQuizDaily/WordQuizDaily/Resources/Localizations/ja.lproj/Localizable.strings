@@ -149,6 +149,35 @@
 "word.difficulty.medium" = "中級";
 "word.difficulty.hard" = "上級";
 "word.partOfSpeech.noun" = "名詞";
+"word.partOfSpeech.verb" = "動詞";
+"word.partOfSpeech.adjective" = "形容詞";
+"learning.progress.title" = "学習状況";
+"learning.progress.summary" = "今日解いた問題と復習する単語です。";
+"learning.progress.empty" = "復習する単語はありません。";
+"learning.progress.startReview" = "復習を始める";
+"learning.progress.reviewComplete" = "復習完了";
+"learning.progress.reviewResult" = "%d問中%d問正解しました。残りの復習単語：%d個";
+"learning.progress.leaveReview" = "通常クイズに戻る";
+"learning.progress.todaySolved" = "今日解いた問題";
+"learning.progress.toReview" = "復習する単語";
+"learning.progress.loadError" = "学習履歴を読み込めませんでした。既存ファイルは保持されました。続ける前に履歴を確認してください。";
+"learning.progress.saveError" = "学習履歴を保存できませんでした。空き容量を確認して再試行してください。";
+"quiz.error.insufficientChoices" = "このレベルでは有効な選択肢を作れません。設定で別のレベルを選んでください。";
+"error.catalogUnavailable" = "学習コンテンツを読み込めませんでした。アプリを再起動して再試行してください。";
+"settings.learningSection" = "学習";
+"settings.learningLevel" = "クイズレベル";
+"settings.level.all" = "すべて";
+"settings.level.beginner" = "初級";
+"settings.level.intermediate" = "中級";
+"settings.level.advanced" = "上級";
+"settings.localStorageNotice" = "学習履歴はこの端末だけに保存され、アプリを削除すると復元できない場合があります。";
+"settings.resetLearning" = "学習履歴をリセット";
+"settings.resetTitle" = "学習履歴をリセットしますか？";
+"settings.resetMessage" = "解答履歴だけを削除します。通知と今日の単語の設定は保持されます。";
+"notification.reminder.title" = "今日の韓国語学習";
+"notification.reminder.body" = "短いクイズで今日の学習を続けましょう。";
+"notification.scheduleError.title" = "通知を予約できませんでした";
+"notification.scheduleError.message" = "しばらくしてからもう一度オンにしてください。";
 
 // MARK: - サービス利用規約 (Terms of Service)
 "terms.title" = "サービス利用規約";

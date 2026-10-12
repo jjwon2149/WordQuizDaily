@@ -15,7 +15,6 @@ class WordNetwork: ObservableObject {
     func searchWord(_ searchWord: String) async throws -> WordData? {
         
         guard let myApiKey = myApiKey, !myApiKey.isEmpty else {
-            print("Missing Woori API Key")
             return nil
         }
         
@@ -30,7 +29,6 @@ class WordNetwork: ObservableObject {
             }
             return decodedData
         } catch {
-            print(error)
             throw error
         }
     }

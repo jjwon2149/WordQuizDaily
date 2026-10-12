@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 protocol NaverNetworkDelegate: AnyObject {
-    func imageDataUpdated(_ result: Result<NaverImageData, NaverImageError>)
+    func imageDataUpdated(_ result: Result<NaverImageData, NaverImageError>, requestID: UUID)
 }
 
 enum NaverImageError: Error {
@@ -56,14 +56,14 @@ class NaverNetwork: ObservableObject {
     weak var delegate: NaverNetworkDelegate?
 
     
-    func requestSearchImage(query: String, completion: @escaping () -> Void) {
+    func requestSearchImage(query: String, requestID: UUID, completion: @escaping () -> Void) {
         let baseURL = "https://openapi.naver.com/v1/search/image"
         
         guard let clientID = naverClientID?.trimmingCharacters(in: .whitespacesAndNewlines),
               let clientSecret = naverClientSecret?.trimmingCharacters(in: .whitespacesAndNewlines),
               !clientID.isEmpty,
               !clientSecret.isEmpty else {
-            publish(.failure(.missingAPIKeys), completion: completion)
+            publish(.failure(.missingAPIKeys), requestID: requestID, completion: completion)
             return
         }
         
@@ -86,7 +86,7 @@ class NaverNetwork: ObservableObject {
             switch response.result {
             case .success(let responseData):
                 guard let statusCode = response.response?.statusCode else {
-                    self.publish(.failure(.invalidResponse), completion: completion)
+                    self.publish(.failure(.invalidResponse), requestID: requestID, completion: completion)
                     return
                 }
 
@@ -98,7 +98,7 @@ class NaverNetwork: ObservableObject {
                             code: apiError?.errorCode,
                             message: apiError?.errorMessage ?? apiError?.message
                         )),
-                        completion: completion
+                        requestID: requestID, completion: completion
                     )
                     return
                 }
@@ -106,31 +106,29 @@ class NaverNetwork: ObservableObject {
                 do {
                     let data = try JSONDecoder().decode(NaverImageData.self, from: responseData)
                     guard !data.items.isEmpty else {
-                        self.publish(.failure(.emptyResult), completion: completion)
+                        self.publish(.failure(.emptyResult), requestID: requestID, completion: completion)
                         return
                     }
-                    self.publish(.success(data), completion: completion)
+                    self.publish(.success(data), requestID: requestID, completion: completion)
                 } catch {
-                    self.publish(.failure(.decodingFailed(error.localizedDescription)), completion: completion)
+                    self.publish(.failure(.decodingFailed(error.localizedDescription)), requestID: requestID, completion: completion)
                 }
             case .failure(let error):
-                self.publish(.failure(.requestFailed(error.localizedDescription)), completion: completion)
+                self.publish(.failure(.requestFailed(error.localizedDescription)), requestID: requestID, completion: completion)
             }
         }
     }
 
-    private func publish(_ result: Result<NaverImageData, NaverImageError>, completion: @escaping () -> Void) {
+    private func publish(_ result: Result<NaverImageData, NaverImageError>, requestID: UUID, completion: @escaping () -> Void) {
         DispatchQueue.main.async {
             switch result {
             case .success(let data):
                 self.imageData = data
-                print("\(#file) > \(#function) :: SUCCESS")
-            case .failure(let error):
+            case .failure:
                 self.imageData = nil
-                print("\(#file) > \(#function) :: FAILURE : \(error.logMessage)")
             }
 
-            self.delegate?.imageDataUpdated(result)
+            self.delegate?.imageDataUpdated(result, requestID: requestID)
             completion()
         }
     }

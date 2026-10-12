@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C0DE00000000000000000007 /* WordQuizWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4A0BEF762E26B53000D26C42 /* WordQuizWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C0DE00000000000000000001 /* LearningCore in Frameworks */ = {isa = PBXBuildFile; productRef = C0DE00000000000000000005 /* LearningCore */; };
+		C0DE00000000000000000002 /* LearningCore in Frameworks */ = {isa = PBXBuildFile; productRef = C0DE00000000000000000006 /* LearningCore */; };
 		4A0BD0832B9999FD0019F565 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A0BD05E2B998F150019F565 /* WidgetKit.framework */; };
 		4A0BD0842B9999FD0019F565 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A0BD0602B998F150019F565 /* SwiftUI.framework */; };
 		4A0BD08B2B999A010019F565 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0BD08A2B999A010019F565 /* Assets.xcassets */; };
@@ -66,6 +69,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				C0DE00000000000000000007 /* WordQuizWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0DE00000000000000000002 /* LearningCore in Frameworks */,
 				4A0BD0842B9999FD0019F565 /* SwiftUI.framework in Frameworks */,
 				4A0BD0832B9999FD0019F565 /* WidgetKit.framework in Frameworks */,
 				68F02E4F6B7D4DA04DB171F7 /* Pods_WordQuizWidgetExtension.framework in Frameworks */,
@@ -138,6 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0DE00000000000000000001 /* LearningCore in Frameworks */,
 				4A3A370F2E26AFFD008BF8EA /* FirebaseMessaging in Frameworks */,
 				4A4F06B82E26B88700EAB174 /* Alamofire in Frameworks */,
 				4A3A37082E26AFB2008BF8EA /* Kingfisher in Frameworks */,
@@ -363,6 +369,9 @@
 			dependencies = (
 			);
 			name = WordQuizWidgetExtension;
+			packageProductDependencies = (
+				C0DE00000000000000000006 /* LearningCore */,
+			);
 			productName = WordQuizWidgetExtension;
 			productReference = 4A0BEF762E26B53000D26C42 /* WordQuizWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -383,6 +392,9 @@
 				4A0BD08E2B999A010019F565 /* PBXTargetDependency */,
 			);
 			name = WordQuizDaily;
+			packageProductDependencies = (
+				C0DE00000000000000000005 /* LearningCore */,
+			);
 			productName = WordQuizDaily;
 			productReference = 4A0BEF752E26B53000D26C42 /* WordQuizDaily.app */;
 			productType = "com.apple.product-type.application";
@@ -417,6 +429,7 @@
 			);
 			mainGroup = 4A14C93D2B6109E2004EE0AF;
 			packageReferences = (
+				C0DE00000000000000000004 /* XCLocalSwiftPackageReference "Packages/LearningCore" */,
 				4A3A37062E26AFB2008BF8EA /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				4A3A37092E26AFFD008BF8EA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				4A4F06B62E26B88700EAB174 /* XCRemoteSwiftPackageReference "Alamofire" */,
@@ -582,7 +595,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = WordQuizWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 2TXBC7N5Q5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WordQuizWidget/Info.plist;
@@ -594,7 +607,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = smith.WordQuizDaily.WordQuizWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -613,7 +626,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = WordQuizWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 2TXBC7N5Q5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WordQuizWidget/Info.plist;
@@ -625,7 +638,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = smith.WordQuizDaily.WordQuizWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -769,7 +782,7 @@
 				CODE_SIGN_ENTITLEMENTS = WordQuizDaily/WordQuizDaily.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"WordQuizDaily/Preview Content\"";
 				DEVELOPMENT_TEAM = 2TXBC7N5Q5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -786,7 +799,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = smith.WordQuizDaily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -810,7 +823,7 @@
 				CODE_SIGN_ENTITLEMENTS = WordQuizDaily/WordQuizDaily.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"WordQuizDaily/Preview Content\"";
 				DEVELOPMENT_TEAM = 2TXBC7N5Q5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -827,7 +840,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = smith.WordQuizDaily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -916,7 +929,24 @@
 		};
 /* End XCRemoteSwiftPackageReference section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		C0DE00000000000000000004 /* XCLocalSwiftPackageReference "Packages/LearningCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/LearningCore;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		C0DE00000000000000000005 /* LearningCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0DE00000000000000000004 /* XCLocalSwiftPackageReference "Packages/LearningCore" */;
+			productName = LearningCore;
+		};
+		C0DE00000000000000000006 /* LearningCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0DE00000000000000000004 /* XCLocalSwiftPackageReference "Packages/LearningCore" */;
+			productName = LearningCore;
+		};
 		4A3A37022E26AFA8008BF8EA /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4A3A37012E26AFA8008BF8EA /* XCRemoteSwiftPackageReference "Alamofire" */;

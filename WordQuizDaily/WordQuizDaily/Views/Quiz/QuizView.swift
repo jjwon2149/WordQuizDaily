@@ -11,20 +11,64 @@ import Kingfisher
 struct QuizView: View {
 
     @EnvironmentObject var quizViewModel: QuizViewModel
+    @EnvironmentObject var learningStore: LearningStore
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 18) {
-                    answerExplainView()
-                    answerImageView()
-                    ChoiceView()
-                    QuizFeedbackView()
+                    if quizViewModel.isReviewComplete {
+                        ReviewCompletionView(
+                            correct: quizViewModel.reviewCorrectCount,
+                            total: quizViewModel.reviewTotalCount,
+                            remaining: learningStore.reviewCount
+                        )
+                    } else {
+                        if let message = quizViewModel.errorMessage, quizViewModel.correctLearningWord == nil {
+                            ContentUnavailableView {
+                                Label(LocalizedStringKey(LocalizationKeys.Common.error), systemImage: "exclamationmark.triangle")
+                            } description: {
+                                Text(message)
+                            } actions: {
+                                Button(LocalizedStringKey(LocalizationKeys.Common.retry)) { quizViewModel.fetchData() }
+                                    .buttonStyle(.borderedProminent)
+                            }
+                        } else {
+                            if let message = quizViewModel.errorMessage {
+                                Label(message, systemImage: "exclamationmark.triangle")
+                                    .font(.footnote)
+                                    .foregroundStyle(.red)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            answerExplainView()
+                            answerImageView()
+                            ChoiceView()
+                            QuizFeedbackView()
+                        }
+                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 24)
             }
             .navigationTitle(LocalizedStringKey(LocalizationKeys.Quiz.title))
+        }
+    }
+}
+
+private struct ReviewCompletionView: View {
+    @EnvironmentObject var quizViewModel: QuizViewModel
+    let correct: Int
+    let total: Int
+    let remaining: Int
+
+    var body: some View {
+        ContentUnavailableView {
+            Label(LocalizedStringKey(LocalizationKeys.LearningProgress.reviewComplete), systemImage: "checkmark.circle")
+        } description: {
+            Text(LocalizationKeys.LearningProgress.reviewResult.localized(with: total, correct, remaining))
+        } actions: {
+            Button(LocalizedStringKey(LocalizationKeys.LearningProgress.leaveReview)) { quizViewModel.leaveReview() }
+                .buttonStyle(.borderedProminent)
         }
     }
 }
@@ -141,11 +185,17 @@ struct answerExplainView: View {
                         .clipShape(Capsule())
                 }
 
-                Text(quizViewModel.correctWordDefinition)
+                Text(quizViewModel.correctLearningWord?.meaning(for: locale.identifier) ?? quizViewModel.correctWordDefinition)
                     .font(.body)
                     .fontWeight(.medium)
                     .fixedSize(horizontal: false, vertical: true)
                     .foregroundColor(.primary)
+                if LocalizationHelper.normalizedLanguageCode(locale.identifier) == "ja",
+                   let englishMeaning = quizViewModel.correctLearningWord?.englishMeaning {
+                    Text(englishMeaning)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
             }
         }
         .padding(16)
@@ -167,8 +217,7 @@ struct ChoiceView: View {
             ForEach(quizViewModel.choiceWord.indices, id: \.self) { index in
                 let word = quizViewModel.choiceWord[index]
                 Button(action: {
-                    let isAnswerCorrect = quizViewModel.checkAnswer(selectedWord: word)
-                    print("\(LocalizationKeys.Quiz.selectedWord.localized): \(word), \(LocalizationKeys.Quiz.isCorrect.localized)?: \(isAnswerCorrect)")
+                    _ = quizViewModel.checkAnswer(selectedWord: word)
                 }) {
                     HStack(spacing: 12) {
                         Text("\(index + 1)")
@@ -338,19 +387,25 @@ private struct FeedbackDetailRow: View {
 
 
 #Preview("한국어") {
+    let store = LearningStore()
     QuizView()
-        .environmentObject(QuizViewModel())
+        .environmentObject(QuizViewModel(learningStore: store))
+        .environmentObject(store)
         .previewLocale("ko")
 }
 
 #Preview("English") {
+    let store = LearningStore()
     QuizView()
-        .environmentObject(QuizViewModel())
+        .environmentObject(QuizViewModel(learningStore: store))
+        .environmentObject(store)
         .previewLocale("en")
 }
 
 #Preview("日本語") {
+    let store = LearningStore()
     QuizView()
-        .environmentObject(QuizViewModel())
+        .environmentObject(QuizViewModel(learningStore: store))
+        .environmentObject(store)
         .previewLocale("ja")
 }

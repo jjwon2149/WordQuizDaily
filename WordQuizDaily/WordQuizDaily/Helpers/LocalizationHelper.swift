@@ -141,6 +141,20 @@ enum LocalizationKeys {
         static let streakCount = "home.streakCount"
     }
 
+    enum LearningProgress {
+        static let title = "learning.progress.title"
+        static let summary = "learning.progress.summary"
+        static let empty = "learning.progress.empty"
+        static let startReview = "learning.progress.startReview"
+        static let reviewComplete = "learning.progress.reviewComplete"
+        static let reviewResult = "learning.progress.reviewResult"
+        static let leaveReview = "learning.progress.leaveReview"
+        static let todaySolved = "learning.progress.todaySolved"
+        static let toReview = "learning.progress.toReview"
+        static let loadError = "learning.progress.loadError"
+        static let saveError = "learning.progress.saveError"
+    }
+
     // MARK: Today's Word
     enum TodayWord {
         static let cardTitle = "todayWord.card.title"
@@ -185,6 +199,7 @@ enum LocalizationKeys {
         static let resultSummary = "quiz.result.summary"
         static let resultPerfect = "quiz.result.perfect"
         static let resultKeepPracticing = "quiz.result.keepPracticing"
+        static let insufficientChoices = "quiz.error.insufficientChoices"
     }
     
     // MARK: Settings Screen
@@ -205,6 +220,16 @@ enum LocalizationKeys {
         static let customerService = "settings.customerService"
         static let feedback = "settings.feedback"
         static let pushNotification = "settings.pushNotification"
+        static let learningSection = "settings.learningSection"
+        static let learningLevel = "settings.learningLevel"
+        static let levelAll = "settings.level.all"
+        static let levelBeginner = "settings.level.beginner"
+        static let levelIntermediate = "settings.level.intermediate"
+        static let levelAdvanced = "settings.level.advanced"
+        static let localStorageNotice = "settings.localStorageNotice"
+        static let resetLearning = "settings.resetLearning"
+        static let resetTitle = "settings.resetTitle"
+        static let resetMessage = "settings.resetMessage"
     }
     
     // MARK: Notification Settings
@@ -233,6 +258,7 @@ enum LocalizationKeys {
         static let unknown = "error.unknown"
         static let dataLoad = "error.dataLoad"
         static let permission = "error.permission"
+        static let catalogUnavailable = "error.catalogUnavailable"
     }
     
     // MARK: Success Messages
@@ -268,6 +294,8 @@ enum LocalizationKeys {
         static let difficultyMedium = "word.difficulty.medium"
         static let difficultyHard = "word.difficulty.hard"
         static let partOfSpeechNoun = "word.partOfSpeech.noun"
+        static let partOfSpeechVerb = "word.partOfSpeech.verb"
+        static let partOfSpeechAdjective = "word.partOfSpeech.adjective"
     }
     
     // MARK: Terms of Service

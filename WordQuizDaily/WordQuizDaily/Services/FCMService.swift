@@ -76,10 +76,8 @@ extension FCMService {
         Messaging.messaging().token { [weak self] token, error in
             DispatchQueue.main.async {
                 if let error = error {
-                    print("Error fetching FCM registration token: \(error)")
                     self?.tokenStatus = .failure(error)
                 } else if let token = token {
-                    print("FCM registration token: \(token)")
                     self?.fcmToken = token
                     self?.tokenStatus = .success(token)
                     self?.fcmTokenSubject.send(token)
@@ -135,8 +133,6 @@ extension FCMService {
             self?.notificationReceivedSubject.send(notification)
         }
         
-        // 알림 수신 로그
-        print("FCM Notification received: \(notification.title) - \(notification.body)")
     }
     
     func handleNotificationTap(userInfo: [AnyHashable: Any]) {
@@ -144,12 +140,9 @@ extension FCMService {
             self?.notificationTappedSubject.send(userInfo)
         }
         
-        print("FCM Notification tapped: \(userInfo)")
     }
     
     private func handleDeepLink(_ deepLink: String) {
-        print("Handling deep link: \(deepLink)")
-        
         // 딥링크에 따른 화면 이동 로직
         switch deepLink {
         case "quiz":
@@ -173,17 +166,21 @@ extension FCMService {
     func checkNotificationPermission() {
         UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
             DispatchQueue.main.async {
-                self?.isNotificationAuthorized = settings.authorizationStatus == .authorized
+                switch settings.authorizationStatus {
+                case .authorized, .provisional, .ephemeral:
+                    self?.isNotificationAuthorized = true
+                case .notDetermined, .denied:
+                    self?.isNotificationAuthorized = false
+                @unknown default:
+                    self?.isNotificationAuthorized = false
+                }
             }
         }
     }
     
     func requestNotificationPermission() -> AnyPublisher<Bool, Never> {
         return Future<Bool, Never> { promise in
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-                if let error = error {
-                    print("Notification permission error: \(error.localizedDescription)")
-                }
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
                 promise(.success(granted))
             }
         }
@@ -204,62 +201,17 @@ extension FCMService {
 // MARK: - 다국어 지원
 extension FCMService {
     
-    func getLocalizedNotificationContent(for language: String = LocalizationHelper.currentLanguage) -> (title: String, body: String) {
+    func getLocalizedReminderContent(for language: String = LocalizationHelper.currentLanguage) -> (title: String, body: String) {
         let normalizedLanguage = LocalizationHelper.normalizedLanguageCode(language)
-        let todayWord = storedLearningString(forKey: "TodayWord")
-            ?? LocalizationHelper.localizedString(
-                for: LocalizationKeys.Notification.wordOfDayFallbackWord,
-                language: normalizedLanguage
-            )
         let title = LocalizationHelper.localizedString(
-            for: LocalizationKeys.Notification.wordOfDayTitle,
-            language: normalizedLanguage,
-            arguments: todayWord
-        )
-
-        if normalizedLanguage == "en",
-           let englishMeaning = storedLearningString(forKey: "TodayWordEnglishMeaning") {
-            let body = LocalizationHelper.localizedString(
-                for: LocalizationKeys.Notification.wordOfDayBodyMeaning,
-                language: normalizedLanguage,
-                arguments: englishMeaning
-            )
-            return (title, body)
-        }
-
-        if let easyKorean = storedLearningString(forKey: "TodayWordEasyKorean") {
-            let body = LocalizationHelper.localizedString(
-                for: LocalizationKeys.Notification.wordOfDayBodyEasyKorean,
-                language: normalizedLanguage,
-                arguments: easyKorean
-            )
-            return (title, body)
-        }
-
-        if let definition = storedLearningString(forKey: "TodayWordDefinition") {
-            let body = LocalizationHelper.localizedString(
-                for: LocalizationKeys.Notification.wordOfDayBodyDefinition,
-                language: normalizedLanguage,
-                arguments: definition
-            )
-            return (title, body)
-        }
-
-        let fallbackBody = LocalizationHelper.localizedString(
-            for: LocalizationKeys.Notification.wordOfDayBodyFallback,
+            for: "notification.reminder.title",
             language: normalizedLanguage
         )
-        return (title, fallbackBody)
-    }
-
-    private func storedLearningString(forKey key: String) -> String? {
-        guard let value = UserDefaults.shared.string(forKey: key)?
-            .trimmingCharacters(in: .whitespacesAndNewlines),
-              !value.isEmpty else {
-            return nil
-        }
-
-        return value
+        let body = LocalizationHelper.localizedString(
+            for: "notification.reminder.body",
+            language: normalizedLanguage
+        )
+        return (title, body)
     }
 }
 
