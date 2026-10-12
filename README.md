@@ -28,7 +28,9 @@ The project is built as a real App Store product, with localized resources, widg
 | Today Word | Shows a daily Korean word with learner-friendly definition, romanization, part of speech, difficulty, and example sentence. |
 | Quiz | Generates multiple-choice quizzes from the local learning-word repository and gives answer feedback after submission. |
 | Feedback | Explains the correct answer with meaning, example, romanization, difficulty, and review hints. |
-| Reminder | Supports notification-driven study habits through Firebase Cloud Messaging integration. |
+| Review | Saves mistakes on this device and offers short review sessions; two consecutive later correct answers clear a mistake. |
+| Levels | Offers beginner, intermediate, advanced, and all-level regular quizzes with same-level and same-part-of-speech choices. |
+| Reminder | Schedules localized study reminders locally; Firebase Cloud Messaging receiving remains supported. |
 | Widget | Provides a home-screen widget target for quick daily-word exposure. |
 | Localization | Maintains Korean, English, and Japanese resource files for app labels and learning flow text. |
 
@@ -36,7 +38,7 @@ The project is built as a real App Store product, with localized resources, widg
 
 - **Language/UI**: Swift, SwiftUI
 - **Architecture**: MVVM-style screen state with `ObservableObject` view models
-- **Data**: Local `LearningWordRepository` sample data and validation rules
+- **Data**: Shared `LearningCore` Swift package, bundled word JSON, and versioned local learning records
 - **Networking/Media**: Naver image search integration, Kingfisher image loading
 - **Notifications/Analytics**: Firebase Analytics, Firebase Messaging
 - **Monetization**: Google Mobile Ads banner integration
@@ -65,7 +67,7 @@ WordQuizDaily/
 
 ### Requirements
 
-- macOS with Xcode 15 or newer
+- macOS with Xcode 16 or newer for the Swift 6 package tools (current verification environment: Xcode 27)
 - iOS 17.0+ deployment target for the main app
 - CocoaPods if you want to install pod-based dependencies
 - Firebase configuration file for local notification/analytics builds
@@ -92,7 +94,7 @@ WordQuizDaily/
 
 ## Product Direction
 
-The next product milestone focuses on foreign Korean learners. The MVP keeps the existing today-word, quiz, and reminder flows, then strengthens them with:
+The current development milestone adds learning continuity for foreign Korean learners. The local catalog contains 66 words across three difficulty groups and nouns, verbs, and adjectives. Difficulty is an app grouping, not certified TOPIK alignment. The learning content includes:
 
 - English meaning
 - Easy Korean definition
@@ -104,6 +106,8 @@ The next product milestone focuses on foreign Korean learners. The MVP keeps the
 - Incorrect-answer feedback
 
 This keeps the learning experience clear, reviewable, and resilient without requiring a new backend during the MVP phase.
+
+The next-release changes are under verification, not a claim about the live App Store version. See the [implementation plan](docs/next-release-plan.md), [verification record](docs/qa/next-release-verification.md), and [content review](docs/qa/learning-content-review.md). Run core logic tests with `swift test --package-path WordQuizDaily/Packages/LearningCore`.
 
 ## Privacy
 
@@ -123,3 +127,9 @@ WordQuizDaily does not require account creation for the core learning flow. The 
 - `refactor`: code refactor
 - `test`: test update
 - `chore`: build or maintenance task
+
+## Banner placement (2026-10-12)
+
+Home and Settings only. Quiz, review/completion, permission prompts, terms/support sheets, and widgets remain ad-free. Each allowed screen owns one standard SDK 320×50 banner in its bottom safe-area inset above the tab bar; no root TabView banner. Center within the available safe-area width; omit the banner below 320pt rather than scale or crop it. Loading, no-fill and failure leave no slot or gap. A visible banner has an 8pt separator from content. Preserve existing consent, configuration and request guards.
+
+QA: use test ads or a request-free layout mock. Check 320pt/375pt/wide and landscape widths, tab switching, scrolling, detail navigation and sheets, loading/failure/no-ad states, and large text. Do not click live ads.

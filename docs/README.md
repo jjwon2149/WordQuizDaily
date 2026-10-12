@@ -4,6 +4,9 @@
 
 ## Product & Engineering
 
+- [다음 배포 개선 계획](next-release-plan.md): 오답 복습·수준별 출제·위젯 갱신·알림·배포 검증 기준과 실행 상태
+- [배포 검증 기록](qa/next-release-verification.md): 실제 실행 결과와 남은 배포 조건
+- [학습 콘텐츠 검토](qa/learning-content-review.md): 뜻·예문·로마자·의미 충돌 검토 및 한계
 - [Architecture Overview](architecture.md): SwiftUI 화면 구성, 로컬 학습 데이터, 외부 연동 경계
 - [Foreign Learner MVP Scope](foreign-learner-mvp.md): 로컬 데이터 기반 MVP 목표, 포함/제외 범위, 샘플 데이터 필드
 - [Current Structure Analysis](foreign-learner-mvp-analysis.md): 현재 SwiftUI 화면, 데이터 흐름, 후속 개발 경계

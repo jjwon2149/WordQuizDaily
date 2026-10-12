@@ -11,6 +11,30 @@ Use this checklist when reviewing PRs for the WordQuizDaily foreign Korean learn
 - [ ] No user-facing Korean, English, or Japanese string is introduced without localization keys unless it is sample learning content.
 - [ ] No API key, FCM token, personal data, or debug-only credential is committed.
 
+## Next Release Learning Continuity Gate
+
+These scenarios extend the existing checklist for [the next release plan](../next-release-plan.md). An unchecked item is not evidence of a failure or a pass; record the environment and actual result separately.
+
+- [ ] A fresh install defaults to beginner; updating an existing installation preserves the previous all-level experience and notification settings.
+- [ ] Changing level affects regular quizzes but does not remove older mistakes from review.
+- [ ] Every bundled word can produce four distinct choices of the same level and part of speech, with exactly one defensible answer.
+- [ ] Recently asked words are excluded when enough candidates exist, and the immediate previous word is not repeated when another candidate is available.
+- [ ] One submitted question creates one record even when the answer button is tapped repeatedly.
+- [ ] A wrong answer remains available for review after terminating and reopening the app.
+- [ ] Two subsequent consecutive correct answers on separate questions clear the review requirement; another wrong answer resets that progress.
+- [ ] A review session contains at most ten unique words, oldest last-study date first, and shows correct and remaining-review counts at completion.
+- [ ] Home shows today's answered-question count and current review count, including empty states.
+- [ ] Save failure is visible and does not falsely report persisted progress; corrupted data is preserved separately before recovery.
+- [ ] Resetting learning history requires confirmation and preserves notification preferences and the daily word cache.
+- [ ] The widget's future timeline contains the next local day's word without requiring the app to reopen. Check actual device behavior separately from timeline unit tests.
+- [ ] Updating preserves a valid existing same-day word in both app and widget; stale cached dates are ignored.
+- [ ] Repeating reminders use generic localized study copy, retain the chosen time after relaunch, and replace the old word-specific request.
+- [ ] Turning reminders off during a permission request cannot leave an active local reminder; returning from system settings reconciles revoked permissions.
+- [ ] Old image responses cannot replace the image for the current quiz question.
+- [ ] Content review records cover Korean naturalness, English meaning, romanization, difficulty, examples, and ambiguous distractors in addition to automated field validation.
+- [ ] Core package tests and both simulator builds run successfully; a local pass is not described as a successful hosted CI run.
+- [ ] TestFlight clean-install and update-install evidence is recorded before declaring the build ready for submission.
+
 ## Existing Feature Regression
 
 ### Home: Today's Word
@@ -45,7 +69,7 @@ Use this checklist when reviewing PRs for the WordQuizDaily foreign Korean learn
 - [ ] Turning notifications off removes pending local backup notifications.
 - [ ] Changing notification time updates the pending local backup schedule.
 - [ ] Notification title/body use the current locale where supported.
-- [ ] Notification content uses the same local/shared today's word data shown on Home.
+- [ ] Repeating reminder content is generic localized study guidance and does not freeze an old daily word.
 - [ ] Tapping a notification routes to the intended tab without breaking normal tab navigation.
 - [ ] FCM-specific changes preserve local backup notification behavior for offline or server-failure cases.
 
@@ -163,7 +187,7 @@ Every production word entry added or changed for the MVP should pass these check
 - [ ] Change notification time and confirm the schedule updates.
 - [ ] Turn notifications off and confirm pending local notifications are cleared.
 - [ ] Repeat with permission denied and confirm localized alert behavior.
-- [ ] Trigger or simulate a notification payload and verify title/body use today's local word.
+- [ ] Trigger or simulate a local reminder and verify generic localized title/body and the intended home deep link.
 - [ ] Tap the notification and confirm the app routes to Home or Quiz as designed.
 
 ### Multilingual Scenario

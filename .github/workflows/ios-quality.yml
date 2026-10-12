@@ -1,0 +1,44 @@
+name: iOS quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  learning-core:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      - name: Test learning rules
+        run: swift test --package-path WordQuizDaily/Packages/LearningCore --scratch-path ${{ runner.temp }}/learning-core-build
+
+  app-and-widget:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      - name: Create non-secret CI configuration
+        working-directory: WordQuizDaily
+        run: |
+          cp WordQuizDaily/Config.xcconfig.example WordQuizDaily/Config.xcconfig
+          plutil -create xml1 WordQuizDaily/GoogleService-Info.plist
+          plutil -insert GOOGLE_APP_ID -string '1:000000000000:ios:0000000000000000' WordQuizDaily/GoogleService-Info.plist
+          plutil -insert GCM_SENDER_ID -string '000000000000' WordQuizDaily/GoogleService-Info.plist
+          plutil -insert API_KEY -string 'ci-fixture' WordQuizDaily/GoogleService-Info.plist
+          plutil -insert PROJECT_ID -string 'ci-fixture' WordQuizDaily/GoogleService-Info.plist
+          plutil -insert BUNDLE_ID -string 'smith.WordQuizDaily' WordQuizDaily/GoogleService-Info.plist
+      - name: Restore CocoaPods workspace integration
+        working-directory: WordQuizDaily
+        run: pod install
+      - name: Build app
+        working-directory: WordQuizDaily
+        run: xcodebuild -workspace WordQuizDaily.xcworkspace -scheme WordQuizDaily -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO
+      - name: Build widget
+        working-directory: WordQuizDaily
+        run: xcodebuild -workspace WordQuizDaily.xcworkspace -scheme WordQuizWidgetExtension -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO

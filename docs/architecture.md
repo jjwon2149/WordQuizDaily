@@ -30,7 +30,18 @@ ContentView
 - Example translation
 - Incorrect-answer feedback
 
-`LearningWordRepository` validates required fields, removes invalid duplicate data, supports daily deterministic selection, and creates shuffled multiple-choice answers.
+`LearningWordRepository` adapts the shared Foundation-only `LearningCore` package to the app. The package owns typed levels and parts of speech, bundled content validation, daily selection, quiz selection, durable progress, and review sessions. The app and widget use the same bundled catalog rather than separate word sources.
+
+## Learning Continuity
+
+- The bundled JSON currently contains 66 words: 20 beginner, 25 intermediate, and 21 advanced, including nouns, verbs, and adjectives. These are app difficulty groups, not certified TOPIK levels.
+- A shared app learning store connects Home, Quiz, and Settings. Progress is local to the device; there is no account or remote history service.
+- Incorrect answers enter review. Two subsequent consecutive correct answers clear the review requirement; another mistake resets that progress. A session contains up to ten distinct words, oldest study time first.
+- Selection excludes recent questions where possible and uses same-level, same-part-of-speech choices. Audited conflict groups keep ambiguous meanings out of a question's choices.
+- Record files are versioned and saved atomically. Unsupported versions must be preserved, corrupt files quarantined before recovery, and failed saves shown to the user.
+- The daily selector respects a valid existing same-day cache during upgrades. Widget timeline entries carry their own dated word instead of reading an undated last-used word in the view.
+
+Implementation and execution evidence are tracked in the [release verification record](qa/next-release-verification.md); this architecture description is not evidence of device QA or a shipped release.
 
 ## External Integrations
 
@@ -43,6 +54,8 @@ ContentView
 | Naver Image Search | Optional quiz image enrichment |
 
 The learning content itself is local-first. External services should enrich the experience, not block the core study flow.
+
+Repeating study reminders are scheduled locally, use generic localized copy, and retain the user's wall-clock hour and minute. FCM receiving and navigation remain supported, but remote scheduling is not implemented. Notification payloads do not replace the shared daily word. Tokens and raw payloads are not application log content.
 
 ## Localization
 
